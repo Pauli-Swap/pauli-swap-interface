@@ -19,14 +19,14 @@ Làm trước tiên, để những thay đổi về sau còn quay lại được
 
 ### Batch 0.1: Git
 
-- [ ] `git init` cho `pauli-swap-interface` và `pauli-swap-indexer`. Kiểm `.gitignore` phải loại trừ `.env*` (trừ `*.example`), `node_modules`, `dist`, `data/`, các file sync `src/contracts/*` (nếu chọn không commit chúng) và `sybil-season-*.json`.
-- [ ] Commit phần đang dở ở `pauli-swap-prediction-market` (16 file, gồm `contracts/`, `scripts/`, `quests/` và `deployments/`).
-- [ ] Commit phần đang dở ở `pauli-swap` (69 file).
-- [ ] Trước khi commit, rà lại lần nữa: không có mnemonic nào nằm trong file được track.
+- [x] `git init` cho `pauli-swap-interface` và `pauli-swap-indexer`. Kiểm `.gitignore` phải loại trừ `.env*` (trừ `*.example`), `node_modules`, `dist`, `data/`, các file sync `src/contracts/*` (nếu chọn không commit chúng) và `sybil-season-*.json`.
+- [x] Commit phần đang dở ở `pauli-swap-prediction-market` (16 file, gồm `contracts/`, `scripts/`, `quests/` và `deployments/`).
+- [x] Commit phần đang dở ở `pauli-swap` (69 file).
+- [x] Trước khi commit, rà lại lần nữa: không có mnemonic nào nằm trong file được track.
 
 ### Batch 0.2: Remote
 
-- [ ] Tạo repo private và push lên. Bốn repo cùng một org hoặc account.
+- [x] Push lên org `Pauli-Swap`, cả 4 repo public, bật secret scanning và push protection (2026-10-28).
 
 ---
 
