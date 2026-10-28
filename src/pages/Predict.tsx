@@ -263,6 +263,7 @@ function Quests(ctx: Ctx) {
   const checkInXp = season?.checkInXp ?? 0n;
   const daily = quests?.filter((q) => q.kind === 'daily' && q.id !== 0) ?? [];
   const milestones = quests?.filter((q) => q.kind === 'season') ?? [];
+  const hiddenCount = milestones.filter((q) => q.hidden).length;
   const openMarket = markets?.find((m) => m.status === OPEN && m.closeTime > chainClock.latestTime);
 
   const checkIn = () =>
@@ -378,7 +379,10 @@ function Quests(ctx: Ctx) {
         <>
           <div className="pm-section">
             <h2>Season milestones</h2>
-            <p>Credited once per season as you keep coming back; the days need not be in a row. Two of them are hidden.</p>
+            <p>
+              Credited once per season as you keep coming back; the days need not be in a row.
+              {hiddenCount ? (hiddenCount === 1 ? ' One of them is hidden.' : ` ${hiddenCount} of them are hidden.`) : ''}
+            </p>
           </div>
           <div className="table quests-table">
             {head}
