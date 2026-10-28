@@ -1,0 +1,121 @@
+/* Motion: entrances, hover feedback and loading affordances. Entrances stay
+   short and ease out; everything that says "loading" keeps moving until the
+   data lands. Fill mode is `backwards` so no transform lingers after an
+   entrance (a leftover transform would re-anchor fixed descendants). */
+
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes rise-in { from { opacity: 0; transform: translateY(10px); } }
+@keyframes drop-in { from { opacity: 0; transform: translateY(-6px) scale(0.98); } }
+@keyframes pop-in { from { opacity: 0; transform: translateY(12px) scale(0.97); } }
+@keyframes slide-in-right { from { opacity: 0; transform: translateX(28px); } }
+@keyframes pulse-soft { 50% { opacity: 0.5; } }
+@keyframes sweep { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+@keyframes progress { from { transform: translateX(-100%); } to { transform: translateX(260%); } }
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes grow-up { from { transform: scaleY(0); } }
+
+/* ---------- Page entrance: sections rise in one after another ---------- */
+.page > * { animation: rise-in 0.42s var(--ease-out) backwards; }
+.page > :nth-child(2) { animation-delay: 0.05s; }
+.page > :nth-child(3) { animation-delay: 0.1s; }
+.page > :nth-child(4) { animation-delay: 0.15s; }
+.page > :nth-child(5) { animation-delay: 0.2s; }
+.page > :nth-child(n + 6) { animation-delay: 0.25s; }
+.stat { animation: fade-in 0.35s ease-out backwards; }
+
+/* Table rows fade in, the first page staggered. */
+.table .tbody .tr { animation: fade-in 0.35s ease-out backwards; }
+.table .tbody .tr:nth-child(2) { animation-delay: 0.03s; }
+.table .tbody .tr:nth-child(3) { animation-delay: 0.06s; }
+.table .tbody .tr:nth-child(4) { animation-delay: 0.09s; }
+.table .tbody .tr:nth-child(5) { animation-delay: 0.12s; }
+.table .tbody .tr:nth-child(6) { animation-delay: 0.15s; }
+.table .tbody .tr:nth-child(7) { animation-delay: 0.18s; }
+.table .tbody .tr:nth-child(8) { animation-delay: 0.21s; }
+.table .tbody .tr:nth-child(9) { animation-delay: 0.24s; }
+.table .tbody .tr:nth-child(10) { animation-delay: 0.27s; }
+
+/* ---------- Overlays ---------- */
+.scrim { animation: fade-in 0.18s ease-out backwards; }
+.modal { animation: pop-in 0.26s var(--ease-out) backwards; }
+.drawer { animation: slide-in-right 0.3s var(--ease-out) backwards; }
+.popover, .search-results { animation: drop-in 0.18s var(--ease-out) backwards; transform-origin: top right; }
+.search-results { transform-origin: top center; }
+.toast { animation: slide-in-right 0.32s var(--ease-out) backwards; }
+
+/* ---------- Hover / press feedback ---------- */
+.nav a, .seg > button, .text-tabs > *, .chip-btn, .icon-btn, .filter-chip, .base-chip,
+.token-row, .wallet-option, .drawer-row, .drawer-icon, .drawer-actions button,
+.search-results button, .token-select, .max-chip, .copy-addr, .crumbs a, .link,
+.search-field, .amount-panel, .text-input, .table .tbody .tr, .position-card, .card {
+  transition: color 0.15s, background-color 0.15s, border-color 0.15s, box-shadow 0.2s, transform 0.2s var(--ease-out);
+}
+.btn { transition: filter 0.12s, background 0.12s, color 0.12s, transform 0.12s; }
+.btn:not(:disabled):active, .chip-btn:active, .icon-btn:active, .seg > button:active,
+.base-chip:active, .drawer-actions button:not(:disabled):active, .max-chip:active { transform: scale(0.97); }
+a.position-card:hover { transform: translateY(-2px); box-shadow: 0 10px 28px -12px rgb(0 0 0 / 0.7); }
+.wallet-option:not(:disabled):hover { transform: translateY(-1px); }
+.swap-flip svg { transition: transform 0.3s var(--ease-out); }
+.swap-flip:hover svg { transform: rotate(180deg); }
+
+/* ---------- Loading affordances ---------- */
+.skeleton { animation-fill-mode: backwards; }
+.skeleton.round { border-radius: 50%; }
+.table .tbody .tr.skeleton-row { animation-delay: calc(var(--i, 0) * 0.06s); }
+.skeleton-row .skeleton { animation-delay: calc(var(--i, 0) * 0.12s); }
+
+.busy { display: inline-flex; align-items: center; gap: 8px; }
+.busy-text { animation: pulse-soft 1.6s ease-in-out infinite; }
+.empty-state.loading .t-heading { animation: pulse-soft 1.6s ease-in-out infinite; }
+
+/* Quote in flight: the output amount breathes until the route lands. */
+.amount-panel.loading input { animation: pulse-soft 1.2s ease-in-out infinite; }
+
+/* Thin bar under the header while pools and tokens are first read. */
+.top-progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; overflow: hidden; pointer-events: none; }
+.top-progress::before {
+  content: ''; position: absolute; inset: 0; width: 40%;
+  background: linear-gradient(90deg, transparent, var(--quantum), transparent);
+  animation: progress 1.3s ease-in-out infinite;
+}
+
+/* Chart placeholder: dot grid, a faint breathing wave, a light sweep. */
+.chart-loading { position: relative; overflow: hidden; border-radius: var(--radius-md); }
+.chart-loading svg { position: absolute; inset: 0; display: block; }
+.chart-loading .wave { opacity: 0.35; animation: pulse-soft 1.6s ease-in-out infinite; }
+.chart-loading::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgb(76 194 255 / 0.07), transparent);
+  animation: sweep 1.6s ease-in-out infinite;
+}
+.chart-loading .label {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 1;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* Charts draw in when their data arrives. */
+.chart-line { stroke-dasharray: 1; animation: draw 0.9s var(--ease-out) backwards; }
+.chart-area { animation: fade-in 0.6s ease-out 0.25s backwards; }
+.chart-bar { transform-box: fill-box; transform-origin: bottom; animation: grow-up 0.45s var(--ease-out) backwards; }
+
+/* Reduced motion: no travel, no draw-ins; spinners and shimmer stay (slower)
+   so loading is still legible. */
+@media (prefers-reduced-motion: reduce) {
+  .page > *, .stat, .table .tbody .tr, .scrim, .modal, .drawer, .popover, .search-results, .toast,
+  .chart-line, .chart-area, .chart-bar, .busy-text, .empty-state.loading .t-heading, .amount-panel.loading input, .chart-loading .wave {
+    animation: none;
+  }
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
+  .chart-line { stroke-dasharray: none; }
+  .skeleton, .chart-loading::after, .top-progress::before { animation-duration: 2.6s; }
+}

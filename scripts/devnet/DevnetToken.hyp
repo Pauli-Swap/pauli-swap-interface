@@ -1,0 +1,69 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+pragma hyperion >=0.0;
+
+/// SQRC-TF1 test token for the PauliSwap devnet. Anyone can call `faucet` to
+/// get a fixed amount, so wallets other than the deployer can try the dApp.
+contract DevnetToken {
+    uint256 public totalSupply;
+    // Private behind explicit views: QRVM public getters for address keyed
+    // mappings read the wrong slot (pauli-swap docs/QRVM.md, OC-V3-02).
+    mapping(address => uint256) private _balances;
+    mapping(address => mapping(address => uint256)) private _allowances;
+    uint256 public faucetAmount;
+    uint8 public decimals;
+    string public name;
+    string public symbol;
+
+    event Transfer(address indexed from, address indexed to, uint256 value);
+    event Approval(address indexed owner, address indexed spender, uint256 value);
+
+    constructor(string memory name_, string memory symbol_, uint8 decimals_, uint256 supply, uint256 faucetAmount_) {
+        name = name_;
+        symbol = symbol_;
+        decimals = decimals_;
+        faucetAmount = faucetAmount_;
+        _mint(msg.sender, supply);
+    }
+
+    function balanceOf(address account) external view returns (uint256) {
+        return _balances[account];
+    }
+
+    function allowance(address owner, address spender) external view returns (uint256) {
+        return _allowances[owner][spender];
+    }
+
+    function faucet() external {
+        _mint(msg.sender, faucetAmount);
+    }
+
+    function approve(address spender, uint256 value) external returns (bool) {
+        _allowances[msg.sender][spender] = value;
+        emit Approval(msg.sender, spender, value);
+        return true;
+    }
+
+    function transfer(address to, uint256 value) external returns (bool) {
+        _transfer(msg.sender, to, value);
+        return true;
+    }
+
+    function transferFrom(address from, address to, uint256 value) external returns (bool) {
+        uint256 allowed = _allowances[from][msg.sender];
+        if (allowed != type(uint256).max) _allowances[from][msg.sender] = allowed - value;
+        _transfer(from, to, value);
+        return true;
+    }
+
+    function _transfer(address from, address to, uint256 value) private {
+        _balances[from] = _balances[from] - value;
+        _balances[to] = _balances[to] + value;
+        emit Transfer(from, to, value);
+    }
+
+    function _mint(address to, uint256 value) private {
+        totalSupply = totalSupply + value;
+        _balances[to] = _balances[to] + value;
+        emit Transfer(address(0), to, value);
+    }
+}

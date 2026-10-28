@@ -1,0 +1,15 @@
+{
+  "name": "PauliSwap",
+  "short_name": "PauliSwap",
+  "description": "Swap and provide liquidity for SQRC-TF1 tokens on QRL Zond.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#08080a",
+  "theme_color": "#08080a",
+  "icons": [
+    { "src": "/pauli-mark.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "/pauli-icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/pauli-icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/pauli-icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

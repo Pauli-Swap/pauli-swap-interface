@@ -1,0 +1,84 @@
+/* Mirrors the "Quantum Color", "Quantum Dimension", "Acorn Color" status and
+   "Acorn Dimension" space variables plus the Quantum/* text styles of the
+   PauliSwap Figma file (oOPY8foOfB8hWept1yzgAC). Quantum blue carries
+   interaction; QRL orange is reserved for QRL identity marks; status green is
+   only for positive deltas, "In range" and "Add". */
+
+:root {
+  --bg-deepest: #050507;
+  --bg-deep: #08080a;
+  --bg-surface: #111115;
+  --bg-elevated: #18181d;
+  --bg-muted: #1f1f26;
+
+  --text-primary: #f5f5f7;
+  --text-secondary: #c4c4cc;
+  --text-muted: #8e8e99;
+  --text-dim: #565660;
+
+  --border: rgb(255 255 255 / 0.12);
+  --border-strong: rgb(255 255 255 / 0.2);
+  --border-accent: rgb(76 194 255 / 0.35);
+
+  --quantum: #4cc2ff;
+  --quantum-bright: #7ad4ff;
+  --quantum-dim: #1c5a78;
+  --quantum-bg: rgb(76 194 255 / 0.12);
+  --qrl: #ffa729;
+  --qrl-bg: rgb(255 167 41 / 0.12);
+  --alert: #f2777a;
+  --alert-bg: rgb(242 119 122 / 0.12);
+  --success: #4cc38a;
+  --success-bg: rgb(76 195 138 / 0.14);
+  --warning: #f2b441;
+  --warning-bg: rgb(242 180 65 / 0.14);
+
+  --shadow-tip: 0 8px 24px rgb(0 0 0 / 0.4);
+  --shadow-modal: 0 24px 64px -12px rgb(0 0 0 / 0.85);
+
+  --radius-sm: 6px;
+  --radius-control: 10px;
+  --radius-md: 12px;
+  --radius-card: 16px;
+  --radius-full: 999px;
+
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+
+  --header-h: 72px;
+  --content-w: 1120px;
+
+  --font: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  color-scheme: dark;
+}
+
+/* Quantum/* text styles. Figma's letter spacing of -1 (%) is -0.01em. */
+.t-display { font: 600 34px/46px var(--font); letter-spacing: -0.34px; }
+.t-headline { font: 600 28px/34px var(--font); letter-spacing: -0.28px; }
+.t-title { font: 600 22px/28px var(--font); letter-spacing: -0.22px; }
+.t-heading { font: 600 16px/22px var(--font); letter-spacing: -0.16px; }
+.t-body { font: 400 14px/20px var(--font); letter-spacing: -0.14px; }
+.t-body-strong { font: 500 14px/20px var(--font); letter-spacing: -0.14px; }
+.t-label { font: 500 13px/18px var(--font); letter-spacing: -0.13px; }
+.t-caption { font: 400 12px/16px var(--font); letter-spacing: -0.12px; }
+.t-amount { font: 600 30px/36px var(--font); letter-spacing: -0.3px; }
+.t-button { font: 600 14px/20px var(--font); letter-spacing: -0.14px; }
+.t-num { font: 400 13px/18px var(--font); font-variant-numeric: tabular-nums; }
+.t-num-strong { font: 500 14px/20px var(--font); font-variant-numeric: tabular-nums; }
+
+.c-1 { color: var(--text-primary); }
+.c-2 { color: var(--text-secondary); }
+.c-3 { color: var(--text-muted); }
+.c-4 { color: var(--text-dim); }
+.c-quantum { color: var(--quantum); }
+.c-qrl { color: var(--qrl); }
+.c-success { color: var(--success); }
+.c-warning { color: var(--warning); }
+.c-alert { color: var(--alert); }

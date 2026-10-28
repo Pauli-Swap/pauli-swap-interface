@@ -1,0 +1,52 @@
+/* Swap widget (89:198) and the Trade page (105:2024). */
+.swap-page { align-items: center; padding-top: 64px; }
+.swap-caption { margin-top: 16px; color: var(--text-muted); font: 400 14px/20px var(--font); letter-spacing: -0.14px; text-align: center; }
+
+.swap-widget { width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: var(--space-8); }
+.swap-tabs { display: flex; align-items: center; gap: var(--space-4); }
+.slip-pill {
+  display: inline-flex; align-items: center;
+  padding: var(--space-4) 10px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  font: 500 13px/18px var(--font); letter-spacing: -0.13px;
+  white-space: nowrap;
+}
+.swap-panels { position: relative; display: flex; flex-direction: column; gap: var(--space-4); }
+.swap-flip {
+  position: absolute; left: 50%; top: calc(50% - 2px); transform: translate(-50%, -50%); z-index: 1;
+  display: inline-flex; padding: 8px;
+  background: var(--bg-elevated);
+  border: 4px solid var(--bg-deep);
+  border-radius: 14px;
+  color: var(--text-primary);
+}
+.swap-flip:hover { background: var(--bg-muted); }
+
+/* Trade-page scale: 480px column, roomier panels and 36px amounts. */
+.swap-widget .swap-tabs .seg > button { font-size: 15px; padding: 8px 16px; }
+.swap-widget .amount-panel { padding: 20px 18px; gap: 10px; min-height: 132px; justify-content: center; }
+.swap-widget .amount-panel > .t-label { font-size: 15px; line-height: 22px; }
+.swap-widget .amount-panel input { font-size: 36px; line-height: 44px; letter-spacing: -0.36px; }
+.swap-widget .amount-panel .meta-row { font-size: 14px; line-height: 20px; }
+.swap-widget .token-select { padding: 5px 12px 5px 5px; font-size: 17px; }
+.swap-widget .token-select.empty { padding: 9px 12px 9px 16px; }
+.swap-widget > .btn-lg { height: 60px; font-size: 17px; }
+.swap-details {
+  display: flex; flex-direction: column; gap: 10px;
+  padding: var(--space-12) var(--space-16);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+}
+.rate-row { display: flex; align-items: center; gap: var(--space-8); width: 100%; text-align: left; }
+
+/* You're swapping (91:905). */
+.modal:has(.review) { padding: var(--space-20); }
+.review { display: flex; flex-direction: column; gap: var(--space-16); margin-top: -4px; }
+.review-amount { display: flex; align-items: center; gap: var(--space-12); }
+/* Disconnected and empty: the panel drops its meta row (97:87). */
+.swap-widget .meta-row:has(> span:first-child:empty):not(:has(> :nth-child(2))) { display: none; }
+.swap-widget .swap-details { padding: 14px 18px; gap: 12px; }
+.swap-widget .swap-details .detail-row .value { font-size: 14px; line-height: 20px; }

@@ -1,0 +1,68 @@
+/* Position detail (Figma 96:953 V3, 96:1316 V2) and Remove liquidity (96:1242). */
+.pos-page { padding-top: 24px; gap: 20px; }
+.pos-header { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.pos-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.pos-cols { display: flex; align-items: flex-start; gap: 24px; }
+.pos-main { flex: 1 0 0; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+.pos-side { width: 400px; flex: none; display: flex; flex-direction: column; gap: 16px; }
+.pos-card { display: flex; flex-direction: column; gap: 16px; padding: 24px; }
+.pos-card.tight { gap: 10px; }
+.pos-big { font: 500 38px/46px var(--font); letter-spacing: -0.38px; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.ratio-bar.thin { display: flex; gap: 4px; height: 6px; }
+.ratio-bar.thin > span { height: 6px; border-radius: 3px; }
+.token-line { display: flex; align-items: center; gap: 10px; min-height: 24px; }
+.pct-chip { padding: 2px 6px; border-radius: var(--radius-sm); background: var(--bg-muted); color: var(--text-secondary); font: 400 13px/18px var(--font); font-variant-numeric: tabular-nums; }
+
+/* Min / Current / Max price boxes (96:1054). */
+.price-boxes { display: flex; gap: 12px; }
+.price-box {
+  flex: 1 0 0; min-width: 0;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 16px;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+.price-box.current { background: var(--quantum-bg); border-color: var(--border-accent); }
+.price-box .v { font: 600 30px/36px var(--font); letter-spacing: -0.3px; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.price-box.current .v { color: var(--quantum); }
+
+.stat-cards { display: flex; gap: 16px; }
+.stat-cards > .card { flex: 1 0 0; min-width: 0; padding: 20px; }
+
+/* Remove liquidity modal. */
+.rm-amount { display: flex; flex-direction: column; gap: 16px; padding: 20px; background: var(--bg-deep); border: 1px solid var(--border); border-radius: var(--radius-card); }
+.rm-quick { display: flex; gap: 8px; }
+.rm-quick button {
+  flex: 1 0 0; padding: 8px 14px;
+  border: 1px solid var(--border); border-radius: var(--radius-full);
+  color: var(--text-muted); font: 500 14px/20px var(--font); letter-spacing: -0.14px;
+}
+.rm-quick button:hover { color: var(--text-secondary); }
+.rm-quick button.on { background: var(--bg-muted); color: var(--text-primary); }
+.rm-receive { display: flex; flex-direction: column; gap: 12px; padding: 16px; background: var(--bg-deep); border-radius: var(--radius-md); }
+
+.pct-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 20px; background: transparent; margin: 0; cursor: pointer; }
+.pct-slider::-webkit-slider-runnable-track {
+  height: 6px; border-radius: 3px;
+  background: linear-gradient(90deg, var(--quantum) 0 var(--pct), var(--bg-muted) var(--pct) 100%);
+}
+.pct-slider::-moz-range-track { height: 6px; border-radius: 3px; background: var(--bg-muted); }
+.pct-slider::-moz-range-progress { height: 6px; border-radius: 3px; background: var(--quantum); }
+.pct-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 20px; height: 20px; margin-top: -7px; border-radius: 50%;
+  background: var(--text-primary); border: 4px solid var(--quantum);
+}
+.pct-slider::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: var(--text-primary); border: 4px solid var(--quantum); }
+
+@media (max-width: 1000px) {
+  .pos-cols { flex-direction: column; }
+  .pos-side { width: 100%; }
+}
+@media (max-width: 640px) {
+  .price-boxes, .stat-cards { flex-direction: column; }
+  .pos-big { font-size: 30px; line-height: 36px; }
+}

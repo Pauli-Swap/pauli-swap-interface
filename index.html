@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PauliSwap</title>
+    <link rel="icon" href="/pauli-favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="icon" type="image/svg+xml" href="/pauli-mark.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/pauli-icon-32.png" />
+    <link rel="apple-touch-icon" href="/pauli-apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#08080a" />
+    <!-- Poppins is self-hosted (public/fonts, OFL) and preloaded, so the first
+         paint already uses it: no fallback-font frame that reflows every line. -->
+    <link rel="preload" href="/fonts/poppins-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/poppins-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/poppins-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/qrl-logo.png" as="image" />
+    <style>
+      @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 400; font-display: swap; src: url(/fonts/poppins-latin-400-normal.woff2) format('woff2'); }
+      @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 500; font-display: swap; src: url(/fonts/poppins-latin-500-normal.woff2) format('woff2'); }
+      @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 600; font-display: swap; src: url(/fonts/poppins-latin-600-normal.woff2) format('woff2'); }
+      @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 700; font-display: swap; src: url(/fonts/poppins-latin-700-normal.woff2) format('woff2'); }
+      html, body { margin: 0; background: #08080a; color: #f5f5f7; font-family: 'Poppins', system-ui, sans-serif; }
+      html { scrollbar-gutter: stable; color-scheme: dark; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

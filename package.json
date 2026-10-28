@@ -1,0 +1,33 @@
+{
+  "name": "pauli-swap-interface",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "license": "GPL-3.0-or-later",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "start": "tsc --noEmit && vite build && vite preview --host",
+    "typecheck": "tsc --noEmit",
+    "sync:contracts": "node scripts/sync-contracts.mjs ../pauli-swap",
+    "sync:predict": "node scripts/sync-predict.mjs ../pauli-swap-prediction-market",
+    "sync:icons": "node scripts/sync-icons.mjs",
+    "flatten:fe": "node scripts/flatten-fe.mjs"
+  },
+  "dependencies": {
+    "@theqrl/web3": "1.0.3",
+    "buffer": "6.0.3",
+    "events": "3.3.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
+    "@vitejs/plugin-react": "4.3.4",
+    "playwright": "^1.64.1",
+    "typescript": "5.6.3",
+    "vite": "5.4.11"
+  }
+}
