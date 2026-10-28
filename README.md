@@ -141,3 +141,8 @@ src/
   pages/               Swap, Explore, TokenDetail, PoolDetail, Positions, NewPosition, V3Position, V2Position, Predict, PredictMarket
   styles/              tokens.css (Figma variables and text styles), app.css (shared components), one sheet per page group
 ```
+
+## License
+
+Copyright (C) 2026 PauliSwap. Written for PauliSwap from scratch and released
+under the GNU General Public License v3.0 or later; see [LICENSE](LICENSE).
