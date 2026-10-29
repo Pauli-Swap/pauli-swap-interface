@@ -1,15 +1,25 @@
 # PauliSwap: TODO
 
-Cập nhật 2026-10-28. File này gom việc của cả 4 repo:
+Cập nhật 2026-10-29. File này gom việc của cả 5 repo, cộng repo hạ tầng:
 
 - `pauli-swap`: hợp đồng swap
 - `pauli-swap-interface`: giao diện
 - `pauli-swap-indexer`
 - `pauli-swap-prediction-market`: Predict, quest, faucet
+- `pauli-swap-ops` (private): nhiệm vụ ẩn, báo cáo sybil
+- `Servers/OracleCloud/PauliSwap` (local, không public): deploy lên VPS, backup
 
 Mỗi giai đoạn gồm một số batch. Làm xong giai đoạn này rồi mới sang giai đoạn sau. Các batch trong cùng một giai đoạn làm song song được, trừ khi có ghi chú khác.
 
-Mốc cứng: **season 1 kết thúc ngày 2026-11-25** (`endsAt` 1795581833).
+Việc của từng repo khác được viết chi tiết thành proposal ngay trong repo đó:
+
+| Repo | Proposal | Batch |
+| --- | --- | --- |
+| `pauli-swap-prediction-market` | `docs/PROPOSAL-SEASON-1-OPS.md` | 1.1 (CLI), 1.2 (health, cảnh báo), 2.1, 2.3 (cancel e2e), 2.4, 4.1 (attester), 6.1 |
+| `pauli-swap-indexer` | `docs/PROPOSAL-SEASON-1.md` (dựa trên `PROPOSAL-PREDICT.md`) | 1.4 (docs), 2.2, 2.3, 3.1, 4.1 (indexer), backlog |
+| `pauli-swap` | `docs/PROPOSAL-AUDIT-PHASE-5.md` | 5.1, 5.2 |
+
+Mốc cứng: **season 1 kết thúc 2026-11-25 17:27 UTC** (`endsAt` 1795627668, đặt lại khi deploy lại Predict sau đợt reset devnet 2026-10-28).
 
 ---
 
@@ -36,29 +46,30 @@ Mục tiêu: người dùng thật làm được **mọi** nhiệm vụ, và fau
 
 ### Batch 1.1: Công cụ quản trị market (`pauli-swap-prediction-market`)
 
-- [ ] `scripts/qrvm/market.js` với 4 lệnh `create`, `resolve`, `cancel`, `list`. Mặc định chạy thử, chỉ gửi giao dịch khi có `--send`. Ký bằng ví owner.
-- [ ] Thêm các npm script `market:create`, `market:resolve`, `market:cancel`, `market:list`.
-- [ ] Tạo 3–5 market thử, mỗi cái có `closeTime` khác nhau (1 ngày, 3 ngày, 7 ngày).
-- [ ] Kiểm trên giao diện:
+- [x] Công cụ owner trên giao diện (2026-10-29): nút "New market" ở tab Markets; khối Admin ở trang market với Resolve Yes / No (sau `closeTime`) và Cancel. Chỉ hiện khi ví đang kết nối là `PredictMarket.owner()`, đọc on-chain. Owner là ví deployer `Qa1A64D6E7…34Ca`.
+- [ ] `scripts/qrvm/market.js` (`create`, `resolve`, `cancel`, `list`, chạy thử trừ khi `--send`) và các npm script `market:*`: xem proposal của prediction-market §1.
+- [x] Tạo 4 market thử, đóng lúc 30/10 12:00, 1/11, 5/11 và 12/11 (UTC), block 1860–1863. Câu hỏi đều kiểm được on-chain.
+- [ ] Kiểm trên giao diện bằng ví thật:
   - Nút "Predict" trong Quests dẫn tới market đang mở.
-  - Mua ≥ 10 XP thì nhiệm vụ #2 được ghi.
-- [ ] Ghi lịch market (ai tạo, lúc nào, câu hỏi gì) vào README.
+  - New market / Resolve / Cancel với ví owner.
+- [x] Mua ≥ 10 XP thì nhiệm vụ #2 được ghi (smoke test 1.3).
+- [ ] Ghi lịch market vào README của prediction-market: bảng đã có trong proposal §2, còn chờ chuyển vào README.
 
 ### Batch 1.2: Đưa faucet và attester vào process manager
 
-- [ ] Chọn pm2 hoặc systemd trên VPS. Viết `ecosystem.config.cjs` hoặc unit file cho:
-  - `npm run faucet`
-  - `npm run attester -- --send`
-- [ ] Tự khởi động lại khi crash. Log xoay vòng. Lưu `data/faucet-claims.jsonl` ra ổ bền.
-- [ ] `/health` cho attester, ghi lần chạy cuối và số lần ghi XP lỗi. Có cảnh báo khi faucet còn dưới 1.000 QRL.
-- [ ] Nạp thêm QRL cho ví deployer, tức ví attester (hiện còn 8,1 QRL).
+- [x] Docker compose dưới systemd (`pauliswap.service`) trên máy chain, cho faucet và `attester --send --interval 60`. Cấu hình ở repo hạ tầng `deploy/compose.yml`.
+- [x] `restart: unless-stopped`, log json-file 10 MB × 3, `data/` nằm ở `/srv/pauli-swap/data` trên host.
+- [x] Sửa race condition giới hạn theo IP của faucet (request song song từ cùng một IP đều qua được), đã deploy 2026-10-29.
+- [ ] `/health` cho attester, cảnh báo khi faucet dưới 1.000 QRL: xem proposal của prediction-market §3. Hiện bot giám sát chỉ kiểm HTTP 200.
+- [x] Ví attester riêng (`Q5d5325B65B8…`), đã nạp 1.000 QRL tiền gas. Deployer còn khoảng 99.980 QRL.
 
 ### Batch 1.3: Deploy giao diện production
 
-- [ ] `npm run build` rồi đẩy lên VPS (nginx static).
-- [ ] Thêm `location /faucet/` vào nginx, rồi đặt `FAUCET_TRUSTED_PROXY=127.0.0.1` cho service faucet.
-- [ ] Đặt `VITE_INDEXER_URL` trỏ tới indexer production.
-- [ ] Smoke test bằng một ví mới:
+- [x] https://pauliswap.org (qrl-vps, sau Cloudflare): `push_web.sh pauliswap.org` build rồi đẩy `dist/`. Phải chạy lại sau mỗi lần `sync:contracts`.
+- [x] nginx `/faucet/` → máy chain `:8548`. Faucet chỉ tin `X-Forwarded-For` từ edge (`FAUCET_TRUSTED_PROXY`); edge lấy IP thật qua `CF-Connecting-IP`.
+- [x] `VITE_INDEXER_URL=https://pauliswap.org/graphql`.
+- [x] Seed lại devnet sau đợt reset: ACRN, QUSD, STAR, 2 cặp V2, 3 pool V3, lịch sử swap.
+- [x] Smoke test bằng một ví mới, qua https://pauliswap.org, 2026-10-29 00:31–00:35 UTC: **ĐẠT**. Script ký trực tiếp, không qua extension, nên bước 1 "connect" vẫn cần thử tay với QRL Web3 Wallet. Faucet 200 (50 QRL ở block 1865), check-in +10 XP, swap 2 QRL → ACRN, mua Yes #0 với 10 XP; attester ghi #1, #2, #201 trong khoảng 3,5 phút, #201 lộ tên.
   1. connect
   2. Get 50 QRL
   3. check-in
@@ -69,9 +80,10 @@ Mục tiêu: người dùng thật làm được **mọi** nhiệm vụ, và fau
 
 ### Batch 1.4: Indexer trên VPS
 
-- [ ] Đo dung lượng đĩa (gqrl, beacon, tốc độ tăng mỗi ngày). Dùng số đo để đặt `DISK_MIN_FREE_GB`, `EVENT_DAYS`, `HOUR_DATA_DAYS`.
-- [ ] Chọn cách nối mạng tới gqrl: 127.0.0.1 hay docker bridge (INDEXER §13).
-- [ ] Đặt restart policy cho docker compose. Backup Postgres mỗi ngày.
+- [ ] Đo dung lượng đĩa. Mốc đầu (2026-10-29, khoảng 7 giờ sau reset): đĩa 96 GB, dùng 25 GB; các volume Docker tổng 828 MB; DB indexer 8,5 MB; build cache 7,3 GB (thu hồi được 4,7 GB). Đo lại sau 1 tuần để có tốc độ tăng mỗi ngày. Season 1 giữ mặc định: xem proposal của indexer §4.
+- [x] Nối tới gqrl bằng `network_mode: host`, `RPC_URL` trỏ thẳng vào IP của container gqrl trên bridge của chain. Không dùng hai cách trong INDEXER §13; lý do ghi trong `deploy/compose.yml` của repo hạ tầng.
+- [x] Restart policy `unless-stopped`.
+- [x] Backup Postgres mỗi ngày: `pauliswap-backup.timer` lúc 03:30 UTC, `pg_dump` ra `/srv/pauli-swap/backups`, giữ 7 ngày (`push_chain_host.sh --backup`).
 
 ---
 
@@ -219,4 +231,4 @@ Làm sau Batch 3.1.
 - [ ] Indexer: lọc giá đột biến, giá TWAP của V3, `where` filter và truy vấn theo thời điểm.
 - [ ] Indexer: tự kiểm `balanceOf` (`getterSuspect`) và đối chiếu `slot0()` ở đầu chain.
 - [ ] Danh mục quest cho season 2: xem tỷ lệ hoàn thành của season 1 rồi chỉnh XP và mốc.
-- [ ] Đưa nhiệm vụ ẩn sang `quests/hidden.json`, chỉ có trên server, để không lộ qua repo.
+- [x] Đưa nhiệm vụ ẩn sang `quests/hidden.json` (gitignored, cài từ `pauli-swap-ops`).

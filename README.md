@@ -54,15 +54,17 @@ wallet is on another chain, the app offers `wallet_switchQRLChain`, then
 | `#/pool/v2/:pair` | V2 position: share, LP tokens, value history from `Sync` logs, `removeLiquidity(QRL)`. |
 | `#/predict`, `/quests`, `/leaderboard`, `/rewards` | PauliSwap Predict: markets table (price from `PredictMarket.markets`, 24h change and volume replayed from `Bought` / `Sold`), daily check-in (`PauliPredictXP.checkIn`), daily quests and season milestones with progress from the indexer (`questProgress`), a get-started panel with the test QRL faucet, season ranking rebuilt from `XPCredited` / `XPDebited`, prizes. |
 | `#/predict/market/:id` | Yes price chart, stats, buy / sell (`buy` / `sell` with slippage bounds on shares), claim after resolve or cancel. |
+| Owner tools | Only for the wallet that is `PredictMarket.owner()` on chain: New market in the Markets bar (`createMarket`, close time in UTC, at most `seasonEndsAt`), and on the market page Resolve Yes / No once `closeTime` has passed (`resolve`) and Cancel (`cancel`). |
 
 Predict reads `src/contracts/predict-devnet.json`, written by
 `npm run sync:predict` from `../pauli-swap-prediction-market` (ABIs from
-`build/qrvm`, addresses from `deployments/devnet.json`). Until that repo has a
-devnet deployment the file has no addresses and the Predict pages say so.
+`build/qrvm`, addresses from `deployments/devnet.json`). Without addresses in
+that file the Predict pages say Predict is not deployed.
 Where the contracts differ from the Figma screens, the pages follow the
 contracts: a winning share pays 1 XP (not 100), markets are Yes / No only, and
 there are no categories or rule texts on chain. Quests other than the
-check-in are credited by the planned quest bot and appear once credited.
+check-in are credited by the attester bot (`npm run attester` in that repo,
+one tick a minute on the VPS) and appear once credited.
 
 Every token spend needs an explicit `approve` first: Zond has no `ecrecover`, so
 the permit paths are gone. V2 spends go to `PauliV2Router02`, V3 swaps to
