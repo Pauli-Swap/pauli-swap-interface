@@ -18,7 +18,8 @@ import { Badge, DetailRow, Icon, Seg, Skeleton, Stat } from '../components/ui';
 import { PREDICT } from '../config';
 import { FaucetButton } from '../components/QrlFaucet';
 import { useBalances } from '../hooks/chain';
-import { MarketView, Player, QuestProgress, questsOn, Season, useLeaderboard, useMarkets, usePredictLogs, useQuests, useSeason, useXp } from '../hooks/predict';
+import { NewMarketButton } from '../components/PredictAdmin';
+import { MarketView, Player, QuestProgress, questsOn, Season, useIsMarketOwner, useLeaderboard, useMarkets, usePredictLogs, useQuests, useSeason, useXp } from '../hooks/predict';
 import { predictXP, shortAddress } from '../lib/chain';
 import { DecodedEvent } from '../lib/logs';
 import { NATIVE } from '../lib/tokens';
@@ -116,6 +117,7 @@ function Markets(ctx: Ctx) {
   const [filter, setFilter] = useState<Filter>('trending');
   const [q, setQ] = useState('');
   const [shown, setShown] = useState(8);
+  const isOwner = useIsMarketOwner(account);
   const now = chain.latestTime;
   const doneToday = questsOn(logs, account, ctx.today);
 
@@ -165,6 +167,7 @@ function Markets(ctx: Ctx) {
           <Icon name="search" size={16} />
           <input placeholder="Filter markets" value={q} onChange={(e) => setQ(e.target.value)} />
         </label>
+        {isOwner && <NewMarketButton />}
       </div>
       <div>
         <div className="table">

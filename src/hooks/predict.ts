@@ -79,6 +79,27 @@ export function useXp(account: string | null) {
   return { xp, checkedIn, today };
 }
 
+/// Whether `account` is PredictMarket.owner(), the only wallet the contract
+/// lets create, resolve and cancel markets. Read on every block, so a
+/// setOwner shows up without a reload.
+export function useIsMarketOwner(account: string | null) {
+  const { block } = useApp();
+  const [owner, setOwner] = useState<string | null>(null);
+  useEffect(() => {
+    if (!PREDICT.deployed || !account || !block) return;
+    let alive = true;
+    predictMarket()
+      .methods.owner()
+      .call()
+      .then((o: unknown) => alive && setOwner(String(o)))
+      .catch(() => undefined);
+    return () => {
+      alive = false;
+    };
+  }, [account, block]);
+  return !!account && sameAddress(owner ?? undefined, account);
+}
+
 export type MarketView = Pools & {
   id: number;
   question: string;

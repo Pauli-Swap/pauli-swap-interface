@@ -3,7 +3,8 @@ import { AreaChart, stampLabel } from '../components/Chart';
 import { dateLabel, longSpan, NotDeployed, utcTime, XP_TOKEN } from '../components/predict';
 import { AmountPanel, Badge, Crumbs, DetailRow, Empty, IconButton, Seg, Stat } from '../components/ui';
 import { PREDICT } from '../config';
-import { MarketView, Position, useMarkets, usePosition, usePredictLogs, useXp } from '../hooks/predict';
+import { MarketAdmin } from '../components/PredictAdmin';
+import { MarketView, Position, useIsMarketOwner, useMarkets, usePosition, usePredictLogs, useXp } from '../hooks/predict';
 import { predictMarket } from '../lib/chain';
 import { applySlippage, parseUnits, toInputString } from '../lib/format';
 import { load, save } from '../lib/storage';
@@ -149,9 +150,10 @@ function TradePanel({ m }: { m: MarketView }) {
   const [mode, setMode] = useState<'buy' | 'sell'>('buy');
   const [outcome, setOutcome] = useState<Outcome>(() => (query().get('outcome') === 'no' ? NO : YES));
   const [amount, setAmount] = useState('');
+  const isOwner = useIsMarketOwner(account);
   const tradable = m.status === OPEN && m.closeTime > clock.latestTime;
 
-  if (!tradable) return <SettledPanel m={m} position={position} account={account} />;
+  if (!tradable) return <SettledPanel m={m} position={position} account={account} isOwner={isOwner} />;
 
   const value = parseUnits(amount, XP_DECIMALS) ?? 0n;
   const held = position ? (outcome === YES ? position.yesShares : position.noShares) : 0n;
@@ -234,11 +236,12 @@ function TradePanel({ m }: { m: MarketView }) {
       <p className="pm-foot">
         Each share pays 1 XP if {name} wins and 0 if it loses. You can sell any time before the market closes. Max slippage {settings.slippageBps / 100}%.
       </p>
+      {isOwner && <MarketAdmin m={m} />}
     </div>
   );
 }
 
-function SettledPanel({ m, position, account }: { m: MarketView; position: Position | undefined; account: string | null }) {
+function SettledPanel({ m, position, account, isOwner }: { m: MarketView; position: Position | undefined; account: string | null; isOwner: boolean }) {
   const { send } = useTx();
   const { openModal } = useApp();
   const claimable =
@@ -285,6 +288,7 @@ function SettledPanel({ m, position, account }: { m: MarketView; position: Posit
           {claimable ? `Claim ${fmtXp(claimable)}` : 'Nothing to claim'}
         </button>
       ) : null}
+      {isOwner && <MarketAdmin m={m} />}
     </div>
   );
 }
