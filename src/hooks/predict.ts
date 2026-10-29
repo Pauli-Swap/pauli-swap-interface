@@ -294,24 +294,28 @@ export type QuestProgress = {
 /// Quest catalogue and progress of `account` for `day`, from
 /// pauli-swap-indexer (src/quests.ts). Null while loading, or for good when
 /// the indexer is not configured or unreachable: the Quests tab then falls
-/// back to the check-in and the credits it reads from the logs.
+/// back to the check-in and the credits it reads from the logs. `denied`: the
+/// wallet is on the denylist, so the quest bot never credits it.
 export function useQuests(account: string | null, day: number) {
   const { block } = useApp();
   const [quests, setQuests] = useState<QuestProgress[] | null>(null);
+  const [denied, setDenied] = useState(false);
   const [failed, setFailed] = useState(false);
   useEffect(() => {
     if (!PREDICT.deployed || !account || !indexerConfigured) {
       setQuests(null);
+      setDenied(false);
       return;
     }
     let alive = true;
-    gql<{ questProgress: { quests: QuestProgress[] } }>(
-      'query($user: ID!, $day: Int) { questProgress(user: $user, day: $day) { quests { id kind hidden title detail xp action target progress met credited } } }',
+    gql<{ questProgress: { denied: boolean; quests: QuestProgress[] } }>(
+      'query($user: ID!, $day: Int) { questProgress(user: $user, day: $day) { denied quests { id kind hidden title detail xp action target progress met credited } } }',
       { user: account, day },
     )
       .then((d) => {
         if (!alive) return;
         setQuests(d.questProgress.quests);
+        setDenied(d.questProgress.denied);
         setFailed(false);
       })
       .catch(() => alive && setFailed(true));
@@ -319,5 +323,5 @@ export function useQuests(account: string | null, day: number) {
       alive = false;
     };
   }, [account, day, block]);
-  return { quests, unavailable: !indexerConfigured || failed };
+  return { quests, denied, unavailable: !indexerConfigured || failed };
 }

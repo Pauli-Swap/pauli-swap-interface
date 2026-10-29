@@ -44,8 +44,8 @@ export function Predict({ tab }: { tab: PredictTab }) {
   const me = account && players ? players.find((p) => p.user.toLowerCase() === account.toLowerCase()) ?? null : null;
   const live = !!season && season.id > 0 && chainClock.latestTime < season.endsAt;
   const checkInOpen = !!account && live && !!season?.checkInXp && checkedIn === false;
-  const { quests, unavailable: questsUnavailable } = useQuests(account, today);
-  const ctx: Ctx = { account, season, xp, checkedIn, today, markets, players, me, logs: logs.xp, live, marketLog: logs.market, quests, questsUnavailable };
+  const { quests, denied: questsDenied, unavailable: questsUnavailable } = useQuests(account, today);
+  const ctx: Ctx = { account, season, xp, checkedIn, today, markets, players, me, logs: logs.xp, live, marketLog: logs.market, quests, questsDenied, questsUnavailable };
   const questsLeft = (checkInOpen ? 1 : 0) + (quests?.filter((q) => q.kind === 'daily' && q.id !== 0 && !q.credited).length ?? 0);
 
   return (
@@ -82,6 +82,7 @@ type Ctx = {
   marketLog: DecodedEvent[] | null;
   live: boolean;
   quests: QuestProgress[] | null;
+  questsDenied: boolean;
   questsUnavailable: boolean;
 };
 
@@ -256,7 +257,7 @@ function MarketRow({ m, rank, now }: { m: MarketView; rank: number; now: number 
 }
 
 function Quests(ctx: Ctx) {
-  const { account, season, checkedIn, live, logs, today, xp, quests, questsUnavailable, markets } = ctx;
+  const { account, season, checkedIn, live, logs, today, xp, quests, questsDenied, questsUnavailable, markets } = ctx;
   const { openModal, clock: chainClock } = useApp();
   const { send } = useTx();
   const reset = useReset();
@@ -307,7 +308,7 @@ function Quests(ctx: Ctx) {
         progress={masked ? '?' : `${q.progress} / ${q.target}`}
         reward={masked ? '???' : `+${q.xp} XP`}
         state={q.credited ? 'done' : q.met ? 'claimable' : 'todo'}
-        action={!account ? undefined : q.met ? <Badge tone="quantum">Crediting…</Badge> : masked ? <Badge>Hidden</Badge> : goTo(q)}
+        action={!account ? undefined : q.met ? (questsDenied ? <Badge>Not eligible</Badge> : <Badge tone="quantum">Crediting…</Badge>) : masked ? <Badge>Hidden</Badge> : goTo(q)}
       />
     );
   };
@@ -394,6 +395,7 @@ function Quests(ctx: Ctx) {
         </>
       )}
       <p className="pm-foot">
+        {account && questsDenied ? 'This wallet is excluded from quests (a PauliSwap team or bot wallet, or flagged in the sybil review), so the quest bot does not credit it. ' : ''}
         {account && questsUnavailable ? 'Quest progress is unavailable because the PauliSwap indexer cannot be reached; credited quests still show up here. ' : ''}
         The quest bot credits a quest within a minute or two of it being met. Swaps count from 1 QRL in value on priced pools, predictions from 10 XP, liquidity when it is still held at the end of the UTC day. Bot
         quests are capped at {season ? fmtXp(season.dailyCap) : 'a daily limit'} a day; a milestone over the cap is credited the next day. Wallets that farm with several accounts are excluded from prizes. XP has no cash
