@@ -7,12 +7,13 @@ import wqrlAbi from '../contracts/abi/WQRL.json';
 import v3FactoryAbi from '../contracts/abi/PauliV3Factory.json';
 import v3PoolAbi from '../contracts/abi/PauliV3Pool.json';
 import swapRouterAbi from '../contracts/abi/SwapRouter.json';
+import swapRouter02Abi from '../contracts/abi/SwapRouter02.json';
 import quoterAbi from '../contracts/abi/Quoter.json';
 import npmAbi from '../contracts/abi/NonfungiblePositionManager.json';
 import tickLensAbi from '../contracts/abi/TickLens.json';
 import predictXpAbi from '../contracts/abi/PauliPredictXP.json';
 import predictMarketAbi from '../contracts/abi/PredictMarket.json';
-import { ADDRESSES, CHAIN, PREDICT } from '../config';
+import { ADDRESSES, CHAIN, PREDICT, SWAP_ROUTER_02 } from '../config';
 import { BatchProvider } from './rpc';
 
 export const ABI = {
@@ -24,6 +25,7 @@ export const ABI = {
   v3Factory: v3FactoryAbi,
   v3Pool: v3PoolAbi,
   swapRouter: swapRouterAbi,
+  swapRouter02: swapRouter02Abi,
   quoter: quoterAbi,
   npm: npmAbi,
   tickLens: tickLensAbi,
@@ -57,6 +59,7 @@ export const wqrl = (web3?: Web3) => contract(ABI.wqrl, ADDRESSES.WQRL, web3);
 export const v3Factory = () => contract(ABI.v3Factory, ADDRESSES.PauliV3Factory);
 export const v3Pool = (address: string) => contract(ABI.v3Pool, address);
 export const swapRouter = () => contract(ABI.swapRouter, ADDRESSES.SwapRouter);
+export const swapRouter02 = () => contract(ABI.swapRouter02, SWAP_ROUTER_02);
 export const quoter = () => contract(ABI.quoter, ADDRESSES.Quoter);
 export const positionManager = () => contract(ABI.npm, ADDRESSES.NonfungiblePositionManager);
 export const tickLens = () => contract(ABI.tickLens, ADDRESSES.TickLens);

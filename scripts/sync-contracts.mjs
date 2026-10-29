@@ -19,6 +19,7 @@ const CONTRACTS = {
   PauliV3Factory: 'PauliV3Factory',
   PauliV3Pool: 'PauliV3Pool',
   SwapRouter: 'SwapRouter',
+  SwapRouter02: 'SwapRouter02',
   Quoter: 'Quoter',
   NonfungiblePositionManager: 'NonfungiblePositionManager',
   TickLens: 'TickLens',

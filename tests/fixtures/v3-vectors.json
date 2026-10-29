@@ -1,0 +1,4611 @@
+{
+ "source": "pauli-swap/docs/onchain/devnet.differential.json, where QRVM and the 20 byte EVM build agreed on every vector",
+ "ranAt": "2026-10-27T09:44:22.135Z",
+ "vectors": [
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-887273"
+   ],
+   "result": "revert:T"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-887272"
+   ],
+   "result": "ok:4295128739"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-887271"
+   ],
+   "result": "ok:4295343490"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-1"
+   ],
+   "result": "ok:79224201403219477170569942574"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "0"
+   ],
+   "result": "ok:79228162514264337593543950336"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "1"
+   ],
+   "result": "ok:79232123823359799118286999568"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "887271"
+   ],
+   "result": "ok:1461373636630004318706518188784493106690254656249"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "887272"
+   ],
+   "result": "ok:1461446703485210103287273052203988822378723970342"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "887273"
+   ],
+   "result": "revert:T"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-765494"
+   ],
+   "result": "ok:1893300921995"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "572433"
+   ],
+   "result": "ok:213050605049946649172544075549205923542637"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "438902"
+   ],
+   "result": "ok:268558509883444008421093779832334434099"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "274020"
+   ],
+   "result": "ok:70607492195488947891060231246280204"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "80335"
+   ],
+   "result": "ok:4397893691460966895665853853097"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-797979"
+   ],
+   "result": "ok:373123069895"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "645081"
+   ],
+   "result": "ok:8052582383834155355492976942343849708247952"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "598717"
+   ],
+   "result": "ok:792873758605773835362088636816502279132151"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-757690"
+   ],
+   "result": "ok:2796873864673"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "884956"
+   ],
+   "result": "ok:1301649918097460443924333663839874188819848880671"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-863342"
+   ],
+   "result": "ok:14209655637"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "706859"
+   ],
+   "result": "ok:176750370031664093034255750356483687121362499"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "460953"
+   ],
+   "result": "ok:808809715835148314666847474604280761733"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-189116"
+   ],
+   "result": "ok:6201305661104369230695395"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "263602"
+   ],
+   "result": "ok:41940934366832879816573590075468652"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-220150"
+   ],
+   "result": "ok:1314080839958881384626032"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-706660"
+   ],
+   "result": "ok:35869047969538"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "511395"
+   ],
+   "result": "ok:10072231738950126052196732003390853190212"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-73591"
+   ],
+   "result": "ok:1999637248083864698343693554"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-521610"
+   ],
+   "result": "ok:373963005563177732"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "586732"
+   ],
+   "result": "ok:435477867788587480348603790081792977802062"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "416705"
+   ],
+   "result": "ok:88524052337578819576092861916424206900"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-329963"
+   ],
+   "result": "ok:5422284566571670200807"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-141282"
+   ],
+   "result": "ok:67784956063205230398345135"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-703936"
+   ],
+   "result": "ok:41102458634853"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "555287"
+   ],
+   "result": "ok:90402559678765600637336542054642519448850"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "160570"
+   ],
+   "result": "ok:242906147800264257976350644402599"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "264527"
+   ],
+   "result": "ok:43926157766802898109059273314906824"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-424032"
+   ],
+   "result": "ok:49158888234463470005"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-184572"
+   ],
+   "result": "ok:7783051626061020986685407"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-855898"
+   ],
+   "result": "ok:20616734475"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "16035"
+   ],
+   "result": "ok:176627277961996330900276660680"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "141249"
+   ],
+   "result": "ok:92450507287482915382213347614547"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "370505"
+   ],
+   "result": "ok:8788023118559998101448952552448315312"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "464625"
+   ],
+   "result": "ok:971804352632945011497577868438295048571"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-725422"
+   ],
+   "result": "ok:14038754052097"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-625753"
+   ],
+   "result": "ok:2048826554989612"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-222325"
+   ],
+   "result": "ok:1178677299748303960021556"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "662254"
+   ],
+   "result": "ok:19003057805940711034476560690655478335699994"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "610973"
+   ],
+   "result": "ok:1463276496971127784859815420740891258746720"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "441674"
+   ],
+   "result": "ok:308481500189312654395788799361876116762"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-490398"
+   ],
+   "result": "ok:1780552257372420663"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-616351"
+   ],
+   "result": "ok:3278361364690517"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-461532"
+   ],
+   "result": "ok:7539466420061470387"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-789582"
+   ],
+   "result": "ok:567781873946"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-761630"
+   ],
+   "result": "ok:2296789241981"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-498839"
+   ],
+   "result": "ok:1167534983105813978"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-673336"
+   ],
+   "result": "ok:189803902221090"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "800229"
+   ],
+   "result": "ok:18826203637409356064938246146568855531868415738"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "46100"
+   ],
+   "result": "ok:794105703800257843709031641053"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "428848"
+   ],
+   "result": "ok:162453846101799125154599524846896338238"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-727934"
+   ],
+   "result": "ok:12381803454842"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-622297"
+   ],
+   "result": "ok:2435272299605372"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-488203"
+   ],
+   "result": "ok:1987083699033551593"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-623781"
+   ],
+   "result": "ok:2261124571174743"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-141138"
+   ],
+   "result": "ok:68274744380015206449882698"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-295798"
+   ],
+   "result": "ok:29924628188367894976043"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-98253"
+   ],
+   "result": "ok:582705969136158889811753048"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-572090"
+   ],
+   "result": "ok:29972583140929276"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-422819"
+   ],
+   "result": "ok:52232485917237689392"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-874514"
+   ],
+   "result": "ok:8128282415"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "347286"
+   ],
+   "result": "ok:2752467628673866415105106406765053338"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "756896"
+   ],
+   "result": "ok:2156977713463851094328967685535349594430742901"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-743305"
+   ],
+   "result": "ok:5741476208521"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-658134"
+   ],
+   "result": "ok:405878333352400"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-106348"
+   ],
+   "result": "ok:388756410805048104956374394"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-871262"
+   ],
+   "result": "ok:9563382731"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "477161"
+   ],
+   "result": "ok:1818783523636578902074248538457151173675"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-826731"
+   ],
+   "result": "ok:88622004675"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-561823"
+   ],
+   "result": "ok:50079282655315275"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-372974"
+   ],
+   "result": "ok:631330838073028352161"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "245359"
+   ],
+   "result": "ok:16846752501484285124631161742497820"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-649867"
+   ],
+   "result": "ok:613624254228206"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-591020"
+   ],
+   "result": "ok:11632819730769191"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-692565"
+   ],
+   "result": "ok:72572750572494"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-182319"
+   ],
+   "result": "ok:8711054654524490404990644"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "34675"
+   ],
+   "result": "ok:448538778849765925163742718482"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-833698"
+   ],
+   "result": "ok:62555089648"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-277902"
+   ],
+   "result": "ok:73217692279194705941212"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "232977"
+   ],
+   "result": "ok:9071057597812866864687994317293931"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-618541"
+   ],
+   "result": "ok:2938352905871642"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "19929"
+   ],
+   "result": "ok:214590595047814662249568118888"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-710727"
+   ],
+   "result": "ok:29269175071120"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-723478"
+   ],
+   "result": "ok:15471765655818"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "260098"
+   ],
+   "result": "ok:35200879331398054586639974501158597"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "855555"
+   ],
+   "result": "ok:299289521464713816457714450115723904435709799792"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "463107"
+   ],
+   "result": "ok:900777514747398260292214615446092614366"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "815990"
+   ],
+   "result": "ok:41399148376793087305250879765128858487864070507"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-469170"
+   ],
+   "result": "ok:5146261386455149020"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-851393"
+   ],
+   "result": "ok:25824969589"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-748831"
+   ],
+   "result": "ok:4355459739049"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "707994"
+   ],
+   "result": "ok:187070501841047042673057030178777494113229403"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-752266"
+   ],
+   "result": "ok:3668154804105"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-792888"
+   ],
+   "result": "ok:481278249756"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-871571"
+   ],
+   "result": "ok:9416771288"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-221422"
+   ],
+   "result": "ok:1233111463077158287843566"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-516781"
+   ],
+   "result": "ok:476084236123346889"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "437896"
+   ],
+   "result": "ok:255384772317820471275593008037036106197"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-106414"
+   ],
+   "result": "ok:387475693030733629943797238"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-820956"
+   ],
+   "result": "ok:118287221807"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-514372"
+   ],
+   "result": "ok:537021850229685470"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "298035"
+   ],
+   "result": "ok:234586931009324820695137074542744241"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-432697"
+   ],
+   "result": "ok:31875233541731501366"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-383509"
+   ],
+   "result": "ok:372823966455858810577"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "168084"
+   ],
+   "result": "ok:353667201410860451099801822483782"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "501654"
+   ],
+   "result": "ok:6188895609980562268249212764257667160428"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-735745"
+   ],
+   "result": "ok:8378739267006"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-149687"
+   ],
+   "result": "ok:44527692297806810499305310"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-377222"
+   ],
+   "result": "ok:510525532985409079333"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-677753"
+   ],
+   "result": "ok:152193461924957"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-601755"
+   ],
+   "result": "ok:6801255490250664"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "796571"
+   ],
+   "result": "ok:15679574126827728877839506713718699804194040174"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-861120"
+   ],
+   "result": "ok:15879296492"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-536179"
+   ],
+   "result": "ok:180502259732391837"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-587215"
+   ],
+   "result": "ok:14070365928256465"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-640694"
+   ],
+   "result": "ok:970692608471561"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-703181"
+   ],
+   "result": "ok:42683654704221"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-20642"
+   ],
+   "result": "ok:28227125830112808381791122156"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-706859"
+   ],
+   "result": "ok:35513938297624"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-539787"
+   ],
+   "result": "ok:150709224742930778"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-627693"
+   ],
+   "result": "ok:1859433863137363"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "742778"
+   ],
+   "result": "ok:1064859992214205989389589904643301746303506759"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-569123"
+   ],
+   "result": "ok:34765504720069066"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "516180"
+   ],
+   "result": "ok:12794563357587790566759060669295261887752"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-777016"
+   ],
+   "result": "ok:1064229037257"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "652583"
+   ],
+   "result": "ok:11717390189328017727758628969230319107002519"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-702892"
+   ],
+   "result": "ok:43304879997825"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-249829"
+   ],
+   "result": "ok:297977181594991967974548"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "813984"
+   ],
+   "result": "ok:37448450153083415590304766060814080878082605834"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-846390"
+   ],
+   "result": "ok:33164476919"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-196342"
+   ],
+   "result": "ok:4320961401658726619246190"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-327912"
+   ],
+   "result": "ok:6007820914823611509322"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-253697"
+   ],
+   "result": "ok:245580938453287913930071"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-790306"
+   ],
+   "result": "ok:547596734500"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "210687"
+   ],
+   "result": "ok:2976191855786557658820491040118704"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-748673"
+   ],
+   "result": "ok:4390002407783"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "323406"
+   ],
+   "result": "ok:834066223471290239524799868008999307"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-310658"
+   ],
+   "result": "ok:14235217133482426517749"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-593588"
+   ],
+   "result": "ok:10231148176884890"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "701660"
+   ],
+   "result": "ok:136292238786068930018177089318879410816008876"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-157615"
+   ],
+   "result": "ok:29956044177443948325637191"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-96096"
+   ],
+   "result": "ok:649061404261675676511184640"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-397389"
+   ],
+   "result": "ok:186259537897314281764"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-641579"
+   ],
+   "result": "ok:928677989720173"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "108141"
+   ],
+   "result": "ok:17660953917942105070749461267151"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "129585"
+   ],
+   "result": "ok:51599016025335872176751246914799"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-328182"
+   ],
+   "result": "ok:5927264340499855479037"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-445193"
+   ],
+   "result": "ok:17065528781039760089"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "242679"
+   ],
+   "result": "ok:14734101070195290298835504054397416"
+  },
+  {
+   "method": "getSqrtRatioAtTick",
+   "args": [
+    "-491318"
+   ],
+   "result": "ok:1700506032562715924"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "4295128738"
+   ],
+   "result": "revert:R"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "4295128739"
+   ],
+   "result": "ok:-887272"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "4295128740"
+   ],
+   "result": "ok:-887272"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "79228162514264337593543950336"
+   ],
+   "result": "ok:0"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1461446703485210103287273052203988822378723970341"
+   ],
+   "result": "ok:887271"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1461446703485210103287273052203988822378723970342"
+   ],
+   "result": "revert:R"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "868117044780003670844704022304238364508543361629"
+   ],
+   "result": "ok:876854"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "37361758500958723240206932724134541063110283209"
+   ],
+   "result": "ok:813937"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "411902001090381784181844744445988382136170009952"
+   ],
+   "result": "ok:861942"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "90083482698477178213457976385837633749405586824"
+   ],
+   "result": "ok:831540"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "105679234887897097135330340663325098924164113399"
+   ],
+   "result": "ok:834733"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "633687464191195268298463170196365920304599623490"
+   ],
+   "result": "ok:870558"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "491846152226335862697582883757559490387067847428"
+   ],
+   "result": "ok:865490"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "465443576914212944570529835883238055860972267822"
+   ],
+   "result": "ok:864387"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1027867743031333970319296029266953245708609721524"
+   ],
+   "result": "ok:880232"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "95998239270040173313016375840578279225324139277"
+   ],
+   "result": "ok:832812"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "368898645128344715776514289271383786260353822376"
+   ],
+   "result": "ok:859737"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "692997532920372083501067309418263296024212122773"
+   ],
+   "result": "ok:872348"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "491273784881839452365725086922249867912724635650"
+   ],
+   "result": "ok:865467"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "232026088316896849994453187145090085188638302076"
+   ],
+   "result": "ok:850463"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "647402517425950129273393839325501382409153716864"
+   ],
+   "result": "ok:870986"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "919016442537841254637531837805996525309998725965"
+   ],
+   "result": "ok:877993"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1367849059010489425502946658726212815466685919946"
+   ],
+   "result": "ok:885948"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1106867686560919013739858803841424489015398864230"
+   ],
+   "result": "ok:881713"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "213988793294222360379110498089457354726198390286"
+   ],
+   "result": "ok:848844"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "686079787469457220018128114390069836205997180459"
+   ],
+   "result": "ok:872147"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "512444311569837407294340893649254311705782968593"
+   ],
+   "result": "ok:866311"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "28415087020245183861541389398927739264358499263"
+   ],
+   "result": "ok:808462"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "525528563657398828678566281067137777499817126618"
+   ],
+   "result": "ok:866815"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "345589798163260521782332057079788845926093151847"
+   ],
+   "result": "ok:858431"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "604040640327995943798174371682217858918214502969"
+   ],
+   "result": "ok:869600"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1066395207534162532740600067794686040614566621863"
+   ],
+   "result": "ok:880968"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "442037097278643184109936420149750902589225420646"
+   ],
+   "result": "ok:863355"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1025238375546999445506379436355158102507519206966"
+   ],
+   "result": "ok:880181"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "11401978416938171277392854330076231594729060466"
+   ],
+   "result": "ok:790199"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1389232134767161744817423202442550159435936505660"
+   ],
+   "result": "ok:886258"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1062889343669240515586436282140579519623892096489"
+   ],
+   "result": "ok:880902"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "350197169448110403531638201650641062884584421491"
+   ],
+   "result": "ok:858696"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "594523119535355065928691729875084057684715477240"
+   ],
+   "result": "ok:869282"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "842671802053682422760067292652476173963926410911"
+   ],
+   "result": "ok:876259"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1014801337113675269632592848401736065268010031515"
+   ],
+   "result": "ok:879976"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "105154935871593327132947822341070389137395289708"
+   ],
+   "result": "ok:834634"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "296560050773059300347058513123872060686158174336"
+   ],
+   "result": "ok:855371"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1019956887757662152785596894456023208362751037914"
+   ],
+   "result": "ok:880078"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1166623849085227506360657308347085290210036344340"
+   ],
+   "result": "ok:882765"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "372515945105169461928113833240012011903458839931"
+   ],
+   "result": "ok:859932"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "21194313305319428563564993348973369500981718231"
+   ],
+   "result": "ok:802598"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "93367833941805517626021114931831190204118830390"
+   ],
+   "result": "ok:832256"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "488332540929897308012583680786543831990070468015"
+   ],
+   "result": "ok:865347"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "963899787162745300637887125190596097993528565052"
+   ],
+   "result": "ok:878947"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "716239175489147900279318903465309170434648751601"
+   ],
+   "result": "ok:873007"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "138765881562818423783966750877948851851672164100"
+   ],
+   "result": "ok:840181"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1059894245332622652002203753453849702204430028339"
+   ],
+   "result": "ok:880846"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "783927695418893528435288088538166925826705486197"
+   ],
+   "result": "ok:874814"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "868145804022160710345621421428928604808566262401"
+   ],
+   "result": "ok:876855"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "570879486089246499128633213331812096936838698560"
+   ],
+   "result": "ok:868470"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1220955227232095639332918382346873705978650627269"
+   ],
+   "result": "ok:883675"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "858925060616779889920156922671502232788070031689"
+   ],
+   "result": "ok:876641"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "699802196948838278736615450325179111907256181664"
+   ],
+   "result": "ok:872543"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "546600551002823322848284520467155400070939780637"
+   ],
+   "result": "ok:867601"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "174093510557097108852168412052837618156020893303"
+   ],
+   "result": "ok:844718"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "663039363676583440120156764303590514765495060677"
+   ],
+   "result": "ok:871464"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "630590421116516228374632388589820493129200003955"
+   ],
+   "result": "ok:870460"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1445794421380854485412599037962816068543777617020"
+   ],
+   "result": "ok:887056"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1239626907103477877825898573555249279525363412741"
+   ],
+   "result": "ok:883979"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1356906549090015500268171339375374007963477586383"
+   ],
+   "result": "ok:885787"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "209101926226230724447542308850804522349569978308"
+   ],
+   "result": "ok:848382"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "807309055000077156879164320883260523535442312800"
+   ],
+   "result": "ok:875401"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "748531935763707716171656818746487552600109222382"
+   ],
+   "result": "ok:873889"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1036250230979541062239753827339935079762569444194"
+   ],
+   "result": "ok:880395"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "100082279269553604325480961274751835593331790141"
+   ],
+   "result": "ok:833645"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "487166114154152368471704706379972729595345465770"
+   ],
+   "result": "ok:865299"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "591437577454603792056997597968124166654575247551"
+   ],
+   "result": "ok:869178"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "572960290413750900712885784823012663219477887808"
+   ],
+   "result": "ok:868543"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "114861788813261270223080626126397477841743650752"
+   ],
+   "result": "ok:836400"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1066313779327510517883929314067876076000936183127"
+   ],
+   "result": "ok:880967"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "637567769283037042719020810382309668936956650660"
+   ],
+   "result": "ok:870680"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "699104442096050518548558991290945838932974430334"
+   ],
+   "result": "ok:872523"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1214310505782129394723019565573864392258311070938"
+   ],
+   "result": "ok:883566"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "442355892322693969576089454641665262400430404856"
+   ],
+   "result": "ok:863369"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "106697100056970799258638795434698993329082824274"
+   ],
+   "result": "ok:834925"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1323220228054186548887316227522700632454985803418"
+   ],
+   "result": "ok:885284"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1147202427096848361576089533141657436753591444099"
+   ],
+   "result": "ok:882429"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1025455788806583715294432672975340412410723936491"
+   ],
+   "result": "ok:880185"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1433514364686444206388626703186161310121594063737"
+   ],
+   "result": "ok:886886"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "21583445392691837274704864530576726293922246026"
+   ],
+   "result": "ok:802962"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1457021617670937404952551799616708682468577423353"
+   ],
+   "result": "ok:887211"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1050710202224238361133976799036661073278728797008"
+   ],
+   "result": "ok:880672"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "754752836982217803047844460797571288987719102006"
+   ],
+   "result": "ok:874055"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "14502309318634899500476704390624266426927215518"
+   ],
+   "result": "ok:795009"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "392563160861246510623567034976144403231034043465"
+   ],
+   "result": "ok:860980"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "630430791842188564627315170802885250077063118357"
+   ],
+   "result": "ok:870455"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "327059338659647851044442047955000330960557722617"
+   ],
+   "result": "ok:857329"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "469908343095121002213792898195244409892194852129"
+   ],
+   "result": "ok:864577"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "500456747022701627188176540104849641544361705885"
+   ],
+   "result": "ok:865837"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "846628724306796582815336479972079714398248643656"
+   ],
+   "result": "ok:876353"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "717730522215225756510869911407959823555880326600"
+   ],
+   "result": "ok:873049"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "833455164564087025801131624997394088309483118958"
+   ],
+   "result": "ok:876039"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "736724417265302158666864181841403242254035829638"
+   ],
+   "result": "ok:873571"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "639802673386512720280753501093085963560044784763"
+   ],
+   "result": "ok:870750"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1445522530985936874833030087642255301876571197804"
+   ],
+   "result": "ok:887052"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1461104866244492425385077186008898010721963142237"
+   ],
+   "result": "ok:887267"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "640580502851038516062338946690071208934892384028"
+   ],
+   "result": "ok:870775"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "566597945414851437492999350334700828350255640147"
+   ],
+   "result": "ok:868320"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "198875106826128978022434884405179503586502918973"
+   ],
+   "result": "ok:847379"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "852560453963444156792408925485934276884497579374"
+   ],
+   "result": "ok:876492"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "482264541140952792667814309059732985874677893194"
+   ],
+   "result": "ok:865097"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "22281358361848198057116816655584822706230940671"
+   ],
+   "result": "ok:803599"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1324881358701639430114032668599784517655314001289"
+   ],
+   "result": "ok:885309"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "993689790080888983122945424200328592207670305177"
+   ],
+   "result": "ok:879556"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "359203224390028098145445056190787815970148140521"
+   ],
+   "result": "ok:859204"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "496086213155594750981567537262293312118939208659"
+   ],
+   "result": "ok:865662"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1188968640682004865207315822191785308439134632592"
+   ],
+   "result": "ok:883144"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1371394211524451808797700771736968319329037437521"
+   ],
+   "result": "ok:885999"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1251195479534084887382201277465267777129077046271"
+   ],
+   "result": "ok:884165"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "115840301383284797834728054556485742116210512690"
+   ],
+   "result": "ok:836570"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "21509049677240899452457134962926338498930250285"
+   ],
+   "result": "ok:802893"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1288214783821813563806067287035539862186897985026"
+   ],
+   "result": "ok:884748"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1263996956448147355423551877108589036329009803846"
+   ],
+   "result": "ok:884368"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "977043880942254315358852998672174663248109348251"
+   ],
+   "result": "ok:879218"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "70624318700685267939853457578788811190698826219"
+   ],
+   "result": "ok:826672"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1231610148264593901158552978035344204291573907840"
+   ],
+   "result": "ok:883849"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "112790340404775256567386390673584114656675043257"
+   ],
+   "result": "ok:836036"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "657082928435125317887061001501915737060841505014"
+   ],
+   "result": "ok:871283"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "14452649444839118438056914356753057973280920009"
+   ],
+   "result": "ok:794941"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1053627245668649242137213567151952489080569351024"
+   ],
+   "result": "ok:880727"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "589142718098700879822398778025885145929689578176"
+   ],
+   "result": "ok:869100"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1319231422364887680842458081931677188232993717378"
+   ],
+   "result": "ok:885224"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "802109398492784158127615904921924627718304379823"
+   ],
+   "result": "ok:875272"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "873076855146797346404229557218164625403709373607"
+   ],
+   "result": "ok:876968"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "926051518758538619505341799203976216633711744093"
+   ],
+   "result": "ok:878146"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1019239335763714237081886232994932808921380935755"
+   ],
+   "result": "ok:880064"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "282856956604740484918256738269226900119075938835"
+   ],
+   "result": "ok:854425"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "905399364365996345927912192999640744016172864701"
+   ],
+   "result": "ok:877695"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "253854846930421237553801705926165073764564680093"
+   ],
+   "result": "ok:852261"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "721364085923876536494000462149573120795780289776"
+   ],
+   "result": "ok:873150"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "248816948026807067583637502323980313759900352157"
+   ],
+   "result": "ok:851860"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "500147097993862473970911106457157431926548903080"
+   ],
+   "result": "ok:865825"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1388199744033790735944075530153619069590079415428"
+   ],
+   "result": "ok:886243"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1263334085716217004672933676412080535155362147069"
+   ],
+   "result": "ok:884358"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "337676122865541333376493916656953134633505765747"
+   ],
+   "result": "ok:857968"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1422063304653465758385062640482376582881880665265"
+   ],
+   "result": "ok:886725"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "220973283399139746353925245927480456736004874469"
+   ],
+   "result": "ok:849487"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "768764747401533489859964801856285754656977115151"
+   ],
+   "result": "ok:874423"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "319861086961308970068928439410888804597481081943"
+   ],
+   "result": "ok:856884"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "216228714694467812211390353767931047804559181164"
+   ],
+   "result": "ok:849053"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "642812953570115789258147732728540980970145841528"
+   ],
+   "result": "ok:870844"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "806409277793795187035564753512286642615629277192"
+   ],
+   "result": "ok:875379"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "20535459979194896372056420583797151304041026602"
+   ],
+   "result": "ok:801967"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "287284574981758141991305163732385531143349124046"
+   ],
+   "result": "ok:854736"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "270959571947011861801987628642748837283873680161"
+   ],
+   "result": "ok:853566"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "866227546964082240271019977453245729105338744653"
+   ],
+   "result": "ok:876810"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "679859595204620071066802435883569207982586723453"
+   ],
+   "result": "ok:871965"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "632011898710301209724740609648452899820429966471"
+   ],
+   "result": "ok:870505"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "879484400610759172551332229415354384428514431154"
+   ],
+   "result": "ok:877114"
+  },
+  {
+   "method": "getTickAtSqrtRatio",
+   "args": [
+    "1144086638601651130750814283850443750872649327398"
+   ],
+   "result": "ok:882375"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "686316913624946762871096397873060239609571200603",
+    "1315249051147874913990780746475346640855166648764",
+    "62008626756432638570504917203",
+    "true"
+   ],
+   "result": "ok:3422967578"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "686316913624946762871096397873060239609571200603",
+    "1315249051147874913990780746475346640855166648764",
+    "62008626756432638570504917203",
+    "true"
+   ],
+   "result": "ok:492239336785870129692486091110049586379934961383"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "956495538191970196568134462851327156959374458411",
+    "57247120670742054108676190165664174277613830279",
+    "214065272446164359167263237926961082790",
+    "false"
+   ],
+   "result": "ok:278528017099253270949"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "956495538191970196568134462851327156959374458411",
+    "57247120670742054108676190165664174277613830279",
+    "214065272446164359167263237926961082790",
+    "false"
+   ],
+   "result": "ok:2429664545846387724871891253698628100930835146427092911256"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "434105712915079805153948115230416249280741835560",
+    "472652137693384530859719534820987935771013181041",
+    "178272108724163067341902127934853520297",
+    "false"
+   ],
+   "result": "ok:2653444209072986880"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "434105712915079805153948115230416249280741835560",
+    "472652137693384530859719534820987935771013181041",
+    "178272108724163067341902127934853520297",
+    "false"
+   ],
+   "result": "ok:86733709465602138733092557358174729046955636645084108807"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "901276557227296212402332346434235675861731758931",
+    "582172188597363890503103715726801527580430413968",
+    "71162924105707566994742668541",
+    "false"
+   ],
+   "result": "ok:3428913971"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "901276557227296212402332346434235675861731758931",
+    "582172188597363890503103715726801527580430413968",
+    "71162924105707566994742668541",
+    "false"
+   ],
+   "result": "ok:286620303260512391750219876676238985967852102650"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "794869493363804538350993096696557803969032991145",
+    "1167470084361743000277205304417389530723298292151",
+    "288193997655016580073144368547549157219",
+    "false"
+   ],
+   "result": "ok:9167828158100566741"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "794869493363804538350993096696557803969032991145",
+    "1167470084361743000277205304417389530723298292151",
+    "288193997655016580073144368547549157219",
+    "false"
+   ],
+   "result": "ok:1355341969832818141388238179629550634452957435156549863117"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1391059918677462068396065993700230828470220110561",
+    "131172256789033545786664494210025247994269934919",
+    "49219621732860626632762993018",
+    "true"
+   ],
+   "result": "ok:26925380577"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1391059918677462068396065993700230828470220110561",
+    "131172256789033545786664494210025247994269934919",
+    "49219621732860626632762993018",
+    "true"
+   ],
+   "result": "ok:782691307940936841730527826710843873404594064168"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1213792306502568801965800177114253733886570628093",
+    "900524473366404075351864469826111721510336301878",
+    "259413664447277923433636009111669800296",
+    "true"
+   ],
+   "result": "ok:5890448114313427344"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1213792306502568801965800177114253733886570628093",
+    "900524473366404075351864469826111721510336301878",
+    "259413664447277923433636009111669800296",
+    "true"
+   ],
+   "result": "ok:1025720576729009257775866435831175734255605004218713805634"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1309036504242074791445742828757683389449451905519",
+    "771429263705915252570516347622961258924605555157",
+    "63769866284109919810946914987096607375",
+    "true"
+   ],
+   "result": "ok:2689752576093076064"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1309036504242074791445742828757683389449451905519",
+    "771429263705915252570516347622961258924605555157",
+    "63769866284109919810946914987096607375",
+    "true"
+   ],
+   "result": "ok:432714084921353971302919979961093807792860297953745485282"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "98464384383062489797493877691704795509296193235",
+    "997826440956919154341423959635946113057146467449",
+    "96706758125263971244695829961850842763",
+    "false"
+   ],
+   "result": "ok:70135321429856916029"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "98464384383062489797493877691704795509296193235",
+    "997826440956919154341423959635946113057146467449",
+    "96706758125263971244695829961850842763",
+    "false"
+   ],
+   "result": "ok:1097771122187378137043766033795391756157475540251009596787"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "453275316146545798823722704046557080151456434881",
+    "1266513426134039841333703264899071918063435298071",
+    "192719565027944174103555300702933125503",
+    "false"
+   ],
+   "result": "ok:21629737326363492778"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "453275316146545798823722704046557080151456434881",
+    "1266513426134039841333703264899071918063435298071",
+    "192719565027944174103555300702933125503",
+    "false"
+   ],
+   "result": "ok:1978171521934766166499691495813333250616992720969541530945"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1386322961565588583297399356459689645591993912669",
+    "426550698233641219916808689201605184440676548646",
+    "34491290542175845170859215425",
+    "true"
+   ],
+   "result": "ok:4435291310"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1386322961565588583297399356459689645591993912669",
+    "426550698233641219916808689201605184440676548646",
+    "34491290542175845170859215425",
+    "true"
+   ],
+   "result": "ok:417828496059641091570751466920069974383004615076"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1259953802854839072443186528211758028664500747047",
+    "1369092657714476667932868710240206213666158350244",
+    "2117132732",
+    "false"
+   ],
+   "result": "ok:0"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1259953802854839072443186528211758028664500747047",
+    "1369092657714476667932868710240206213666158350244",
+    "2117132732",
+    "false"
+   ],
+   "result": "ok:2916405412213560142954581192"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "786025212488025622060708264282768828599543436243",
+    "400526185655426234739969909255479310775583250374",
+    "335072904923019632220749910483689266765",
+    "true"
+   ],
+   "result": "ok:32506842661886939929"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "786025212488025622060708264282768828599543436243",
+    "400526185655426234739969909255479310775583250374",
+    "335072904923019632220749910483689266765",
+    "true"
+   ],
+   "result": "ok:1630358128557382481293093679394850373284308674016987258939"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "262149705304919159542057990997029064365171108864",
+    "117721568991851044894249341511366516862114823157",
+    "89785255964713447832427580363489154218",
+    "true"
+   ],
+   "result": "ok:33291318864661170837"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "262149705304919159542057990997029064365171108864",
+    "117721568991851044894249341511366516862114823157",
+    "89785255964713447832427580363489154218",
+    "true"
+   ],
+   "result": "ok:163673077550431108628334804795686687784488222851333038843"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1028342444137748173528257063651245234561783332200",
+    "482546330829302121645509941719170750956638239754",
+    "13565370424564214339987940320",
+    "true"
+   ],
+   "result": "ok:1182129080"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1028342444137748173528257063651245234561783332200",
+    "482546330829302121645509941719170750956638239754",
+    "13565370424564214339987940320",
+    "true"
+   ],
+   "result": "ok:93450689986448703327327247671428861046382280343"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1186687439191680502426568655218836381638363106012",
+    "837381209528144868276005776046599501413605467471",
+    "222589761505810742660549995785739164375",
+    "true"
+   ],
+   "result": "ok:6199141395084972645"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1186687439191680502426568655218836381638363106012",
+    "837381209528144868276005776046599501413605467471",
+    "222589761505810742660549995785739164375",
+    "true"
+   ],
+   "result": "ok:981368087885438273966005796562282295731319459534662651248"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "563682709890936835120026622753009680193735938820",
+    "639780076095596262839308650938682074564203465911",
+    "135878184219471110438643512605516877388",
+    "false"
+   ],
+   "result": "ok:2271608678224533483"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "563682709890936835120026622753009680193735938820",
+    "639780076095596262839308650938682074564203465911",
+    "135878184219471110438643512605516877388",
+    "false"
+   ],
+   "result": "ok:130508794040397533418113595153642948831148621260775710717"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "24429414156164791404067643992935473172821728297",
+    "425514345267913304273322985016464250660017735326",
+    "276834839312320094278305778794771348495",
+    "false"
+   ],
+   "result": "ok:846270916526944823902"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "24429414156164791404067643992935473172821728297",
+    "425514345267913304273322985016464250660017735326",
+    "276834839312320094278305778794771348495",
+    "false"
+   ],
+   "result": "ok:1401449673087181881945090379145249078850385004831571754579"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "161906131629912119354071413759113808615846087131",
+    "227495473838825160579704547001530847042909791042",
+    "8",
+    "true"
+   ],
+   "result": "ok:1"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "161906131629912119354071413759113808615846087131",
+    "227495473838825160579704547001530847042909791042",
+    "8",
+    "true"
+   ],
+   "result": "ok:6622831087075054043"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "70807442707687457424526132332912887425486154910",
+    "1456913967890362715147173385411804975347928164890",
+    "243178384221780158664625987485465710877",
+    "true"
+   ],
+   "result": "ok:258873945936573198133"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "70807442707687457424526132332912887425486154910",
+    "1456913967890362715147173385411804975347928164890",
+    "243178384221780158664625987485465710877",
+    "true"
+   ],
+   "result": "ok:4254435979030846360671918037431986680846092478238468914923"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "759454236612075056843762399010416364440974557801",
+    "1188509887664137835508285730389738109959528422632",
+    "337470992374007999361222839778782184186",
+    "false"
+   ],
+   "result": "ok:12709405913524504870"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "759454236612075056843762399010416364440974557801",
+    "1188509887664137835508285730389738109959528422632",
+    "337470992374007999361222839778782184186",
+    "false"
+   ],
+   "result": "ok:1827555148942736764991405369726793933142634858815427769742"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "111523059483930909055918906735458014531927892683",
+    "450536492733380357942488021964422788486064135368",
+    "170319951333923725476075349244355073380",
+    "true"
+   ],
+   "result": "ok:91047361822215187414"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "111523059483930909055918906735458014531927892683",
+    "450536492733380357942488021964422788486064135368",
+    "170319951333923725476075349244355073380",
+    "true"
+   ],
+   "result": "ok:728790743344538784807890299853574412757938740168658839385"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "28231161245120226993476374054187187557011253131",
+    "588286130177525034602277211024248040084425545438",
+    "211247020238189233792332125014283803500",
+    "true"
+   ],
+   "result": "ok:564395416730466140134"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "28231161245120226993476374054187187557011253131",
+    "588286130177525034602277211024248040084425545438",
+    "211247020238189233792332125014283803500",
+    "true"
+   ],
+   "result": "ok:1493281424206468130768288381399616766536654300076576552570"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "492184354381341644124522496558338806964165680778",
+    "552697169603169704938529278185563913592148128727",
+    "256143188856723760823607452674936145460",
+    "true"
+   ],
+   "result": "ok:4514344613867462400"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "492184354381341644124522496558338806964165680778",
+    "552697169603169704938529278185563913592148128727",
+    "256143188856723760823607452674936145460",
+    "true"
+   ],
+   "result": "ok:195636816073149541104562126930752218921411240928536578242"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "273621165774427869297962525319568896559143263062",
+    "1324610394206892360411128404350941907689936932735",
+    "327800878973184092382575188203122541575",
+    "false"
+   ],
+   "result": "ok:75309560821440965021"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "273621165774427869297962525319568896559143263062",
+    "1324610394206892360411128404350941907689936932735",
+    "327800878973184092382575188203122541575",
+    "false"
+   ],
+   "result": "ok:4348393070576178963111811558847238959013132777090821587861"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1387550328177159153383708565771016098851069646299",
+    "1218349583664525644175581896904968737289219455588",
+    "31747558958380472689108203439",
+    "true"
+   ],
+   "result": "ok:251751188"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1387550328177159153383708565771016098851069646299",
+    "1218349583664525644175581896904968737289219455588",
+    "31747558958380472689108203439",
+    "true"
+   ],
+   "result": "ok:67800519938217348739833884195897632708639481440"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1013275876311900286798580601376533220053077062315",
+    "182488657939535502236281051632688854058971016622",
+    "85615054545974689582600660574109536199",
+    "false"
+   ],
+   "result": "ok:30475858411353827920"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1013275876311900286798580601376533220053077062315",
+    "182488657939535502236281051632688854058971016622",
+    "85615054545974689582600660574109536199",
+    "false"
+   ],
+   "result": "ok:897760225150275848798641684278096902249300759239210817701"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "811007110017378988991942053381671057019432488238",
+    "588502869087795888966876644078193490827608362419",
+    "254825722376740580773198604855189398947",
+    "true"
+   ],
+   "result": "ok:9412129516429815840"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "811007110017378988991942053381671057019432488238",
+    "588502869087795888966876644078193490827608362419",
+    "254825722376740580773198604855189398947",
+    "true"
+   ],
+   "result": "ok:715652138424402280857757309229437247855921989272644917231"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "52323018141066288689337881263862934691506216200",
+    "308530693984437212418020689279542137581971102814",
+    "14926461584368232457713206878675159154",
+    "true"
+   ],
+   "result": "ok:18768839682567618480"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "52323018141066288689337881263862934691506216200",
+    "308530693984437212418020689279542137581971102814",
+    "14926461584368232457713206878675159154",
+    "true"
+   ],
+   "result": "ok:48269124383741927508480486732967733120697205108872018625"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "458319653722703716711429150445076166599602313433",
+    "519125146326465746744043347359335612567185689714",
+    "1111808784",
+    "false"
+   ],
+   "result": "ok:0"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "458319653722703716711429150445076166599602313433",
+    "519125146326465746744043347359335612567185689714",
+    "1111808784",
+    "false"
+   ],
+   "result": "ok:853283461927293001046357183"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1108506340977946214013138664057616464348150257023",
+    "98863802447930232840122768921003520703141161630",
+    "111698450419791621962689171262459421986",
+    "true"
+   ],
+   "result": "ok:81530269946808238854"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1108506340977946214013138664057616464348150257023",
+    "98863802447930232840122768921003520703141161630",
+    "111698450419791621962689171262459421986",
+    "true"
+   ],
+   "result": "ok:1423427017020662304439326156558068740752328684410124378157"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1292546767569141299498948870315147756429091534796",
+    "726588063351666316004224601063788251004177967534",
+    "95279617759875261394708249633054127702",
+    "false"
+   ],
+   "result": "ok:4549145303325299899"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1292546767569141299498948870315147756429091534796",
+    "726588063351666316004224601063788251004177967534",
+    "95279617759875261394708249633054127702",
+    "false"
+   ],
+   "result": "ok:680620719886148006003621448293712316857179803466894913804"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1127839674715421953415517936015038315230793540235",
+    "783046276227391953310139086538360809227439746640",
+    "50009464048028970516487441853970699658",
+    "false"
+   ],
+   "result": "ok:1546877524915451117"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1127839674715421953415517936015038315230793540235",
+    "783046276227391953310139086538360809227439746640",
+    "50009464048028970516487441853970699658",
+    "false"
+   ],
+   "result": "ok:217636412589783631920310480737892877407096433965047996917"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1247571673485197678997856313288681115794410131401",
+    "1133001731827509895342880067435875609761700946591",
+    "2838022609",
+    "true"
+   ],
+   "result": "ok:1"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1247571673485197678997856313288681115794410131401",
+    "1133001731827509895342880067435875609761700946591",
+    "2838022609",
+    "true"
+   ],
+   "result": "ok:4103996286393592432036453654"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "304432780209857972934208261757502102282646633505",
+    "109522027473088511701177085205195136209524262258",
+    "304704077670394963623296764490135198414",
+    "false"
+   ],
+   "result": "ok:141123961768368538292"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "304432780209857972934208261757502102282646633505",
+    "109522027473088511701177085205195136209524262258",
+    "304704077670394963623296764490135198414",
+    "false"
+   ],
+   "result": "ok:749608463152317604944727712685736297206707112704029403723"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "497537628212390311493310965785575566251360584796",
+    "108369752841965023270375510610219225162934174859",
+    "67176124000517677194982181278726768534",
+    "false"
+   ],
+   "result": "ok:38414704303436263222"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "497537628212390311493310965785575566251360584796",
+    "108369752841965023270375510610219225162934174859",
+    "67176124000517677194982181278726768534",
+    "false"
+   ],
+   "result": "ok:329968392845093660701231591834743618543171796441283365011"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1255181615411309983200257896412957554859009669144",
+    "291665920432922608356106153129665284087457073500",
+    "218655178308263345950144433073552438574",
+    "true"
+   ],
+   "result": "ok:45593810247204362012"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1255181615411309983200257896412957554859009669144",
+    "291665920432922608356106153129665284087457073500",
+    "218655178308263345950144433073552438574",
+    "true"
+   ],
+   "result": "ok:2659126368737617679590248957529129750870345946879255662384"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "136150668610526743775669395824556976593426123523",
+    "142606242178116262838814252462904037210810440377",
+    "309780691517942408496169361947979721815",
+    "true"
+   ],
+   "result": "ok:8160381244222820016"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "136150668610526743775669395824556976593426123523",
+    "142606242178116262838814252462904037210810440377",
+    "309780691517942408496169361947979721815",
+    "true"
+   ],
+   "result": "ok:25241176627727332145107322198853673001349197714823114946"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1276434673485843525284632548560236860902893791386",
+    "492981016933258133901380161868114222719030974848",
+    "16",
+    "false"
+   ],
+   "result": "ok:0"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1276434673485843525284632548560236860902893791386",
+    "492981016933258133901380161868114222719030974848",
+    "16",
+    "false"
+   ],
+   "result": "ok:158217205940936754951"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "297675405394863739639260077484163234117372029077",
+    "1374569846236626748434469298154882195330850002044",
+    "321730630447139690438662964816869790518",
+    "true"
+   ],
+   "result": "ok:67086535175905237852"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "297675405394863739639260077484163234117372029077",
+    "1374569846236626748434469298154882195330850002044",
+    "321730630447139690438662964816869790518",
+    "true"
+   ],
+   "result": "ok:4373065288680164839707579480455631585711532071074351676947"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1228963862566698374684054591484427663387468925647",
+    "463532479883625349762313783481867451924002724545",
+    "115730144449474173953171515735251073396",
+    "true"
+   ],
+   "result": "ok:12320066720901619262"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1228963862566698374684054591484427663387468925647",
+    "463532479883625349762313783481867451924002724545",
+    "115730144449474173953171515735251073396",
+    "true"
+   ],
+   "result": "ok:1118080764123793789988596981128265412576607704792466591104"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1051525303443771958549332131962994150006568751874",
+    "432867548811960493828885340746581761333408486534",
+    "2230550544",
+    "true"
+   ],
+   "result": "ok:1"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1051525303443771958549332131962994150006568751874",
+    "432867548811960493828885340746581761333408486534",
+    "2230550544",
+    "true"
+   ],
+   "result": "ok:17417384770161217937868985414"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1162799327499505172199503806598458896841637050300",
+    "1230122612407126977093154099520873936614513904994",
+    "196043278265377750346380385318241120679",
+    "true"
+   ],
+   "result": "ok:731044248338546039"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1162799327499505172199503806598458896841637050300",
+    "1230122612407126977093154099520873936614513904994",
+    "196043278265377750346380385318241120679",
+    "true"
+   ],
+   "result": "ok:166585681884367484929256135140595692924603587866508634319"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "959991220656466143683044754257184007431696935763",
+    "1121012763385242799974519891381550167454682930708",
+    "72923456943278380540138467169068493411",
+    "true"
+   ],
+   "result": "ok:864476111266150135"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "959991220656466143683044754257184007431696935763",
+    "1121012763385242799974519891381550167454682930708",
+    "72923456943278380540138467169068493411",
+    "true"
+   ],
+   "result": "ok:148208000356036472952797272044911793891201915471997366090"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "412548319954500836335161393285191616342497420397",
+    "794533318766361868005529979273175830752190870262",
+    "308062676022243852076219119567194498840",
+    "false"
+   ],
+   "result": "ok:28443172700803008600"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "412548319954500836335161393285191616342497420397",
+    "794533318766361868005529979273175830752190870262",
+    "308062676022243852076219119567194498840",
+    "false"
+   ],
+   "result": "ok:1485271363110928334655783378870848532676901146789529335721"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "33944935520951535098087901372518203085125375748",
+    "156772105107169641481959633186103209564581177329",
+    "6166687928144152235",
+    "true"
+   ],
+   "result": "ok:12"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "33944935520951535098087901372518203085125375748",
+    "156772105107169641481959633186103209564581177329",
+    "6166687928144152235",
+    "true"
+   ],
+   "result": "ok:9560196777239102175766975077118881825"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "776014434037275097981012351829995881349368951447",
+    "998248382381294302208434278666456057663818483472",
+    "9105834556702539028",
+    "true"
+   ],
+   "result": "ok:1"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "776014434037275097981012351829995881349368951447",
+    "998248382381294302208434278666456057663818483472",
+    "9105834556702539028",
+    "true"
+   ],
+   "result": "ok:25541745539524294618541978950963082592"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1172011988165199526160263179100664381284365832590",
+    "308712527241867334949788931060802033851950865395",
+    "308816207451447523250754968099240482935",
+    "true"
+   ],
+   "result": "ok:58378755358869972790"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1172011988165199526160263179100664381284365832590",
+    "308712527241867334949788931060802033851950865395",
+    "308816207451447523250754968099240482935",
+    "true"
+   ],
+   "result": "ok:3364976000411765385624346987312581999133506970580985073990"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "525635389384747399987408334086656770490259739113",
+    "267849033324760650650512883550672563951620066000",
+    "143500741938588308836116905601925480919",
+    "true"
+   ],
+   "result": "ok:20817040026978967533"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "525635389384747399987408334086656770490259739113",
+    "267849033324760650650512883550672563951620066000",
+    "143500741938588308836116905601925480919",
+    "true"
+   ],
+   "result": "ok:466911413597317960334657832350554092231863842343794710739"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "43254736786869933120475208389033738891441943818",
+    "1265828036653380351147758000763979828851784787610",
+    "197477775196086430603953109004855000834",
+    "false"
+   ],
+   "result": "ok:349352883512097673870"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "43254736786869933120475208389033738891441943818",
+    "1265828036653380351147758000763979828851784787610",
+    "197477775196086430603953109004855000834",
+    "false"
+   ],
+   "result": "ok:3047288332962521494331298862058152176502577844620693834815"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "108284290264226099622278385046877264253376642684",
+    "396619776408641831265776111982330275402510400562",
+    "311391382078659881896333214471899377205",
+    "true"
+   ],
+   "result": "ok:165632077214594363850"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "108284290264226099622278385046877264253376642684",
+    "396619776408641831265776111982330275402510400562",
+    "311391382078659881896333214471899377205",
+    "true"
+   ],
+   "result": "ok:1133248363757860272320187105842586721756900657037966352457"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1107467584710580892153350914069442699844512928618",
+    "1019418504140888342019313328404484298572376697474",
+    "191893655981847090845105184043310151536",
+    "false"
+   ],
+   "result": "ok:1185718211697929358"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1107467584710580892153350914069442699844512928618",
+    "1019418504140888342019313328404484298572376697474",
+    "191893655981847090845105184043310151536",
+    "false"
+   ],
+   "result": "ok:213258258681899021499838349294391367542317395807951463770"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "425200931220020666991564374700574600195856131741",
+    "328713602242075400990366519794128343714710511648",
+    "243961121433911670025023964026113858880",
+    "false"
+   ],
+   "result": "ok:13343157313200917331"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "425200931220020666991564374700574600195856131741",
+    "328713602242075400990366519794128343714710511648",
+    "243961121433911670025023964026113858880",
+    "false"
+   ],
+   "result": "ok:297105930954592946961114510183742469759483803228634872656"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "750990777240664505506524644822709596699282011757",
+    "132308360859376280842225177092058278871113173341",
+    "277128665660656773823477310210333147881",
+    "false"
+   ],
+   "result": "ok:136712087544799669558"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "750990777240664505506524644822709596699282011757",
+    "132308360859376280842225177092058278871113173341",
+    "277128665660656773823477310210333147881",
+    "false"
+   ],
+   "result": "ok:2164061705818159788372748229201236588943828268640899450567"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "948370033247577039188666887147765417716677928034",
+    "643853434701070272355695214773991763947284238112",
+    "3555149374",
+    "false"
+   ],
+   "result": "ok:0"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "948370033247577039188666887147765417716677928034",
+    "643853434701070272355695214773991763947284238112",
+    "3555149374",
+    "false"
+   ],
+   "result": "ok:13664358232469544187219236833"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1453296234236116726763226794205199381617077612455",
+    "705762763481940814018859179415414138885774346822",
+    "312044606621925444519536136520391708267",
+    "true"
+   ],
+   "result": "ok:18018308488851625443"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1453296234236116726763226794205199381617077612455",
+    "705762763481940814018859179415414138885774346822",
+    "312044606621925444519536136520391708267",
+    "true"
+   ],
+   "result": "ok:2944202925016875497682895451322304154309382306319021651213"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1315364134797530430062198511940025409218502077599",
+    "1141431714334466097324872861909537820067673387554",
+    "276802863706630598573888503503102002530",
+    "false"
+   ],
+   "result": "ok:2540591098595365950"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1315364134797530430062198511940025409218502077599",
+    "1141431714334466097324872861909537820067673387554",
+    "276802863706630598573888503503102002530",
+    "false"
+   ],
+   "result": "ok:607675232489884878683457346653776966472343964817387240467"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1309031468604210122743584642378024094312506518279",
+    "376099261083244751057508995797820920933623462019",
+    "90856907284959163415588302590871595452",
+    "false"
+   ],
+   "result": "ok:13640649591332315952"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1309031468604210122743584642378024094312506518279",
+    "376099261083244751057508995797820920933623462019",
+    "90856907284959163415588302590871595452",
+    "false"
+   ],
+   "result": "ok:1069863699875959330875884559364473913195066238809662082090"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "517022333967172286003129045234207688514300630259",
+    "983454631543704201832868477222876864334721064495",
+    "623131817960480074",
+    "false"
+   ],
+   "result": "ok:0"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "517022333967172286003129045234207688514300630259",
+    "983454631543704201832868477222876864334721064495",
+    "623131817960480074",
+    "false"
+   ],
+   "result": "ok:3668503677489922627486157526993728234"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1225027275043286461200275406767303597506876942659",
+    "286663252753248949684061045694648079037935221508",
+    "332186883789884474348764207044048190336",
+    "false"
+   ],
+   "result": "ok:70325953590449828149"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1225027275043286461200275406767303597506876942659",
+    "286663252753248949684061045694648079037935221508",
+    "332186883789884474348764207044048190336",
+    "false"
+   ],
+   "result": "ok:3934361349967547169695848775244672411905826497175013528436"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "632748545803576737692320897591006037291322238655",
+    "708084682318751506554246513760424399720306865026",
+    "339944551089624096590548250086642554359",
+    "true"
+   ],
+   "result": "ok:4528711522618364214"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "632748545803576737692320897591006037291322238655",
+    "708084682318751506554246513760424399720306865026",
+    "339944551089624096590548250086642554359",
+    "true"
+   ],
+   "result": "ok:323245021665961880014762785151682741331626093666974434328"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1388604769912200370279546647149302100515547497209",
+    "481801262401384616841713645224483954036845679325",
+    "196363099186935017279866897963320135539",
+    "false"
+   ],
+   "result": "ok:21086576054844127619"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1388604769912200370279546647149302100515547497209",
+    "481801262401384616841713645224483954036845679325",
+    "196363099186935017279866897963320135539",
+    "false"
+   ],
+   "result": "ok:2247467837668811853889844814562947527578255394692938459507"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1171933533979212171206324839846465707966719655352",
+    "994927755994048411340957127446072820640220609397",
+    "251365369405418755626802333919035762515",
+    "false"
+   ],
+   "result": "ok:3023277023633260894"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1171933533979212171206324839846465707966719655352",
+    "994927755994048411340957127446072820640220609397",
+    "251365369405418755626802333919035762515",
+    "false"
+   ],
+   "result": "ok:561582161672923182244317800226401795721233766446241660829"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "859962794732657608406128233598460072746309277249",
+    "159779252970120686885045402786584556704163085961",
+    "196954860296851423294593376931302021339",
+    "false"
+   ],
+   "result": "ok:79516661076378849856"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "859962794732657608406128233598460072746309277249",
+    "159779252970120686885045402786584556704163085961",
+    "196954860296851423294593376931302021339",
+    "false"
+   ],
+   "result": "ok:1740600151179406507009140994676476112435479919401591702264"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "608312137596964101723615364222508621164284578685",
+    "447860504349147683039265279068915112723895835570",
+    "197929738477877366566022924356541800802",
+    "true"
+   ],
+   "result": "ok:9235608822128429727"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "608312137596964101723615364222508621164284578685",
+    "447860504349147683039265279068915112723895835570",
+    "197929738477877366566022924356541800802",
+    "true"
+   ],
+   "result": "ok:400844204879430590342918277243659994328219456702231893762"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "113625922032912020299750524694853447933143345213",
+    "703548852726433896326502607968163358882625682263",
+    "53667528047936318512715611171",
+    "true"
+   ],
+   "result": "ok:31377242482"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "113625922032912020299750524694853447933143345213",
+    "703548852726433896326502607968163358882625682263",
+    "53667528047936318512715611171",
+    "true"
+   ],
+   "result": "ok:399601662141480628081336568362421906302135417142"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "808486107877366418448790799684538633503260175180",
+    "123111628694418656735158560094650945550783640228",
+    "259298878188621261902166852780142132552",
+    "true"
+   ],
+   "result": "ok:141460930939884227732"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "808486107877366418448790799684538633503260175180",
+    "123111628694418656735158560094650945550783640228",
+    "259298878188621261902166852780142132552",
+    "true"
+   ],
+   "result": "ok:2243101795516872541579478516444852504231729875605547972359"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "271181861790940970412673822229901976387376061676",
+    "352375484444303782561679036309415961192206841609",
+    "242406066737782533044639671523848905717",
+    "false"
+   ],
+   "result": "ok:16318440920926859171"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "271181861790940970412673822229901976387376061676",
+    "352375484444303782561679036309415961192206841609",
+    "242406066737782533044639671523848905717",
+    "false"
+   ],
+   "result": "ok:248419578177770522243684630556588762899220486561203750234"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "46046713379964511721371835208817689678012576727",
+    "377266746816833253803897636730720994648370230985",
+    "56194349374776674229548790071",
+    "false"
+   ],
+   "result": "ok:84887093350"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "46046713379964511721371835208817689678012576727",
+    "377266746816833253803897636730720994648370230985",
+    "56194349374776674229548790071",
+    "false"
+   ],
+   "result": "ok:234925229718984853946266791326946849168550299194"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "890739684616058262655419368732401585320871584217",
+    "570276025503768193273980399454374022383062483814",
+    "89817746608283976494508456937483369244",
+    "true"
+   ],
+   "result": "ok:4489361835534396391"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "890739684616058262655419368732401585320871584217",
+    "570276025503768193273980399454374022383062483814",
+    "89817746608283976494508456937483369244",
+    "true"
+   ],
+   "result": "ok:363296621023224893900067537205675645456044645190651338402"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "420120414836538531753877462483784677307093933491",
+    "487226068522221424777588456896398331344519864904",
+    "125097311624845548640378900702730394868",
+    "false"
+   ],
+   "result": "ok:3249244326639616875"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "420120414836538531753877462483784677307093933491",
+    "487226068522221424777588456896398331344519864904",
+    "125097311624845548640378900702730394868",
+    "false"
+   ],
+   "result": "ok:105956475633212358943884907521340991037989074838743490275"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "284353011955796125851687336219912056942586207359",
+    "1067870808905781168362794397982472125160475078679",
+    "64064910127275669138795031222421284021",
+    "false"
+   ],
+   "result": "ok:13097008906330107593"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "284353011955796125851687336219912056942586207359",
+    "1067870808905781168362794397982472125160475078679",
+    "64064910127275669138795031222421284021",
+    "false"
+   ],
+   "result": "ok:633562557199082686491276587575471627166552634651543498416"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "35669038678282975156759362009931959815012355613",
+    "359410410326971517686023973131884100295839309978",
+    "31179571246544255026229189879515895814",
+    "false"
+   ],
+   "result": "ok:62382944241820091803"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "35669038678282975156759362009931959815012355613",
+    "359410410326971517686023973131884100295839309978",
+    "31179571246544255026229189879515895814",
+    "false"
+   ],
+   "result": "ok:127405670438928698725034246110306973877870219921257240135"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "404994671995540067634426324642689997787732343783",
+    "1340387102120201530730525649503847559714915107408",
+    "1686862013",
+    "true"
+   ],
+   "result": "ok:1"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "404994671995540067634426324642689997787732343783",
+    "1340387102120201530730525649503847559714915107408",
+    "1686862013",
+    "true"
+   ],
+   "result": "ok:19915619743686030244273613514"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "870483942455388209651584790320733255150611791115",
+    "415691655318311007192854212057898425883719828025",
+    "263612085749341926654936652777396822984",
+    "true"
+   ],
+   "result": "ok:26249795310288878639"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "870483942455388209651584790320733255150611791115",
+    "415691655318311007192854212057898425883719828025",
+    "263612085749341926654936652777396822984",
+    "true"
+   ],
+   "result": "ok:1513208682245200515967896814492996732050971961963538353407"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "979814635808251119005464365390202840790027130187",
+    "619493557513237886418343832323936332572393689596",
+    "131444152827204240789763884609533865445",
+    "true"
+   ],
+   "result": "ok:6182011481447828689"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "979814635808251119005464365390202840790027130187",
+    "619493557513237886418343832323936332572393689596",
+    "131444152827204240789763884609533865445",
+    "true"
+   ],
+   "result": "ok:597793731158987974827918774636807192324867968446804342136"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "605647325038754605091417906328913810519563345457",
+    "927389164575428270994474484527365242330045464030",
+    "746687817",
+    "true"
+   ],
+   "result": "ok:1"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "605647325038754605091417906328913810519563345457",
+    "927389164575428270994474484527365242330045464030",
+    "746687817",
+    "true"
+   ],
+   "result": "ok:3032264086118997300200673546"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "149442554995485698814616328002985746830245460624",
+    "785404016407158637829878099765920099001388303286",
+    "19366168572743868513051225042778213832",
+    "false"
+   ],
+   "result": "ok:8313553355765997113"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "149442554995485698814616328002985746830245460624",
+    "785404016407158637829878099765920099001388303286",
+    "19366168572743868513051225042778213832",
+    "false"
+   ],
+   "result": "ok:155451502049534346167631656442454215222439878559927221721"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1267065808571700744399449294471086192584381140174",
+    "971085839523639890371644790844376781176228576861",
+    "322331890950352504573188013398622246156",
+    "true"
+   ],
+   "result": "ok:6143111346262888811"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1267065808571700744399449294471086192584381140174",
+    "971085839523639890371644790844376781176228576861",
+    "322331890950352504573188013398622246156",
+    "true"
+   ],
+   "result": "ok:1204165035248818805068017770488558100388956773183497120867"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1345617095074602970817765935865952977702347021425",
+    "1337814247581411840395255100830603940454459697471",
+    "127908799587908407757108328650003747484",
+    "true"
+   ],
+   "result": "ok:43925408885674326"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1345617095074602970817765935865952977702347021425",
+    "1337814247581411840395255100830603940454459697471",
+    "127908799587908407757108328650003747484",
+    "true"
+   ],
+   "result": "ok:12597198073878175950764038289103467989953959576791881442"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "750196069075210914544028223820076425878153874965",
+    "193169386879961892956472103915492441553668998010",
+    "43135844397246283726687412707359581908",
+    "false"
+   ],
+   "result": "ok:13136534204590041378"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "750196069075210914544028223820076425878153874965",
+    "193169386879961892956472103915492441553668998010",
+    "43135844397246283726687412707359581908",
+    "false"
+   ],
+   "result": "ok:303273678522616508256646297068204764187269428959985926377"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1006587243674582890386271132445851656527160486639",
+    "348177866412346801943892410547885438528742238127",
+    "10123481167888372277743642896",
+    "true"
+   ],
+   "result": "ok:1506790553"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1006587243674582890386271132445851656527160486639",
+    "348177866412346801943892410547885438528742238127",
+    "10123481167888372277743642896",
+    "true"
+   ],
+   "result": "ok:84129111668787114045865401178773169560419033910"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "715513638898369983414528543776488270337354896891",
+    "419662731087074220721404448503633750723248772722",
+    "18004049622548608968905948527367440716",
+    "true"
+   ],
+   "result": "ok:1405414312717454679"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "715513638898369983414528543776488270337354896891",
+    "419662731087074220721404448503633750723248772722",
+    "18004049622548608968905948527367440716",
+    "true"
+   ],
+   "result": "ok:67230063857048690960580164086695232440903827902789329818"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1332988002429714535229643397214402885895044456247",
+    "562176751188166877892728814063433907512181488445",
+    "3794643536",
+    "true"
+   ],
+   "result": "ok:1"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1332988002429714535229643397214402885895044456247",
+    "562176751188166877892728814063433907512181488445",
+    "3794643536",
+    "true"
+   ],
+   "result": "ok:36918108904434056814348023260"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "424402123844373108906866301232781402650088976894",
+    "1163098343068794791871774131074252333532718080343",
+    "109201728068698699184554341013230952863",
+    "true"
+   ],
+   "result": "ok:12947352893010636476"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "424402123844373108906866301232781402650088976894",
+    "1163098343068794791871774131074252333532718080343",
+    "109201728068698699184554341013230952863",
+    "true"
+   ],
+   "result": "ok:1018159466245323644646137516642307019624312082057930809818"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1163338387755852866750363948945667556382601689796",
+    "1293189882309106190140697285059766269308342155757",
+    "1187173838",
+    "false"
+   ],
+   "result": "ok:0"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1163338387755852866750363948945667556382601689796",
+    "1293189882309106190140697285059766269308342155757",
+    "1187173838",
+    "false"
+   ],
+   "result": "ok:1945726017955639833637388651"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "926377359839019242029650202214769675414851357922",
+    "477339504823266078239098431977409956048189819986",
+    "249",
+    "false"
+   ],
+   "result": "ok:0"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "926377359839019242029650202214769675414851357922",
+    "477339504823266078239098431977409956048189819986",
+    "249",
+    "false"
+   ],
+   "result": "ok:1411245980604334332365"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "813258983116578745847757886631133613594626896527",
+    "1432736348073123606041715250909326134362715027015",
+    "223",
+    "true"
+   ],
+   "result": "ok:1"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "813258983116578745847757886631133613594626896527",
+    "1432736348073123606041715250909326134362715027015",
+    "223",
+    "true"
+   ],
+   "result": "ok:1743615502384495963338"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1445486950120864244834566114125099437760189025687",
+    "1109604668040522224905990361247817533655519841237",
+    "70662398099744664629556904255117961979",
+    "false"
+   ],
+   "result": "ok:1172391337385460334"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1445486950120864244834566114125099437760189025687",
+    "1109604668040522224905990361247817533655519841237",
+    "70662398099744664629556904255117961979",
+    "false"
+   ],
+   "result": "ok:299568319872857302760665428964382423543869971143567336554"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "127214054924801641632191011991212994737979518057",
+    "16153092735484116947703294875576335486713490360",
+    "16040560274722063249",
+    "false"
+   ],
+   "result": "ok:68"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "127214054924801641632191011991212994737979518057",
+    "16153092735484116947703294875576335486713490360",
+    "16040560274722063249",
+    "false"
+   ],
+   "result": "ok:22485439541092927559289556246978026585"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1059608667371708888566677969555808126205166505533",
+    "104266268823768595179965860981783594788053738829",
+    "11455432731189800787969939335639988906",
+    "true"
+   ],
+   "result": "ok:7848032644729541161"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1059608667371708888566677969555808126205166505533",
+    "104266268823768595179965860981783594788053738829",
+    "11455432731189800787969939335639988906",
+    "true"
+   ],
+   "result": "ok:138130940242986204378799957455089939824907367962860996585"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1334883226998105940222292906506159651869687144608",
+    "151863424450821501034793257400596271840041205857",
+    "166244319461264759201447894953884702405",
+    "false"
+   ],
+   "result": "ok:76863817039239464918"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1334883226998105940222292906506159651869687144608",
+    "151863424450821501034793257400596271840041205857",
+    "166244319461264759201447894953884702405",
+    "false"
+   ],
+   "result": "ok:2482328451682371659088821891950136475755021362083496320276"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "839592252437172005629464648678458996522413438833",
+    "863293942764308503444725664602193600084803478515",
+    "8",
+    "false"
+   ],
+   "result": "ok:0"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "839592252437172005629464648678458996522413438833",
+    "863293942764308503444725664602193600084803478515",
+    "8",
+    "false"
+   ],
+   "result": "ok:2393259121501823628"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "18042380045965239438683986690559281733076975962",
+    "156892663783420433504416800496726880051603321792",
+    "285743555123158786149563138937472376414",
+    "true"
+   ],
+   "result": "ok:1110468735520532520378"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "18042380045965239438683986690559281733076975962",
+    "156892663783420433504416800496726880051603321792",
+    "285743555123158786149563138937472376414",
+    "true"
+   ],
+   "result": "ok:500776143809425420324421230938437467109814128224802557666"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "895699565098369757620676109771002071399666442937",
+    "1334991863393601001965040674584226271075774935545",
+    "64605682460031127217757775142808144669",
+    "true"
+   ],
+   "result": "ok:1880454845656884721"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "895699565098369757620676109771002071399666442937",
+    "1334991863393601001965040674584226271075774935545",
+    "64605682460031127217757775142808144669",
+    "true"
+   ],
+   "result": "ok:358215788807285188628807070904491937609365414042141426306"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "110532030354655866778893013531733267437520076593",
+    "272800620692249954030170909415743276313358584632",
+    "42883847301661169313784795183889684728",
+    "true"
+   ],
+   "result": "ok:18284129404141414984"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "110532030354655866778893013531733267437520076593",
+    "272800620692249954030170909415743276313358584632",
+    "42883847301661169313784795183889684728",
+    "true"
+   ],
+   "result": "ok:87831160398808221341310250125443018476966472671028332795"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "486423766910928680754916205331223992607896157979",
+    "784924414714785896176917780209843495272565738361",
+    "48247951512968958165972756782",
+    "true"
+   ],
+   "result": "ok:2988554061"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "486423766910928680754916205331223992607896157979",
+    "784924414714785896176917780209843495272565738361",
+    "48247951512968958165972756782",
+    "true"
+   ],
+   "result": "ok:181779361338051537908947435470908679098368638308"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "444819408691895856270894983296003273472959730555",
+    "1338052555208619008492917536604863732738227503506",
+    "115028544339443642059646722605250689371",
+    "true"
+   ],
+   "result": "ok:13677072158303051441"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "444819408691895856270894983296003273472959730555",
+    "1338052555208619008492917536604863732738227503506",
+    "115028544339443642059646722605250689371",
+    "true"
+   ],
+   "result": "ok:1296853357933940399114183101051293470120112735991551384607"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1041810414803106065635115083081792328308333458482",
+    "724174040107720041137988741029783653468282952948",
+    "209151770037691495757465128874181739615",
+    "true"
+   ],
+   "result": "ok:6976533944640554651"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1041810414803106065635115083081792328308333458482",
+    "724174040107720041137988741029783653468282952948",
+    "209151770037691495757465128874181739615",
+    "true"
+   ],
+   "result": "ok:838517616560077227151876705956159562531156774436358907235"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1168066448144252651471102455599654260672042387465",
+    "1377658067508681328599298631123689954584226743103",
+    "3",
+    "true"
+   ],
+   "result": "ok:1"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1168066448144252651471102455599654260672042387465",
+    "1377658067508681328599298631123689954584226743103",
+    "3",
+    "true"
+   ],
+   "result": "ok:7936254459770925756"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "593902819882012095390982259510675582629754320114",
+    "516759139740395129541862269814828418067027940606",
+    "299659415554528791292282610974161300346",
+    "true"
+   ],
+   "result": "ok:5967663287508011594"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "593902819882012095390982259510675582629754320114",
+    "516759139740395129541862269814828418067027940606",
+    "299659415554528791292282610974161300346",
+    "true"
+   ],
+   "result": "ok:291775416359056235902847943732844125539673277632760026845"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "302925504943019554131849840176911013599321107308",
+    "900194755748196249806452511788296870162853426381",
+    "106192793353198692500294754114095386008",
+    "true"
+   ],
+   "result": "ok:18427756550140585617"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "302925504943019554131849840176911013599321107308",
+    "900194755748196249806452511788296870162853426381",
+    "106192793353198692500294754114095386008",
+    "true"
+   ],
+   "result": "ok:800544757245312737767044330710731943722935913931602849939"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1088174698687625509441287198660194613602072258168",
+    "875782862503292101748711840167436219633923417608",
+    "326360341138079169150295060857640443939",
+    "false"
+   ],
+   "result": "ok:5762616458369033469"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1088174698687625509441287198660194613602072258168",
+    "875782862503292101748711840167436219633923417608",
+    "326360341138079169150295060857640443939",
+    "false"
+   ],
+   "result": "ok:874894354637876268222664099162370488413211495872211139663"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "933261620602026745656187897315401796579172691456",
+    "333923195947930423640585664255760726272908797942",
+    "272928233691193545695055130099300463475",
+    "true"
+   ],
+   "result": "ok:41586289800137738286"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "933261620602026745656187897315401796579172691456",
+    "333923195947930423640585664255760726272908797942",
+    "272928233691193545695055130099300463475",
+    "true"
+   ],
+   "result": "ok:2064624149205208442382142200394511591289124123625284738155"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1436113057528083242106321199753452389071897092388",
+    "412530985910615195180307409310573807071398294675",
+    "268538907529517867508126128357938077952",
+    "true"
+   ],
+   "result": "ok:36759048931577515347"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1436113057528083242106321199753452389071897092388",
+    "412530985910615195180307409310573807071398294675",
+    "268538907529517867508126128357938077952",
+    "true"
+   ],
+   "result": "ok:3469367489489199728760946345800873871455096267139139019058"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "78173829641640981301145116682881368688856930451",
+    "1000084465912853520514615961912364744119771004164",
+    "2891546854175780423620112748135609459",
+    "true"
+   ],
+   "result": "ok:2701472641309260287"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "78173829641640981301145116682881368688856930451",
+    "1000084465912853520514615961912364744119771004164",
+    "2891546854175780423620112748135609459",
+    "true"
+   ],
+   "result": "ok:33646467563365137725586381320183483156877826893881114478"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "116780859835624838511110772887680869575497923244",
+    "561055252453503738401853170198864846633646577861",
+    "252389715410697005873534327471625523315",
+    "false"
+   ],
+   "result": "ok:135589237504082564227"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "116780859835624838511110772887680869575497923244",
+    "561055252453503738401853170198864846633646577861",
+    "252389715410697005873534327471625523315",
+    "false"
+   ],
+   "result": "ok:1415283201814741631818441359768260855762339076566677733328"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "711046232287496556465870945290580678489992011482",
+    "695792996735532781907991307250134245969228432527",
+    "228275618239603908018345342512893120329",
+    "true"
+   ],
+   "result": "ok:557600552880050177"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "711046232287496556465870945290580678489992011482",
+    "695792996735532781907991307250134245969228432527",
+    "228275618239603908018345342512893120329",
+    "true"
+   ],
+   "result": "ok:43948283858684005720445269525861294494845139826823412357"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "336629746296038225402075752931072605927995692324",
+    "292849586240513129263687850175661813341768310841",
+    "111284197204143543151383026579926176252",
+    "false"
+   ],
+   "result": "ok:3915554933914225281"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "336629746296038225402075752931072605927995692324",
+    "292849586240513129263687850175661813341768310841",
+    "111284197204143543151383026579926176252",
+    "false"
+   ],
+   "result": "ok:61493789716136033751388289796513074321609146875566058437"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "428228801373201723027417785516200699986143935113",
+    "1443392969996230298347883540900014700223334544546",
+    "305136082961565319787172774529440445443",
+    "false"
+   ],
+   "result": "ok:39705344824616700837"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "428228801373201723027417785516200699986143935113",
+    "1443392969996230298347883540900014700223334544546",
+    "305136082961565319787172774529440445443",
+    "false"
+   ],
+   "result": "ok:3909761480594665756843396767952662510051270580323130032201"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "586186002924399039737984434412308041075428753153",
+    "669332213055353329036400993326808157932282263087",
+    "159800333283247308432469829632893969367",
+    "false"
+   ],
+   "result": "ok:2683011610872069323"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "586186002924399039737984434412308041075428753153",
+    "669332213055353329036400993326808157932282263087",
+    "159800333283247308432469829632893969367",
+    "false"
+   ],
+   "result": "ok:167702893371700228149941298968178735952840651041773686565"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1010956331481823437963596843304629319495596717926",
+    "359428329229053683050909232491790296780720401591",
+    "258343290319959929332402893491924001755",
+    "true"
+   ],
+   "result": "ok:36699923230973771895"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1010956331481823437963596843304629319495596717926",
+    "359428329229053683050909232491790296780720401591",
+    "258343290319959929332402893491924001755",
+    "true"
+   ],
+   "result": "ok:2124470421830957399157398408361589690912735989095159767485"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "450671434852065297227913779172196808593387302844",
+    "1003615534313954408672576513285579392658909290768",
+    "72609259049884516749085217277569698570",
+    "true"
+   ],
+   "result": "ok:7032753734844282681"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "450671434852065297227913779172196808593387302844",
+    "1003615534313954408672576513285579392658909290768",
+    "72609259049884516749085217277569698570",
+    "true"
+   ],
+   "result": "ok:506749873830596096902719468016773271140668230465047728419"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "681823219037008760921501843181637701459364048972",
+    "1006546756381106975018464527095564303294458554952",
+    "119524605824054240838293548053391373932",
+    "false"
+   ],
+   "result": "ok:4480690358851679179"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "681823219037008760921501843181637701459364048972",
+    "1006546756381106975018464527095564303294458554952",
+    "119524605824054240838293548053391373932",
+    "false"
+   ],
+   "result": "ok:489882026430412967908326591124553682045042162644398483262"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "495682043352869214007734737168516815880290159867",
+    "128270215132863631626810339550922212907682097136",
+    "4007628521",
+    "true"
+   ],
+   "result": "ok:1"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "495682043352869214007734737168516815880290159867",
+    "128270215132863631626810339550922212907682097136",
+    "4007628521",
+    "true"
+   ],
+   "result": "ok:18584933374696721900104796907"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "522265904090328627092037012352190823274101374054",
+    "1011721825191570599450573333659245887486581359475",
+    "156052397157297885290890111230028535263",
+    "false"
+   ],
+   "result": "ok:11452777457750575944"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "522265904090328627092037012352190823274101374054",
+    "1011721825191570599450573333659245887486581359475",
+    "156052397157297885290890111230028535263",
+    "false"
+   ],
+   "result": "ok:964060851176882732247905773834048239093261148542978323437"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1170627628322131009276405934317349417846596221691",
+    "598234505007182232610940615757016346402082355172",
+    "101091188558820293691724083894297644148",
+    "false"
+   ],
+   "result": "ok:6546317507374598210"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1170627628322131009276405934317349417846596221691",
+    "598234505007182232610940615757016346402082355172",
+    "101091188558820293691724083894297644148",
+    "false"
+   ],
+   "result": "ok:730345111164046926429767105899701052962479466173048508894"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "849561177840617964278390751914464758545264194385",
+    "987491788634576868725498386389538066795543871370",
+    "106918283236495260309959346964549237648",
+    "false"
+   ],
+   "result": "ok:1392720821826038265"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "849561177840617964278390751914464758545264194385",
+    "987491788634576868725498386389538066795543871370",
+    "106918283236495260309959346964549237648",
+    "false"
+   ],
+   "result": "ok:186137146739912912162738416013332575885616242192330216777"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "1373105447451214056445138793423467502292240317121",
+    "1196041623199829142703978170974994306604170554201",
+    "22",
+    "false"
+   ],
+   "result": "ok:0"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "1373105447451214056445138793423467502292240317121",
+    "1196041623199829142703978170974994306604170554201",
+    "22",
+    "false"
+   ],
+   "result": "ok:49166912495656259401"
+  },
+  {
+   "method": "getAmount0Delta",
+   "args": [
+    "189321056762662025994836160431243465648711254233",
+    "1411571851741383647008988656675022723451372506243",
+    "3625750404",
+    "false"
+   ],
+   "result": "ok:0"
+  },
+  {
+   "method": "getAmount1Delta",
+   "args": [
+    "189321056762662025994836160431243465648711254233",
+    "1411571851741383647008988656675022723451372506243",
+    "3625750404",
+    "false"
+   ],
+   "result": "ok:55934356837892770008166507012"
+  }
+ ]
+}

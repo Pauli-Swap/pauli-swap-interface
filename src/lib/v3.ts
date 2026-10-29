@@ -103,7 +103,9 @@ const sorted = (a: bigint, b: bigint) => (a > b ? [b, a] : [a, b]);
 
 export function liquidityForAmount0(sqrtA: bigint, sqrtB: bigint, amount0: bigint): bigint {
   const [a, b] = sorted(sqrtA, sqrtB);
-  return (((amount0 * a) / Q96) * b) / (b - a);
+  // LiquidityAmounts.getLiquidityForAmount0 rounds a * b / Q96 first; doing
+  // amount0 * a / Q96 first overstates the liquidity on narrow low ranges.
+  return (amount0 * ((a * b) / Q96)) / (b - a);
 }
 export function liquidityForAmount1(sqrtA: bigint, sqrtB: bigint, amount1: bigint): bigint {
   const [a, b] = sorted(sqrtA, sqrtB);

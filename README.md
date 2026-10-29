@@ -44,7 +44,7 @@ wallet is on another chain, the app offers `wallet_switchQRLChain`, then
 
 | Route | What it shows |
 | --- | --- |
-| `#/swap` | Swap / Wrap widget. V2 `getAmountsOut` / `getAmountsIn` and V3 `Quoter` routes (each protocol can be switched off in settings); the better quote wins. V2 executes through `PauliV2Router02`, V3 through `SwapRouter`; wrap and unwrap call `WQRL`. |
+| `#/swap` | Swap / Wrap widget. V2 `getAmountsOut` / `getAmountsIn` and V3 `Quoter` routes (each protocol can be switched off in settings); the better quote wins. Both execute through `SwapRouter02` in one `multicall(deadline, …)`, which also takes the interface fee (below); a deployment without `SwapRouter02` falls back to `PauliV2Router02` / `SwapRouter` and no fee. Wrap and unwrap call `WQRL`. |
 | `#/explore`, `/pools`, `/transactions` | Network stats, Tokens / Pools / Transactions tables built from pool state and `Swap` / `Sync` / `Mint` / `Burn` logs; the wallet column is the transaction sender. |
 | `#/explore/tokens/:address` (or `QRL`) | Price, volume and TVL charts, stats (holders from `Transfer` logs), faucet, swap widget, pools with the token. |
 | `#/explore/pools/:address` | Pool price / volume / liquidity charts, balances, fee APR, contracts, transactions. |
@@ -109,6 +109,22 @@ because QRVM public mapping getters read the wrong slot.
 
 Swap state can be deep linked:
 `#/swap?inputCurrency=QRL&outputCurrency=Q…&exactAmount=1&exactField=output`.
+
+### Interface fee
+
+Like Uniswap's interface, this front end keeps 0.25% of a swap's output for
+the PauliSwap treasury (`src/lib/fee.ts`). The swap pays the router, and
+`sweepTokenWithFee` / `unwrapWQRL9WithFee` split the output in the same
+transaction. An exact output swap is quoted for the gross amount, so the
+wallet still receives what was typed. The details and the review show the fee
+as its own row. Wrap and unwrap are free, and so is any swap sent to the
+contracts directly: those pay only the pool's LP fee.
+`VITE_INTERFACE_FEE_BIPS` (0 turns it off, at most 100) and
+`VITE_INTERFACE_FEE_RECIPIENT` override the defaults in `src/config.ts`.
+
+`npm test` runs the unit tests in `tests/`: the V3 math against the vectors
+the devnet audit recorded (`tests/fixtures/v3-vectors.json`, from
+`pauli-swap/docs/onchain/devnet.differential.json`) and the fee arithmetic.
 
 ### Test QRL faucet
 

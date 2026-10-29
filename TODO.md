@@ -47,20 +47,21 @@ Mục tiêu: người dùng thật làm được **mọi** nhiệm vụ, và fau
 ### Batch 1.1: Công cụ quản trị market (`pauli-swap-prediction-market`)
 
 - [x] Công cụ owner trên giao diện (2026-10-29): nút "New market" ở tab Markets; khối Admin ở trang market với Resolve Yes / No (sau `closeTime`) và Cancel. Chỉ hiện khi ví đang kết nối là `PredictMarket.owner()`, đọc on-chain. Owner là ví deployer `Qa1A64D6E7…34Ca`.
-- [ ] `scripts/qrvm/market.js` (`create`, `resolve`, `cancel`, `list`, chạy thử trừ khi `--send`) và các npm script `market:*`: xem proposal của prediction-market §1.
+- [x] `scripts/qrvm/market.js` (`create`, `resolve`, `cancel`, `list`, chạy thử trừ khi `--send`) và các npm script `market:*`: xem proposal của prediction-market §1.
 - [x] Tạo 4 market thử, đóng lúc 30/10 12:00, 1/11, 5/11 và 12/11 (UTC), block 1860–1863. Câu hỏi đều kiểm được on-chain.
 - [ ] Kiểm trên giao diện bằng ví thật:
   - Nút "Predict" trong Quests dẫn tới market đang mở.
   - New market / Resolve / Cancel với ví owner.
 - [x] Mua ≥ 10 XP thì nhiệm vụ #2 được ghi (smoke test 1.3).
-- [ ] Ghi lịch market vào README của prediction-market: bảng đã có trong proposal §2, còn chờ chuyển vào README.
+- [x] Ghi lịch market vào README của prediction-market.
 
 ### Batch 1.2: Đưa faucet và attester vào process manager
 
 - [x] Docker compose dưới systemd (`pauliswap.service`) trên máy chain, cho faucet và `attester --send --interval 60`. Cấu hình ở repo hạ tầng `deploy/compose.yml`.
 - [x] `restart: unless-stopped`, log json-file 10 MB × 3, `data/` nằm ở `/srv/pauli-swap/data` trên host.
 - [x] Sửa race condition giới hạn theo IP của faucet (request song song từ cùng một IP đều qua được), đã deploy 2026-10-29.
-- [ ] `/health` cho attester, cảnh báo khi faucet dưới 1.000 QRL: xem proposal của prediction-market §3. Hiện bot giám sát chỉ kiểm HTTP 200.
+- [x] `/health` cho attester (`127.0.0.1:8549`).
+- [ ] Cảnh báo khi faucet dưới 1.000 QRL: xem proposal của prediction-market §3. Hiện bot giám sát chỉ kiểm HTTP 200.
 - [x] Ví attester riêng (`Q5d5325B65B8…`), đã nạp 1.000 QRL tiền gas. Deployer còn khoảng 99.980 QRL.
 
 ### Batch 1.3: Deploy giao diện production
@@ -103,26 +104,26 @@ Mục tiêu: chấm điểm, chọn top 3 và đóng season một cách đúng �
 
 Làm sau Batch 2.1.
 
-- [ ] Viết `npm run predict:snapshot -- --season 1 --block <B>`.
-- [ ] Mỗi ví ghi ra: `xp_balance`, `claimable` (market hủy thì tính `(yes+no)/2` trên từng vị thế), `score`, số ngày hoạt động, số market, có đủ điều kiện hay không.
-- [ ] Ghi ra top 3, đây chính là tham số `winners` của `closeSeason`.
-- [ ] Cảnh báo khi:
+- [x] Viết `npm run predict:snapshot -- --season 1 --block <B>`.
+- [x] Mỗi ví ghi ra: `xp_balance`, `claimable` (market hủy thì tính `(yes+no)/2` trên từng vị thế), `score`, số ngày hoạt động, số market, có đủ điều kiện hay không.
+- [x] Ghi ra top 3, đây chính là tham số `winners` của `closeSeason`.
+- [x] Cảnh báo khi:
   - còn market mở tại B;
   - B vượt cursor của indexer;
-  - B sau `endsAt`.
-- [ ] Gắn cờ sybil từ `predict:sybil` vào kết quả.
+  - B trước `endsAt` (danh sách cũ ghi "sau"; snapshot đúng ra phải sau `endsAt`).
+- [x] Gắn cờ sybil từ `predict:sybil` vào kết quả.
 
 ### Batch 2.3: Đối chiếu với chain (PROPOSAL-PREDICT §6)
 
-- [ ] `xp_balance` so với `xpOfSeason` cho từng ví.
-- [ ] Vị thế so với `positionOf`.
-- [ ] `claimable` so với `qrl_call claim(id)` trên từng market đã chốt.
-- [ ] Chạy lại kịch bản hủy market trong `e2e.js`: buy, sell có lời, rồi cancel. Claim phải ra `(yes+no)/2`.
-- [ ] Đổi `predict-devnet.json` giả lập redeploy. Chỉ các bảng `predict_*` được dựng lại.
+- [x] `xp_balance` so với `xpOfSeason` cho từng ví.
+- [x] Vị thế so với `positionOf`.
+- [ ] `claimable` so với `qrl_call claim(id)` trên từng market đã chốt. Đã viết (`npm run audit -- --predict`), chạy lại sau khi market #0 chốt (30/10 12:00 UTC).
+- [x] Chạy lại kịch bản hủy market trong `e2e.js`: buy, sell có lời, rồi cancel. Claim phải ra `(yes+no)/2`.
+- [x] Đổi `predict-devnet.json` giả lập redeploy. Chỉ các bảng `predict_*` được dựng lại.
 
 ### Batch 2.4: Runbook đóng season (`pauli-swap-prediction-market`)
 
-- [ ] `docs/SEASON-END.md` ghi rõ từng bước:
+- [x] `docs/SEASON-END.md` ghi rõ từng bước:
   1. resolve hoặc cancel mọi market;
   2. chờ 48 giờ cho người dùng claim;
   3. chọn `snapshotBlock`;
@@ -132,7 +133,7 @@ Làm sau Batch 2.1.
   7. chuyển 10 QRL bằng tay;
   8. gửi danh sách WL cho QuantumArk;
   9. `startSeason` cho season 2.
-- [ ] Thêm lệnh `season:close` (mặc định chạy thử) vào script quản trị.
+- [x] Thêm lệnh `season:close` (mặc định chạy thử) vào script quản trị.
 - [ ] Thông báo trên giao diện: banner "Season kết thúc sau X ngày, hãy claim XP".
 
 ---
@@ -143,11 +144,11 @@ Mục tiêu: không đọc log thô trong trình duyệt nữa, và bảng xếp
 
 ### Batch 3.1: API Predict (`pauli-swap-indexer`, PROPOSAL-PREDICT §5)
 
-- [ ] `predictSeason(id)`
-- [ ] `predictMarkets(status, first, skip)` và `predictMarket(id)`: giá Yes, volume, số trader.
-- [ ] `predictTrades(market, user, first, skip)`
-- [ ] `predictPositions(user, market)`: số share và `claimable`.
-- [ ] `predictLeaderboard(season, block, first, skip)`
+- [x] `predictSeason(id)`
+- [x] `predictMarkets(status, first, skip)` và `predictMarket(id)`: giá Yes, volume, số trader.
+- [x] `predictTrades(market, user, first, skip)`
+- [x] `predictPositions(user, market)`: số share và `claimable`.
+- [x] `predictLeaderboard(season, block, first, skip)`
 
 ### Batch 3.2: Chuyển giao diện sang API mới (`pauli-swap-interface`)
 
@@ -168,13 +169,14 @@ Làm sau Batch 3.1.
 ### Batch 4.1: Test tự động
 
 - [ ] Giao diện:
-  - unit test cho `lib/trade.ts`, `lib/v3.ts`, `lib/format.ts`;
+  - [x] unit test cho `lib/v3.ts` (đối chiếu 555 vector on-chain) và `lib/fee.ts`: `npm test` (vitest);
+  - [ ] unit test cho `lib/trade.ts`, `lib/format.ts`;
   - Playwright smoke test (swap, quests, faucet) với ví stub, dựa trên `quests-shot.mjs` trong scratchpad.
-- [ ] Indexer:
+- [x] Indexer:
   - test SQL quy tắc quest (`src/quests.ts`) trên DB mẫu;
   - test che nhiệm vụ ẩn.
-- [ ] Attester: test giới hạn 500 XP mỗi ngày, mốc dời sang ngày sau, denylist, không ghi trùng.
-- [ ] CI chạy `tsc`, build và test cho từng repo.
+- [x] Attester: test giới hạn 500 XP mỗi ngày, mốc dời sang ngày sau, denylist, không ghi trùng.
+- [ ] CI chạy `tsc`, build và test cho từng repo. Indexer đã có (`.github/workflows/ci.yml`), các repo khác chưa.
 
 ### Batch 4.2: Kiểm tra giao diện
 
@@ -188,6 +190,14 @@ Làm sau Batch 3.1.
 ---
 
 ## Giai đoạn 5: Audit sâu hợp đồng (trước public testnet)
+
+### Batch 5.0: Audit lại bản đang chạy, SwapRouter02 và phí interface (xong 2026-10-29)
+
+- [x] Port SwapRouter02 của Uniswap (`pauli-swap/contracts/router/`): một router cho V2 và V3, `sweepTokenWithFee` / `unwrapWQRL9WithFee`. Deploy vào bản devnet hiện có ở block 2876, không deploy lại gì khác.
+- [x] Phí interface 0.25% trên output, về ví treasury `Q2cE73E96…31BD24` (mnemonic ở `pauli-swap-prediction-market/.env.treasury`, gitignore). Gọi thẳng contract thì chỉ trả phí LP của pool. Wrap / unwrap không mất phí.
+- [x] Audit on-chain bản build hiện tại (lần trước là bản trước khi đổi tên): 121/121 giá trị, 85/85 kiểm tra trên bản deploy sao chép; 1.128/1.128 vector; runtime code của bản đang chạy khớp build 17/17. Xem `pauli-swap/docs/ONCHAIN-AUDIT.md`.
+- [x] Sửa `liquidityForAmount0` làm tròn theo `LiquidityAmounts.sol` (test vector bắt được lệch).
+- [ ] Kiểm swap có phí trên giao diện bằng ví thật.
 
 ### Batch 5.1: Kiểm thử bổ sung (`pauli-swap`)
 

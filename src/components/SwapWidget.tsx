@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ADDRESSES, MAX_UINT256 } from '../config';
+import { ADDRESSES, INTERFACE_FEE, MAX_UINT256, SWAP_ROUTER_02 } from '../config';
 import { useAllowance, useBalances } from '../hooks/chain';
 import { useNames } from '../hooks/names';
-import { isQAddress, reader, router, sameAddress, swapRouter, token as tokenContract, wqrl, ZERO_ADDRESS } from '../lib/chain';
+import { isQAddress, reader, router, sameAddress, swapRouter, swapRouter02, token as tokenContract, wqrl, ZERO_ADDRESS } from '../lib/chain';
+import { ADDRESS_THIS, feeOf, grossFor, netOf } from '../lib/fee';
 import { applySlippage, formatAmount, formatPercent, formatPrice, parseUnits, toInputString } from '../lib/format';
 import { tvlInQrl } from '../lib/registry';
 import { query } from '../lib/router';
@@ -18,6 +19,7 @@ import { TokenSelectModal } from './TokenSelectModal';
 import { AmountPanel, Busy, DetailRow, Icon, Modal, Seg, TokenIcon } from './ui';
 
 const GAS_RESERVE = 5n * 10n ** 16n; // keep 0.05 QRL for fees when using MAX on native QRL
+const fee = INTERFACE_FEE;
 
 type Cta = { label: string; kind: 'primary' | 'secondary' | 'danger' | 'disabled'; onClick?: () => void; busy?: boolean };
 type Mode = 'swap' | 'wrap';
@@ -130,8 +132,11 @@ export function SwapWidget({ defaultInput, defaultOutput, syncUrl }: { defaultIn
     }
     let alive = true;
     setQuoting(true);
+    // An exact output is quoted gross of the interface fee, so the wallet
+    // still receives what was typed.
+    const amount = field === 'exactOut' && fee ? grossFor(parsed, fee.bips) : parsed;
     const id = setTimeout(() => {
-      quote(input, output, field, parsed, decimalsOf, pools, { v2: settings.useV2, v3: settings.useV3 })
+      quote(input, output, field, amount, decimalsOf, pools, { v2: settings.useV2, v3: settings.useV3 })
         .then((t) => {
           if (!alive) return;
           setTrade(t);
@@ -149,14 +154,20 @@ export function SwapWidget({ defaultInput, defaultOutput, syncUrl }: { defaultIn
   }, [input, output, field, parsed?.toString(), wrap, block, tokens, settings.useV2, settings.useV3]);
 
   const amountIn = wrap ? parsed ?? undefined : field === 'exactIn' ? parsed ?? undefined : trade?.amountIn;
-  const amountOut = wrap ? parsed ?? undefined : field === 'exactOut' ? parsed ?? undefined : trade?.amountOut;
+  /// What the wallet receives: the trade's output less the interface fee.
+  const outNet = trade ? (fee ? netOf(trade.amountOut, fee.bips) : trade.amountOut) : undefined;
+  const feeAmount = trade && fee ? feeOf(trade.amountOut, fee.bips) : 0n;
+  const amountOut = wrap ? parsed ?? undefined : field === 'exactOut' ? parsed ?? undefined : outNet;
   const shown = (side: TradeType, token: Token | null, value: bigint | undefined) =>
     field === side || wrap ? typed : value !== undefined && token ? toInputString(value, token.decimals, 4) : '';
 
   const slippage = settings.slippageBps;
   const maxIn = trade && trade.type === 'exactOut' ? applySlippage(trade.amountIn, slippage, 'up') : amountIn;
-  const minOut = trade && trade.type === 'exactIn' ? applySlippage(trade.amountOut, slippage, 'down') : amountOut;
-  const spender = trade?.route.protocol === 'v3' ? ADDRESSES.SwapRouter : ADDRESSES.PauliV2Router02;
+  /// The least the swap itself may return (gross, what the router checks)
+  /// and what that leaves the wallet after the interface fee.
+  const minOut = trade ? (trade.type === 'exactIn' ? applySlippage(trade.amountOut, slippage, 'down') : trade.amountOut) : amountOut;
+  const minNet = minOut !== undefined && fee ? netOf(minOut, fee.bips) : minOut;
+  const spender = SWAP_ROUTER_02 || (trade?.route.protocol === 'v3' ? ADDRESSES.SwapRouter : ADDRESSES.PauliV2Router02);
 
   const { allowance, refresh: refreshAllowance } = useAllowance(input && !isNative(input) && !wrap ? input.address : null, account, spender);
   const spendsToken = !!input && !isNative(input) && !wrap && maxIn !== undefined && !!trade;
@@ -234,10 +245,34 @@ export function SwapWidget({ defaultInput, defaultOutput, syncUrl }: { defaultIn
       activity: 'Swapped',
       successTitle: 'Swap confirmed',
       prior: !nativeIn && approved.includes(input.address.toLowerCase()) ? [`Approve ${sym(input)}`] : undefined,
-      summary: { from: { token: input, amount: trade.amountIn, label: sym(input) }, to: { token: output, amount: trade.amountOut, label: sym(output) } },
+      summary: { from: { token: input, amount: trade.amountIn, label: sym(input) }, to: { token: output, amount: outNet ?? trade.amountOut, label: sym(output) } },
       value: nativeIn ? (trade.type === 'exactIn' ? trade.amountIn : maxIn) : undefined,
       build: () => {
         const r = trade.route;
+        if (SWAP_ROUTER_02) {
+          // One router for V2 and V3. The output stays in the router when it
+          // is unwrapped or charged, and is paid out by the second call.
+          const m = swapRouter02().methods;
+          const to = nativeOut || fee ? ADDRESS_THIS : account;
+          const single = r.protocol === 'v3' && r.fees.length === 1;
+          const swap =
+            r.protocol === 'v2'
+              ? trade.type === 'exactIn'
+                ? m.swapExactTokensForTokens(trade.amountIn, minOut, r.path, to)
+                : m.swapTokensForExactTokens(trade.amountOut, maxIn, r.path, to)
+              : trade.type === 'exactIn'
+                ? single
+                  ? m.exactInputSingle([r.path[0], r.path[1], r.fees[0], to, trade.amountIn, minOut, 0])
+                  : m.exactInput([encodePath(r.path, r.fees), to, trade.amountIn, minOut])
+                : single
+                  ? m.exactOutputSingle([r.path[0], r.path[1], r.fees[0], to, trade.amountOut, maxIn, 0])
+                  : m.exactOutput([encodePath([...r.path].reverse(), [...r.fees].reverse()), to, trade.amountOut, maxIn]);
+          const calls: string[] = [(swap as any).encodeABI()];
+          if (nativeOut) calls.push(((fee ? m.unwrapWQRL9WithFee(minOut, account, fee.bips, fee.recipient) : m.unwrapWQRL9(minOut, account)) as any).encodeABI());
+          else if (fee) calls.push((m.sweepTokenWithFee(r.path[r.path.length - 1], minOut, account, fee.bips, fee.recipient) as any).encodeABI());
+          if (nativeIn && trade.type === 'exactOut') calls.push((m.refundQRL() as any).encodeABI());
+          return { to: SWAP_ROUTER_02, method: m.multicall(deadline, calls) };
+        }
         if (r.protocol === 'v2') {
           const m = router().methods;
           const { path } = r;
@@ -313,7 +348,7 @@ export function SwapWidget({ defaultInput, defaultOutput, syncUrl }: { defaultIn
   const counter = (side: 'in' | 'out') => {
     if (wrap || !trade || !input || !output) return undefined;
     return side === 'in'
-      ? `≈ ${formatAmount(trade.amountOut, output.decimals)} ${sym(output)}`
+      ? `≈ ${formatAmount(outNet, output.decimals)} ${sym(output)}`
       : `Best route · ${routeTag(trade.route)}`;
   };
   const tabs = wqrlToken ? (['swap', 'wrap'] as const) : (['swap'] as const);
@@ -378,11 +413,12 @@ export function SwapWidget({ defaultInput, defaultOutput, syncUrl }: { defaultIn
             <>
               <DetailRow label="Price impact" info="How much this trade moves the pool price, excluding the LP fee." value={formatPercent(impact)} tone={impactTone} />
               {trade.type === 'exactIn' ? (
-                <DetailRow label="Minimum received" info="The least you receive before the trade reverts." value={`${formatAmount(minOut, output.decimals)} ${sym(output)}`} />
+                <DetailRow label="Minimum received" info="The least you receive before the trade reverts." value={`${formatAmount(minNet, output.decimals)} ${sym(output)}`} />
               ) : (
                 <DetailRow label="Maximum sent" info="The most you spend before the trade reverts." value={`${formatAmount(maxIn, input.decimals)} ${sym(input)}`} />
               )}
               <DetailRow label="LP fee" info="Paid to liquidity providers on every hop." value={`${formatAmount(trade.lpFee, input.decimals)} ${sym(input)}`} />
+              {fee && <InterfaceFeeRow amount={feeAmount} token={output} symbol={sym(output)} />}
               <DetailRow label="Route" info="The pools this trade goes through." value={routeText} />
             </>
           )}
@@ -397,7 +433,9 @@ export function SwapWidget({ defaultInput, defaultOutput, syncUrl }: { defaultIn
           input={input}
           output={output}
           inBalance={inBalance}
-          minOut={minOut}
+          minOut={minNet}
+          outNet={outNet ?? trade.amountOut}
+          feeAmount={feeAmount}
           maxIn={maxIn}
           rateText={rateText}
           routeText={routeText}
@@ -418,6 +456,8 @@ function ReviewModal({
   output,
   inBalance,
   minOut,
+  outNet,
+  feeAmount,
   maxIn,
   rateText,
   routeText,
@@ -431,6 +471,8 @@ function ReviewModal({
   output: Token;
   inBalance: bigint | undefined;
   minOut: bigint | undefined;
+  outNet: bigint;
+  feeAmount: bigint;
   maxIn: bigint | undefined;
   rateText: string;
   routeText: string;
@@ -480,7 +522,7 @@ function ReviewModal({
         <div className="review-amount">
           <span className="col grow" style={{ gap: 2, minWidth: 0 }}>
             <span className="t-amount ellipsis">
-              {formatAmount(trade.amountOut, output.decimals)} {sym(output)}
+              {formatAmount(outNet, output.decimals)} {sym(output)}
             </span>
             <span className="t-num c-3">{trade.type === 'exactIn' ? `Minimum ${formatAmount(minOut, output.decimals)} ${sym(output)}` : 'Exact amount'}</span>
           </span>
@@ -491,6 +533,7 @@ function ReviewModal({
         <DetailRow label="Price impact" info="How much this trade moves the pool price, excluding the LP fee." value={formatPercent(trade.priceImpact)} tone={impactTone} />
         <DetailRow label="Max slippage" info="The trade reverts if the price moves against you by more than this." value={`${settings.slippageAuto ? 'Auto · ' : ''}${(settings.slippageBps / 100).toFixed(2)}%`} />
         <DetailRow label="LP fee" info="Paid to liquidity providers on every hop." value={`${formatAmount(trade.lpFee, input.decimals)} ${sym(input)}`} />
+        {fee && <InterfaceFeeRow amount={feeAmount} token={output} symbol={sym(output)} />}
         <DetailRow label="Route" info="The pools this trade goes through." value={routeText} />
         <DetailRow
           label="Network cost"
@@ -502,5 +545,16 @@ function ReviewModal({
         </button>
       </div>
     </Modal>
+  );
+}
+
+/// The interface fee row of the details and the review.
+function InterfaceFeeRow({ amount, token, symbol }: { amount: bigint; token: Token; symbol: string }) {
+  return (
+    <DetailRow
+      label={`Interface fee (${((fee?.bips ?? 0) / 100).toFixed(2)}%)`}
+      info="Charged by this interface on what you receive. Calling the PauliSwap contracts directly only costs the pool's LP fee."
+      value={`${formatAmount(amount, token.decimals)} ${symbol}`}
+    />
   );
 }
