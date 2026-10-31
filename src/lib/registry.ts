@@ -119,13 +119,16 @@ async function loadState(k: Known): Promise<PoolInfo> {
   };
 }
 
-export async function loadPools(latest: number): Promise<PoolInfo[]> {
+/// `onDiscovered` gets the pool list before the state reads, so token metadata
+/// can load alongside them instead of after.
+export async function loadPools(latest: number, onDiscovered?: (pools: Known[]) => void): Promise<PoolInfo[]> {
   await discover(latest);
+  onDiscovered?.([...known.values()]);
   const states = await Promise.all([...known.values()].map((k) => loadState(k).catch(() => null)));
   return states.filter((p): p is PoolInfo => !!p);
 }
 
-export const poolTokens = (pools: PoolInfo[]) => {
+export const poolTokens = (pools: { token0: string; token1: string }[]) => {
   const all = new Map<string, string>([[ADDRESSES.WQRL.toLowerCase(), ADDRESSES.WQRL]]);
   for (const p of pools) {
     all.set(p.token0.toLowerCase(), p.token0);

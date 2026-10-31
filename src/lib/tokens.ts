@@ -20,8 +20,12 @@ export const wrappedAddress = (t: Token) => (t.native ? ADDRESSES.WQRL : t.addre
 export const tokenKey = (t: Token) => (t.native ? 'native' : t.address.toLowerCase());
 export const sameToken = (a?: Token | null, b?: Token | null) => !!a && !!b && tokenKey(a) === tokenKey(b);
 
+/// WQRL is part of the deployment, so it is known before any RPC answers and
+/// the Wrap tab is there on first paint.
+export const WQRL: Token = { address: ADDRESSES.WQRL, symbol: 'WQRL', name: 'Wrapped QRL', decimals: 18 };
+
 const IMPORTED_KEY = 'acorn.importedTokens';
-const metadataCache = new Map<string, Promise<Token>>();
+const metadataCache = new Map<string, Promise<Token>>([[WQRL.address.toLowerCase(), Promise.resolve(WQRL)]]);
 
 export function fetchTokenMetadata(address: string): Promise<Token> {
   const key = address.toLowerCase();

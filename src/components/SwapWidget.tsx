@@ -361,6 +361,7 @@ export function SwapWidget({ defaultInput, defaultOutput, syncUrl }: { defaultIn
         {mode === 'swap' && <span className="slip-pill">{pct(slippage)} slippage</span>}
         <SettingsButton routing={mode === 'swap'} />
       </div>
+      {/* Balance shows "—" until it is read, so the panels keep their height. */}
       <div className="swap-panels">
         <AmountPanel
           label="Sell"
@@ -374,7 +375,7 @@ export function SwapWidget({ defaultInput, defaultOutput, syncUrl }: { defaultIn
           onSelect={mode === 'swap' ? () => setSelecting('in') : undefined}
           sub={counter('in')}
           loading={requoting && field === 'exactOut'}
-          balance={account && input && inBalance !== undefined ? formatAmount(inBalance, input.decimals, 2) : undefined}
+          balance={account && input && inBalance !== undefined ? formatAmount(inBalance, input.decimals, 2) : '—'}
           onMax={account && inBalance !== undefined && inBalance > 0n ? onMax : undefined}
           focus={field === 'exactIn' && !!typed}
           error={insufficient}
@@ -394,7 +395,7 @@ export function SwapWidget({ defaultInput, defaultOutput, syncUrl }: { defaultIn
           onSelect={mode === 'swap' ? () => setSelecting('out') : undefined}
           sub={quoting && !trade && parsed ? <Busy size={14}>Finding the best route…</Busy> : counter('out')}
           loading={requoting && field === 'exactIn'}
-          balance={account && output && outBalance !== undefined ? formatAmount(outBalance, output.decimals, 2) : undefined}
+          balance={account && output && outBalance !== undefined ? formatAmount(outBalance, output.decimals, 2) : '—'}
           onMax={account && !wrap && outBalance !== undefined && outBalance > 0n ? onMaxOut : undefined}
           focus={field === 'exactOut' && !!typed && !wrap}
         />
