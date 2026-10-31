@@ -7,6 +7,8 @@ import {
   NotDeployed,
   OutcomeLink,
   PredictTitle,
+  isMedal,
+  RankMedal,
   shortDate,
   span,
   StatCard,
@@ -23,7 +25,7 @@ import { MarketView, Player, QuestProgress, questsOn, Season, useIsMarketOwner, 
 import { predictXP, shortAddress } from '../lib/chain';
 import { DecodedEvent } from '../lib/logs';
 import { NATIVE } from '../lib/tokens';
-import { CANCELLED, fmtChance, fmtPrice, fmtXp, OPEN, PRIZES, QURRL_URL, RESOLVED, YES } from '../lib/predict';
+import { CANCELLED, fmtChance, fmtPrice, fmtXp, OPEN, PRIZES, QURRL_URL, RESOLVED, xpFloat, YES } from '../lib/predict';
 import { href, PredictTab } from '../lib/router';
 import { useApp } from '../state/app';
 import { useTx } from '../state/tx';
@@ -111,16 +113,18 @@ const pts = (now: number, before: number | null) => {
 
 type Filter = 'trending' | 'new' | 'ending' | 'resolved';
 
+const FEATURED: Record<Filter, string> = { trending: 'Trending #1', new: 'Newest', ending: 'Ending soonest', resolved: 'Latest result' };
+
+/// Predict · Markets · v3 (151:1410): markets on the left, the player's
+/// season, today's quests and the top of the leaderboard on the right.
 function Markets(ctx: Ctx) {
-  const { account, markets, logs } = ctx;
+  const { account, markets } = ctx;
   const { clock: chain } = useApp();
-  const reset = useReset();
   const [filter, setFilter] = useState<Filter>('trending');
   const [q, setQ] = useState('');
-  const [shown, setShown] = useState(8);
+  const [shown, setShown] = useState(7);
   const isOwner = useIsMarketOwner(account);
   const now = chain.latestTime;
-  const doneToday = questsOn(logs, account, ctx.today);
 
   const list = useMemo(() => {
     if (!markets) return null;
@@ -139,106 +143,95 @@ function Markets(ctx: Ctx) {
   }, [markets, filter, q, now]);
 
   const openCount = markets?.filter((m) => m.status === OPEN && m.closeTime > now).length;
-  const newToday = markets?.filter((m) => m.history[0].t > now - DAY).length ?? 0;
   const vol24 = markets?.reduce((s, m) => s + m.volume24h, 0n);
-  const trades24 = ctx.marketLog?.filter((e) => (e.event === 'Bought' || e.event === 'Sold') && e.blockNumber >= chain.latest - DAY / chain.secondsPerBlock).length;
+  const empty = filter === 'resolved' ? 'No market has been settled yet.' : q ? `No market matches "${q.trim()}".` : 'No open markets right now.';
 
   return (
-    <>
-      {account ? (
-        <div className="pm-stats">
-          <StatCard>
-            <Stat label="Open markets" value={wait(!!markets, openCount, 40)} delta={markets ? `+${newToday} today` : undefined} deltaTone={newToday ? 'up' : 'muted'} />
-          </StatCard>
-          <StatCard>
-            <Stat label="24h volume" value={wait(!!markets, fmtXp(vol24, { compact: true }))} delta={trades24 !== undefined ? `${trades24} trades` : undefined} deltaTone="muted" />
-          </StatCard>
-          <StatCard>
-            <Stat label="Daily quests" value={wait(!!doneToday, `${doneToday?.length ?? 0} done`, 70)} delta={`Resets in ${clock(reset)}`} deltaTone="muted" />
-          </StatCard>
-          <YourXp {...ctx} />
+    <div className="pm-cols">
+      <div className="pm-col">
+        <div className="pm-head">
+          <h2>Markets</h2>
+          {markets && (
+            <span className="t-caption c-3">
+              {openCount} open · {fmtXp(vol24, { compact: true })} traded in 24h
+            </span>
+          )}
         </div>
-      ) : (
-        <GuestBanner />
-      )}
-      <div className="pm-bar">
-        <Seg boxed options={['trending', 'new', 'ending', 'resolved'] as const} labels={{ trending: 'Trending', new: 'New', ending: 'Ending soon', resolved: 'Resolved' }} value={filter} onChange={setFilter} />
-        <span className="grow" />
-        <label className="search-field">
-          <Icon name="search" size={16} />
-          <input placeholder="Filter markets" value={q} onChange={(e) => setQ(e.target.value)} />
-        </label>
-        {isOwner && <NewMarketButton />}
-      </div>
-      <div>
-        <div className="table">
-          <div className="tr thead">
-            <div className="td rank">#</div>
-            <div className="td grow">Market</div>
-            <div className="td r" style={{ width: 90, flex: 'none' }}>
-              Chance
-            </div>
-            <div className="td r" style={{ width: 80, flex: 'none' }}>
-              24h
-            </div>
-            <div className="td r sort" style={{ width: 120, flex: 'none' }}>
-              {filter === 'trending' ? '↓ Volume' : 'Volume'}
-            </div>
-            <div className="td r" style={{ width: 90, flex: 'none' }}>
-              Ends
-            </div>
-            <div className="td trade">Trade</div>
-          </div>
-          <div className="tbody">
-            {!list && <div className="empty-row">Reading markets from the chain…</div>}
-            {list && !list.length && <div className="empty-row">{filter === 'resolved' ? 'No market has been settled yet.' : q ? `No market matches "${q.trim()}".` : 'No open markets right now.'}</div>}
-            {list?.slice(0, shown).map((m, i) => (
-              <MarketRow key={m.id} m={m} rank={i + 1} now={now} />
+        <div className="pm-bar">
+          <Seg boxed options={['trending', 'new', 'ending', 'resolved'] as const} labels={{ trending: 'Trending', new: 'New', ending: 'Ending soon', resolved: 'Resolved' }} value={filter} onChange={setFilter} />
+          <span className="grow" />
+          <label className="search-field">
+            <Icon name="search" size={16} />
+            <input placeholder="Filter markets" value={q} onChange={(e) => setQ(e.target.value)} />
+          </label>
+          {isOwner && <NewMarketButton />}
+        </div>
+        {!list && <div className="pm-card pm-empty">Reading markets from the chain…</div>}
+        {list && !list.length && <div className="pm-card pm-empty">{empty}</div>}
+        {list?.[0] && <MarketCard m={list[0]} now={now} label={q ? undefined : FEATURED[filter]} />}
+        {list && list.length > 1 && (
+          <div className="pm-grid">
+            {list.slice(1, shown).map((m) => (
+              <MarketCard key={m.id} m={m} now={now} />
             ))}
           </div>
-        </div>
+        )}
         {list && list.length > shown && (
-          <div className="table-footer">
-            <button className="btn btn-sm btn-secondary" onClick={() => setShown((n) => n + 8)}>
-              Show more
-            </button>
-          </div>
+          <button className="btn btn-md btn-secondary" onClick={() => setShown((n) => n + 6)}>
+            Show more markets · {list.length - shown} more
+          </button>
         )}
       </div>
-    </>
+      <aside className="pm-col pm-aside">
+        {account ? (
+          <>
+            <YouCard {...ctx} lead="xp" />
+            <QuestsCard {...ctx} />
+          </>
+        ) : (
+          <GuestBanner />
+        )}
+        <MiniLeaderboard {...ctx} />
+      </aside>
+    </div>
   );
 }
 
-function MarketRow({ m, rank, now }: { m: MarketView; rank: number; now: number }) {
+/// Market card (Predict/Market card · v3, 151:1560). With a `label` it is the
+/// wide card on top of the list: bigger question, the 24h change and traders.
+function MarketCard({ m, now, label }: { m: MarketView; now: number; label?: string }) {
+  const featured = label !== undefined;
   const change = pts(m.price, m.price24h);
   const to = (side?: 'yes' | 'no') => href({ page: 'predictMarket', id: String(m.id) }) + (side ? `?outcome=${side}` : '');
   const closed = m.status === OPEN && m.closeTime <= now;
+  const chance = (
+    <span className="pm-chance-row">
+      <span className="pct">{fmtChance(m.price)}</span>
+      <span className="t-caption c-3">chance Yes</span>
+      {featured && change && <span className={`t-caption ${change.up ? 'c-success' : 'c-alert'}`}>{change.text}</span>}
+    </span>
+  );
   return (
-    <div className="tr pm-row" onClick={(e) => !(e.target as HTMLElement).closest('a') && (window.location.hash = to().slice(1))}>
-      <div className="td rank">{rank}</div>
-      <div className="td grow">
-        <div className="pm-market-cell">
-          <a href={to()} className="ellipsis">
-            {m.question}
-          </a>
-          <span className="sub">
-            #{m.id} · {m.traders} {m.traders === 1 ? 'trader' : 'traders'}
+    <div className={`pm-card pm-mcard${featured ? ' featured' : ''}`} onClick={(e) => !(e.target as HTMLElement).closest('a') && (window.location.hash = to().slice(1))}>
+      {featured && (
+        <div className="row" style={{ gap: 8 }}>
+          <Badge tone="quantum">{label}</Badge>
+          <span className="t-caption c-3">
+            #{m.id} · {m.traders.toLocaleString('en-US')} {m.traders === 1 ? 'trader' : 'traders'}
           </span>
         </div>
+      )}
+      <div className="pm-mcard-main">
+        <a href={to()} className="q">
+          {m.question}
+        </a>
+        {featured && chance}
       </div>
-      <div className="td r" style={{ width: 90, flex: 'none' }}>
-        {fmtChance(m.price)}
+      {!featured && chance}
+      <div className="pm-meter" aria-hidden="true">
+        <span style={{ width: `${Math.round(m.price * 100)}%` }} />
       </div>
-      <div className={`td r t-num ${change ? (change.up ? 'c-success' : 'c-alert') : 'c-3'}`} style={{ width: 80, flex: 'none' }}>
-        {change?.text ?? '—'}
-      </div>
-      <div className="td r" style={{ width: 120, flex: 'none' }}>
-        {fmtXp(m.volume, { compact: true })}
-      </div>
-      <div className="td r cell-2" style={{ width: 90, flex: 'none' }}>
-        {shortDate(m.closeTime)}
-      </div>
-      <div className="td trade">
+      <div className="pm-mcard-actions">
         {m.status === RESOLVED ? (
           <Badge tone={m.outcome === YES ? 'success' : 'alert'}>{m.outcome === YES ? 'Yes won' : 'No won'}</Badge>
         ) : m.status === CANCELLED ? (
@@ -247,19 +240,275 @@ function MarketRow({ m, rank, now }: { m: MarketView; rank: number; now: number 
           <Badge tone="warning">Awaiting result</Badge>
         ) : (
           <>
-            <OutcomeLink side="yes" price={fmtPrice(m.price)} to={to('yes')} />
-            <OutcomeLink side="no" price={fmtPrice(1 - m.price)} to={to('no')} />
+            <OutcomeLink side="yes" price={fmtPrice(m.price)} to={to('yes')} className="lg" />
+            <OutcomeLink side="no" price={fmtPrice(1 - m.price)} to={to('no')} className="lg" />
           </>
         )}
+      </div>
+      <div className="pm-meta">
+        <Icon name="clock" size={14} className="c-3" />
+        <span>{m.status === OPEN && !closed ? `Ends ${shortDate(m.closeTime)}` : `Closed ${shortDate(m.closeTime)}`}</span>
+        <span className="c-3">·</span>
+        <Icon name="star" size={14} className="c-3" />
+        <span>
+          {fmtXp(m.volume, { compact: true })}
+          {featured ? ' volume' : ''}
+        </span>
       </div>
     </div>
   );
 }
 
+/// The connected player's season: XP or rank as the lead number, rank, win
+/// rate and predictions, and how far the top three are.
+function YouCard({ account, xp, me, players, season, lead }: Ctx & { lead: 'xp' | 'rank' }) {
+  const left = useCountdown(season?.endsAt);
+  if (!account) return null;
+  const trio: [string, ReactNode][] = [
+    lead === 'xp' ? ['Rank', players ? (me ? `#${me.rank} of ${players.length}` : '—') : <Skeleton w={56} h={20} />] : ['XP held', wait(xp !== undefined, fmtXp(xp), 64)],
+    ['Win rate', me?.winRate === null || !me ? '—' : `${Math.round(me.winRate * 100)}%`],
+    ['Predictions', me ? me.predictions : players ? 0 : <Skeleton w={24} h={20} />],
+  ];
+  return (
+    <div className="pm-card pm-you">
+      <div className="pm-you-head">
+        <span className="row" style={{ gap: 8, minWidth: 0 }}>
+          <span className="token-icon pm-mark you" style={{ width: 28, height: 28, fontSize: 12 }}>
+            {addressMark(account)}
+          </span>
+          <span className="t-num-strong c-2">{shortAddress(account)}</span>
+          {lead === 'rank' && <Badge tone="quantum">You</Badge>}
+        </span>
+        {lead === 'xp' && season && (
+          <span className="row t-caption c-3" style={{ gap: 4 }}>
+            <Icon name="clock" size={14} />
+            Season {season.id} · {left ? `${span(left)} left` : 'ended'}
+          </span>
+        )}
+      </div>
+      {lead === 'xp' ? (
+        <div className="pm-you-lead">
+          <Icon name="star" size={28} className="c-quantum" />
+          <span className="big">{wait(xp !== undefined, fmtXp(xp), 120)}</span>
+        </div>
+      ) : (
+        <div className="pm-you-lead">
+          <span className="big">{players ? (me ? `#${me.rank}` : '—') : <Skeleton w={60} h={36} />}</span>
+          {players && <span className="t-body c-3">{me ? `of ${players.length} players` : 'No XP this season yet'}</span>}
+        </div>
+      )}
+      <div className="pm-trio">
+        {trio.map(([label, value]) => (
+          <div key={label}>
+            <span className="v">{value}</span>
+            <span className="l">{label}</span>
+          </div>
+        ))}
+      </div>
+      <PrizeDistance me={me} players={players} />
+      {lead === 'rank' && (
+        <a className="btn btn-md btn-primary" href={href({ page: 'predict', tab: 'quests' })}>
+          Do daily quests
+        </a>
+      )}
+    </div>
+  );
+}
+
+/// XP between the player and the third place, the last one with a prize.
+function PrizeDistance({ me, players }: { me: Player | null; players: Player[] | null }) {
+  if (!players) return null;
+  if (me && isMedal(me.rank))
+    return (
+      <div className="pm-prize-gap">
+        <span className="row t-body-strong" style={{ gap: 8 }}>
+          <RankMedal rank={me.rank} size={20} />
+          You hold a prize spot
+        </span>
+        <span className="t-caption c-3">{PRIZES[me.rank - 1]} if the season ended now.</span>
+      </div>
+    );
+  const third = players[2];
+  if (!third)
+    return (
+      <div className="pm-prize-gap">
+        <span className="row t-body-strong" style={{ gap: 8 }}>
+          <Icon name="trophy" size={18} className="c-warning" />
+          A prize spot is open
+        </span>
+        <span className="t-caption c-3">Fewer than three wallets hold XP this season. Top 3 win a Qurrl whitelist spot.</span>
+      </div>
+    );
+  const mine = me?.xp ?? 0n;
+  const share = Math.min(1, xpFloat(mine) / Math.max(xpFloat(third.xp), 1e-9));
+  return (
+    <div className="pm-prize-gap">
+      <span className="row t-body-strong" style={{ gap: 8 }}>
+        <Icon name="trophy" size={18} className="c-warning" />
+        {fmtXp(third.xp - mine)} to a prize
+      </span>
+      <div className="pm-meter warn" aria-hidden="true">
+        <span style={{ width: `${Math.round(share * 100)}%` }} />
+      </div>
+      <span className="t-caption c-3">#3 has {fmtXp(third.xp)} · top 3 win a Qurrl whitelist spot</span>
+    </div>
+  );
+}
+
+/// Today's quests at a glance; the check-in is the one claim a player makes
+/// by hand, every other quest is credited by the quest bot.
+function QuestsCard({ account, season, checkedIn, live, logs, today, quests, questsDenied }: Ctx) {
+  const reset = useReset();
+  const checkInXp = season?.checkInXp ?? 0n;
+  const checkIn = useCheckIn(checkInXp);
+  const daily = quests?.filter((q) => q.kind === 'daily' && q.id !== 0) ?? [];
+  const hidden = quests?.filter((q) => q.kind === 'season' && q.hidden && !q.credited).length ?? 0;
+  const credited = questsOn(logs, account, today);
+  const total = daily.length + 1;
+  const done = quests ? daily.filter((q) => q.credited).length + (checkedIn ? 1 : 0) : credited?.length;
+  return (
+    <div className="pm-card pm-quests">
+      <div className="pm-card-head">
+        <span className="t-heading">Daily quests</span>
+        <span className="row t-caption c-3" style={{ gap: 4 }}>
+          <Icon name="clock" size={14} />
+          Resets in {clock(reset)}
+        </span>
+      </div>
+      {quests ? (
+        <div className="pm-segments">
+          {Array.from({ length: total }, (_, i) => (
+            <span key={i} className={i < (done ?? 0) ? 'on' : ''} />
+          ))}
+          <span className="t-num c-3">
+            {done} / {total} done
+          </span>
+        </div>
+      ) : (
+        done !== undefined && <span className="t-caption c-3">{done} done today</span>
+      )}
+      {checkedIn ? (
+        <QuestLine state="done" title="Daily check-in" />
+      ) : (
+        <div className="pm-claim">
+          <span className="col grow" style={{ gap: 0 }}>
+            <span className="t-body-strong">Daily check-in</span>
+            <span className="t-caption c-quantum">{checkInXp ? `+${fmtXp(checkInXp)}` : 'Off this season'}</span>
+          </span>
+          {!live ? (
+            <Badge>No season</Badge>
+          ) : !checkInXp ? (
+            <Badge>Off</Badge>
+          ) : checkedIn === undefined ? (
+            <Skeleton w={60} h={32} />
+          ) : (
+            <button className="btn btn-sm btn-primary" onClick={checkIn}>
+              Claim
+            </button>
+          )}
+        </div>
+      )}
+      {daily.length > 0 && (
+        <div className="pm-quest-list">
+          {daily.map((q) => (
+            <QuestLine key={q.id} state={q.credited ? 'done' : q.met ? 'met' : 'todo'} title={q.title ?? '???'} reward={q.xp ? `+${q.xp} XP` : undefined} denied={questsDenied} />
+          ))}
+        </div>
+      )}
+      <div className="pm-card-foot">
+        {hidden ? (
+          <span className="row t-caption c-3" style={{ gap: 6 }}>
+            <Icon name="lock" size={14} />
+            {hidden === 1 ? '1 hidden milestone' : `${hidden} hidden milestones`}
+          </span>
+        ) : (
+          <span />
+        )}
+        <a className="pm-link" href={href({ page: 'predict', tab: 'quests' })}>
+          All quests <Icon name="chevron-right" size={16} />
+        </a>
+      </div>
+    </div>
+  );
+}
+
+function QuestLine({ state, title, reward, denied }: { state: 'todo' | 'met' | 'done'; title: string; reward?: string; denied?: boolean }) {
+  return (
+    <div className={`pm-quest-line ${state}`}>
+      <Icon name={state === 'todo' ? 'chevron-right' : 'circle-check'} size={18} className={state === 'done' ? 'c-success' : state === 'met' ? 'c-quantum' : 'c-3'} />
+      <span className="grow ellipsis">{title}</span>
+      {state === 'done' ? <Badge tone="success">Done</Badge> : state === 'met' ? denied ? <Badge>Not eligible</Badge> : <Badge tone="quantum">Crediting…</Badge> : reward && <span className="t-num c-2">{reward}</span>}
+    </div>
+  );
+}
+
+/// Top three with their prize, then the player when they are further down.
+function MiniLeaderboard({ players, me }: Ctx) {
+  const top = players?.slice(0, 3) ?? [];
+  return (
+    <div className="pm-card pm-mini-lb">
+      <div className="pm-card-head">
+        <span className="t-heading">Leaderboard</span>
+        {players && <span className="t-caption c-3">{players.length} players</span>}
+      </div>
+      {!players && <Skeleton w="100%" h={120} />}
+      {players && !players.length && <span className="t-body c-3">Nobody holds XP this season yet.</span>}
+      <div className="col" style={{ gap: 2 }}>
+        {top.map((p) => (
+          <MiniRow key={p.user} p={p} you={me?.user === p.user} />
+        ))}
+        {me && me.rank > 3 && (
+          <>
+            <span className="pm-gap">···</span>
+            <MiniRow p={me} you />
+          </>
+        )}
+      </div>
+      <div className="pm-card-foot end">
+        <a className="pm-link" href={href({ page: 'predict', tab: 'leaderboard' })}>
+          Full leaderboard <Icon name="chevron-right" size={16} />
+        </a>
+      </div>
+    </div>
+  );
+}
+
+function MiniRow({ p, you }: { p: Player; you?: boolean }) {
+  return (
+    <div className={`pm-mini-row${you ? ' you' : ''}`}>
+      <span className="rank">{isMedal(p.rank) ? <RankMedal rank={p.rank} size={24} /> : p.rank}</span>
+      <span className={`token-icon pm-mark${you ? ' you' : ''}`} style={{ width: 28, height: 28, fontSize: 12 }}>
+        {addressMark(p.user)}
+      </span>
+      <span className="col grow" style={{ gap: 0 }}>
+        <span className="row" style={{ gap: 6 }}>
+          <span className="t-num-strong c-1">{shortAddress(p.user)}</span>
+          {you && <Badge tone="quantum">You</Badge>}
+        </span>
+        <span className={`t-caption ${PRIZES[p.rank - 1] ? 'c-warning' : 'c-3'}`}>{PRIZES[p.rank - 1] ?? 'No prize band'}</span>
+      </span>
+      <span className={`t-num-strong ${you ? 'c-1' : 'c-2'}`}>{fmtXp(p.xp)}</span>
+    </div>
+  );
+}
+
+/// Sends the daily check-in, the only quest a player claims by hand.
+function useCheckIn(checkInXp: bigint) {
+  const { send } = useTx();
+  return () =>
+    send({
+      title: 'Daily check-in',
+      verb: 'check-in',
+      activity: 'Checked in on Predict',
+      successTitle: 'Check-in confirmed',
+      successText: `${fmtXp(checkInXp)} added to your balance.`,
+      build: () => ({ to: PREDICT.xp, method: predictXP().methods.checkIn() }),
+    });
+}
+
 function Quests(ctx: Ctx) {
   const { account, season, checkedIn, live, logs, today, xp, quests, questsDenied, questsUnavailable, markets } = ctx;
   const { openModal, clock: chainClock } = useApp();
-  const { send } = useTx();
   const reset = useReset();
   const done = questsOn(logs, account, today);
   const earned = done?.reduce((s, d) => s + d.amount, 0n);
@@ -270,15 +519,7 @@ function Quests(ctx: Ctx) {
   const hiddenCount = milestones.filter((q) => q.hidden).length;
   const openMarket = markets?.find((m) => m.status === OPEN && m.closeTime > chainClock.latestTime);
 
-  const checkIn = () =>
-    send({
-      title: 'Daily check-in',
-      verb: 'check-in',
-      activity: 'Checked in on Predict',
-      successTitle: 'Check-in confirmed',
-      successText: `${fmtXp(checkInXp)} added to your balance.`,
-      build: () => ({ to: PREDICT.xp, method: predictXP().methods.checkIn() }),
-    });
+  const checkIn = useCheckIn(checkInXp);
 
   /// The button that takes the player to where the quest is done.
   const goTo = (q: QuestProgress) => {
@@ -469,7 +710,7 @@ function QuestRow({ title, detail, progress, reward, state, action }: { title: s
 }
 
 function Leaderboard(ctx: Ctx) {
-  const { season, players, me, account } = ctx;
+  const { season, players, account, live } = ctx;
   const left = useCountdown(season?.endsAt);
   const [q, setQ] = useState('');
   const [shown, setShown] = useState(10);
@@ -484,95 +725,160 @@ function Leaderboard(ctx: Ctx) {
   const { clock: chain } = useApp();
   const weekBlock = chain.latest - (7 * DAY) / chain.secondsPerBlock;
   const joined = newThisWeek ? [...newThisWeek.values()].filter((b) => b >= weekBlock).length : undefined;
+  const isYou = (p: Player) => !!account && p.user.toLowerCase() === account.toLowerCase();
+  // The top three move to the podium unless the list is being searched.
+  const podium = players && !term && players.length >= 3 ? players.slice(0, 3) : null;
+  const rows = podium ? list!.slice(3) : list;
+  const ends = season ? `${dateLabel(season.endsAt)} · ${utcTime(season.endsAt)}` : '—';
 
   return (
-    <>
-      <div className="pm-stats">
-        <StatCard>
-          <Stat label={season ? `Season ${season.id} ends in` : 'Season ends in'} value={wait(left !== undefined, left ? span(left) : 'Ended', 80)} delta={season ? dateLabel(season.endsAt) : undefined} deltaTone="muted" />
-        </StatCard>
-        <StatCard>
-          <Stat label="Players" value={wait(!!players, players?.length, 40)} delta={joined !== undefined ? `+${joined} this week` : undefined} deltaTone={joined ? 'up' : 'muted'} />
-        </StatCard>
-        <StatCard>
-          <Stat label="1st prize" value={PRIZES[0]} />
-        </StatCard>
-        <StatCard>
-          <Stat label="Your rank" value={account ? wait(!!players, me ? `#${me.rank}` : '—', 50) : '—'} delta={account ? (me ? fmtXp(me.xp) : 'No XP this season') : 'Connect a wallet'} deltaTone="muted" />
-        </StatCard>
-      </div>
-      <div className="pm-bar" style={{ minHeight: 40 }}>
-        <span className="t-body c-3 grow">Ranked by XP held this season. Ties go to whoever reached the score first.</span>
-        <label className="search-field">
-          <Icon name="search" size={16} />
-          <input placeholder="Find address" value={q} onChange={(e) => setQ(e.target.value)} />
-        </label>
-      </div>
-      <div>
-        <div className="table lb-table">
-          <div className="tr thead">
-            <div className="td rank">#</div>
-            <div className="td grow">Trader</div>
-            <div className="td r sort" style={{ width: 140, flex: 'none' }}>
-              ↓ XP held
-            </div>
-            <div className="td r" style={{ width: 70, flex: 'none' }}>
-              Win rate
-            </div>
-            <div className="td r" style={{ width: 110, flex: 'none' }}>
-              Predictions
-            </div>
-            <div className="td r" style={{ width: 160, flex: 'none' }}>
-              Prize
-            </div>
+    <div className="pm-cols">
+      <div className="pm-col">
+        <div className="pm-head">
+          <div className="col" style={{ gap: 2 }}>
+            <h2>{season ? `Season ${season.id} ranking` : 'Season ranking'}</h2>
+            <span className="t-caption c-3">Ranked by XP held this season. Ties go to whoever reached the score first.</span>
           </div>
-          <div className="tbody">
-            {!list && <div className="empty-row">Reading XP history from the chain…</div>}
-            {list && !list.length && <div className="empty-row">{term ? `No wallet matches "${q.trim()}".` : 'Nobody holds XP this season yet.'}</div>}
-            {me && !term && (
-              <>
-                <PlayerRow p={me} you />
-                <div className="gap" />
-              </>
-            )}
-            {list?.slice(0, shown).map((p) => (
-              <PlayerRow key={p.user} p={p} you={!!account && p.user.toLowerCase() === account.toLowerCase()} />
+          <span className="pm-pill">
+            <Icon name="clock" size={16} className="c-2" />
+            {left === undefined ? '—' : left ? `Ends in ${span(left)}` : 'Season ended'}
+          </span>
+        </div>
+        {podium && (
+          <div className="pm-podium">
+            {[podium[1], podium[0], podium[2]].map((p) => (
+              <PodiumCard key={p.user} p={p} you={isYou(p)} />
             ))}
           </div>
-        </div>
-        {list && list.length > shown && (
-          <div className="table-footer">
-            <button className="btn btn-sm btn-secondary" onClick={() => setShown((n) => n + 10)}>
-              Show more
-            </button>
+        )}
+        <div className="pm-card pm-lb">
+          <div className="pm-lb-bar">
+            <span className="row t-heading" style={{ gap: 8 }}>
+              All players {players && <Badge>{players.length}</Badge>}
+            </span>
+            <label className="search-field">
+              <Icon name="search" size={16} />
+              <input placeholder="Find address" value={q} onChange={(e) => setQ(e.target.value)} />
+            </label>
           </div>
+          <div className="table lb-table">
+            <div className="tr thead">
+              <div className="td rank">#</div>
+              <div className="td grow">Trader</div>
+              <div className="td r sort" style={{ width: 120, flex: 'none' }}>
+                ↓ XP held
+              </div>
+              <div className="td r" style={{ width: 76, flex: 'none' }}>
+                Win rate
+              </div>
+              <div className="td r" style={{ width: 96, flex: 'none' }}>
+                Predictions
+              </div>
+              <div className="td r" style={{ width: 140, flex: 'none' }}>
+                Prize
+              </div>
+            </div>
+            <div className="tbody">
+              {!rows && <div className="empty-row">Reading XP history from the chain…</div>}
+              {rows && !rows.length && <div className="empty-row">{term ? `No wallet matches "${q.trim()}".` : podium ? 'Only the top three hold XP so far.' : 'Nobody holds XP this season yet.'}</div>}
+              {rows?.slice(0, shown).map((p) => (
+                <PlayerRow key={p.user} p={p} you={isYou(p)} />
+              ))}
+            </div>
+          </div>
+        </div>
+        {rows && rows.length > shown && (
+          <button className="btn btn-md btn-secondary" onClick={() => setShown((n) => n + 10)}>
+            Show more players · {rows.length - shown} more
+          </button>
         )}
       </div>
-    </>
+      <aside className="pm-col pm-aside">
+        {account ? <YouCard {...ctx} lead="rank" /> : <GuestBanner />}
+        <div className="pm-card pm-facts">
+          <div className="pm-card-head">
+            <span className="t-heading">{season ? `Season ${season.id}` : 'Season'}</span>
+            {season && <Badge tone={live ? 'success' : undefined}>{live ? 'Live' : 'Ended'}</Badge>}
+          </div>
+          <DetailRow label="Ends" value={ends} />
+          <DetailRow label="Time left" value={left === undefined ? '—' : left ? span(left) : 'Ended'} />
+          <DetailRow
+            label="Players"
+            value={
+              <span className="row" style={{ gap: 6, justifyContent: 'flex-end' }}>
+                {!!joined && <span className="t-caption c-success">+{joined} this week</span>}
+                {players ? players.length : '—'}
+              </span>
+            }
+          />
+        </div>
+        <div className="pm-card pm-facts">
+          <div className="pm-card-head">
+            <span className="t-heading">Season prizes</span>
+            <a className="pm-link" href={href({ page: 'predict', tab: 'rewards' })}>
+              Rewards <Icon name="chevron-right" size={16} />
+            </a>
+          </div>
+          {(['1st place', '2nd place', '3rd place'] as const).map((place, i) => (
+            <div key={place} className="pm-prize-line">
+              <RankMedal rank={(i + 1) as 1 | 2 | 3} size={24} />
+              <span className="grow t-body c-2">{place}</span>
+              <span className="t-body-strong">{PRIZES[i]}</span>
+            </div>
+          ))}
+          <span className="t-caption c-3">Qurrl is QUANTUMARK’s QRC-721 NFT collection. Wallets that farm with several accounts are excluded from prizes.</span>
+        </div>
+      </aside>
+    </div>
+  );
+}
+
+/// Podium card for the top three (Podium · #1–3); first place stands taller.
+function PodiumCard({ p, you }: { p: Player; you: boolean }) {
+  const first = p.rank === 1;
+  return (
+    <div className={`pm-card pm-podium-card${first ? ' first' : ''}${you ? ' you' : ''}`}>
+      {isMedal(p.rank) && <RankMedal rank={p.rank} size={first ? 48 : 40} />}
+      <span className={`token-icon pm-mark${you ? ' you' : ''}`} style={{ width: first ? 52 : 44, height: first ? 52 : 44, fontSize: first ? 16 : 14 }} title={p.user}>
+        {addressMark(p.user)}
+      </span>
+      <span className="row t-num-strong c-1" style={{ gap: 6 }}>
+        {shortAddress(p.user)}
+        {you && <Badge tone="quantum">You</Badge>}
+      </span>
+      <span className={first ? 'xp first' : 'xp'}>{fmtXp(p.xp)}</span>
+      <span className="t-caption c-3">
+        {p.winRate === null ? '—' : `${Math.round(p.winRate * 100)}%`} win rate · {p.predictions} {p.predictions === 1 ? 'prediction' : 'predictions'}
+      </span>
+      <span className={`pm-prize-chip${first ? ' first' : ''}`}>
+        <Icon name="trophy" size={14} />
+        {PRIZES[p.rank - 1]}
+      </span>
+    </div>
   );
 }
 
 function PlayerRow({ p, you }: { p: Player; you?: boolean }) {
   return (
     <div className={`tr${you ? ' you' : ''}`}>
-      <div className="td rank">{p.rank}</div>
+      <div className="td rank">{isMedal(p.rank) ? <RankMedal rank={p.rank} size={22} /> : p.rank}</div>
       <div className="td grow">
-        <span className="token-icon" style={{ width: 28, height: 28, fontSize: 12 }} title={p.user}>
+        <span className={`token-icon pm-mark${you ? ' you' : ''}`} style={{ width: 28, height: 28, fontSize: 12 }} title={p.user}>
           {addressMark(p.user)}
         </span>
-        <span className="t-num c-1">{shortAddress(p.user)}</span>
+        <span className="t-num-strong c-1">{shortAddress(p.user)}</span>
         {you && <Badge tone="quantum">You</Badge>}
       </div>
-      <div className="td r" style={{ width: 140, flex: 'none' }}>
+      <div className="td r xp" style={{ width: 120, flex: 'none' }}>
         {fmtXp(p.xp)}
       </div>
-      <div className="td r cell-2" style={{ width: 70, flex: 'none' }}>
+      <div className="td r cell-2" style={{ width: 76, flex: 'none' }}>
         {p.winRate === null ? '—' : `${Math.round(p.winRate * 100)}%`}
       </div>
-      <div className="td r cell-2" style={{ width: 110, flex: 'none' }}>
+      <div className="td r cell-2" style={{ width: 96, flex: 'none' }}>
         {p.predictions}
       </div>
-      <div className={`td r ${you ? 'c-3' : ''}`} style={{ width: 160, flex: 'none' }}>
+      <div className={`td r ${PRIZES[p.rank - 1] ? '' : 'c-3'}`} style={{ width: 140, flex: 'none' }}>
         {PRIZES[p.rank - 1] ?? '—'}
       </div>
     </div>

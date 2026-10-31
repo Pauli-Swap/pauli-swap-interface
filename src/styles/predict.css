@@ -137,6 +137,143 @@
   .pm-subnav .xp-chip { display: none; }
 }
 
+/* ---------- Markets and Leaderboard · v3 (Gamified page, 151:1410 / 161:1247) ----------
+   Quiet surfaces: cards sit on the page by tone alone, no border. Colour is
+   kept for outcomes, the one claim button and the medals. */
+.pm-cols { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 24px; align-items: start; }
+.pm-col { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+.pm-aside { gap: 16px; }
+.pm-aside .pm-guest { flex-direction: column; align-items: stretch; border: 0; }
+.pm-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 40px; }
+.pm-head h2 { font: 600 20px/28px var(--font); letter-spacing: -0.2px; }
+
+.pm-card { background: var(--bg-surface); border-radius: var(--radius-card); }
+.pm-card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.pm-card-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.pm-card-foot.end { justify-content: flex-end; }
+.pm-link { display: inline-flex; align-items: center; gap: 2px; color: var(--quantum); font: 500 13px/18px var(--font); letter-spacing: -0.13px; }
+.pm-link:hover { color: var(--quantum-bright); }
+.pm-empty { padding: 48px 20px; text-align: center; color: var(--text-muted); font: 400 14px/20px var(--font); }
+.pm-pill { display: inline-flex; align-items: center; gap: 6px; flex: none; padding: 8px 14px 8px 12px; background: var(--bg-surface); border-radius: var(--radius-full); font: 500 13px/18px var(--font); letter-spacing: -0.13px; white-space: nowrap; }
+.token-icon.pm-mark { background: var(--bg-muted); color: var(--text-secondary); border: 0; }
+.token-icon.pm-mark.you { background: var(--quantum-bg); color: var(--quantum); }
+
+/* Market card. */
+.pm-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.pm-mcard { display: flex; flex-direction: column; gap: 16px; padding: 20px; cursor: pointer; transition: background 0.12s; }
+.pm-mcard:hover { background: var(--bg-elevated); }
+.pm-mcard .q { font: 600 16px/22px var(--font); letter-spacing: -0.16px; color: var(--text-primary); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pm-mcard-main { display: flex; align-items: center; gap: 24px; }
+.pm-mcard-main .q { flex: 1; min-width: 0; }
+.pm-chance-row { display: flex; align-items: baseline; gap: 6px; padding-bottom: 4px; }
+.pm-chance-row .pct { font: 600 20px/28px var(--font); letter-spacing: -0.2px; font-variant-numeric: tabular-nums; }
+.pm-meter { height: 4px; border-radius: 2px; background: var(--bg-muted); overflow: hidden; flex: none; }
+.pm-meter > span { display: block; height: 100%; border-radius: inherit; background: var(--success); }
+.pm-meter.warn > span { background: var(--warning); }
+.pm-mcard-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding-top: 6px; min-height: 50px; align-items: center; }
+.pm-mcard-actions > .badge { justify-self: start; }
+.pm-meta { display: flex; align-items: center; gap: 6px; color: var(--text-secondary); font: 400 12px/16px var(--font); letter-spacing: -0.12px; }
+.pm-mcard.featured { padding: 24px; gap: 20px; }
+.pm-mcard.featured .q { font: 600 22px/28px var(--font); letter-spacing: -0.22px; -webkit-line-clamp: 3; }
+.pm-mcard.featured .pm-chance-row { flex-direction: column; align-items: flex-end; gap: 0; padding-bottom: 0; flex: none; }
+.pm-mcard.featured .pm-chance-row .pct { font: 500 38px/46px var(--font); letter-spacing: -0.38px; }
+.pm-mcard.featured .pm-chance-row > :nth-child(n + 2) { display: inline; }
+.pm-mcard.featured .pm-meter { height: 6px; border-radius: 3px; }
+.pm-mcard.featured .pm-outcome.lg { height: 48px; }
+
+/* Outcome buttons on cards: a stronger tint than the table chips, a ring on
+   hover (Outcome button · states spec). */
+.pm-outcome.lg { height: 44px; font-size: 15px; border-radius: var(--radius-md); }
+.pm-outcome.lg.yes { background: rgb(76 195 138 / 0.22); }
+.pm-outcome.lg.no { background: rgb(242 119 122 / 0.22); }
+.pm-outcome.lg:hover { filter: none; }
+.pm-outcome.lg.yes:hover { background: rgb(76 195 138 / 0.3); box-shadow: inset 0 0 0 1px rgb(76 195 138 / 0.4); }
+.pm-outcome.lg.no:hover { background: rgb(242 119 122 / 0.3); box-shadow: inset 0 0 0 1px rgb(242 119 122 / 0.4); }
+
+/* You / Your standing. */
+.pm-you { display: flex; flex-direction: column; gap: 16px; padding: 20px; }
+.pm-you-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.pm-you-lead { display: flex; align-items: baseline; gap: 10px; }
+.pm-you-lead > svg { align-self: center; }
+.pm-you-lead .big { font: 600 30px/36px var(--font); letter-spacing: -0.3px; font-variant-numeric: tabular-nums; }
+.pm-trio { display: grid; grid-template-columns: repeat(3, 1fr); }
+.pm-trio > div { display: flex; flex-direction: column; padding: 0 12px; border-left: 1px solid rgb(255 255 255 / 0.06); }
+.pm-trio > div:first-child { padding-left: 0; border-left: 0; }
+.pm-trio .v { font: 500 14px/20px var(--font); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pm-trio .l { color: var(--text-muted); font: 400 12px/16px var(--font); letter-spacing: -0.12px; }
+.pm-prize-gap { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; background: var(--bg-elevated); border-radius: var(--radius-control); }
+.pm-prize-gap .pm-meter { height: 6px; border-radius: 3px; }
+
+/* Daily quests widget. */
+.pm-quests { display: flex; flex-direction: column; gap: 16px; padding: 20px; }
+.pm-segments { display: flex; align-items: center; gap: 4px; }
+.pm-segments > span:not(.t-num) { flex: 1; height: 6px; border-radius: 3px; background: var(--bg-muted); }
+.pm-segments > span.on { background: var(--success); }
+.pm-segments > .t-num { margin-left: 6px; white-space: nowrap; }
+.pm-claim { display: flex; align-items: center; gap: 12px; padding: 12px 12px 12px 14px; background: var(--quantum-bg); border-radius: var(--radius-control); }
+.pm-quest-list { display: flex; flex-direction: column; }
+.pm-quest-line { display: flex; align-items: center; gap: 12px; padding: 10px 2px; font: 400 14px/20px var(--font); letter-spacing: -0.14px; }
+.pm-quest-line.done { color: var(--text-muted); }
+.pm-quest-line .badge-quantum { color: var(--quantum-bright); background: rgb(76 194 255 / 0.19); }
+
+/* Mini leaderboard. */
+.pm-mini-lb { display: flex; flex-direction: column; gap: 16px; padding: 20px; }
+.pm-mini-row { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: var(--radius-control); }
+.pm-mini-row.you { background: var(--bg-elevated); }
+.pm-mini-row .rank { width: 24px; flex: none; display: inline-flex; justify-content: center; color: var(--text-secondary); font: 500 14px/20px var(--font); font-variant-numeric: tabular-nums; }
+.pm-gap { text-align: center; color: var(--text-dim); font: 400 12px/14px var(--font); }
+
+/* Leaderboard tab. */
+.pm-podium { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: end; }
+.pm-podium-card { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px 16px; text-align: center; min-width: 0; }
+.pm-podium-card.first { background: var(--bg-elevated); padding-top: 32px; }
+.pm-podium-card.you { box-shadow: inset 0 0 0 1px var(--border-accent); }
+.pm-podium-card .xp { font: 600 17px/24px var(--font); letter-spacing: -0.17px; font-variant-numeric: tabular-nums; }
+.pm-podium-card .xp.first { font: 600 20px/28px var(--font); letter-spacing: -0.2px; }
+.pm-prize-chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px 5px 10px; border-radius: var(--radius-full); background: var(--bg-muted); color: var(--text-secondary); font: 500 12px/16px var(--font); white-space: nowrap; }
+.pm-prize-chip.first { background: var(--warning-bg); color: var(--warning); }
+.pm-lb { padding: 8px 0; overflow: hidden; }
+.pm-lb-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 12px 8px 20px; }
+.pm-lb-bar .search-field { width: 240px; flex: none; }
+.pm-lb .table .thead { background: none; border-radius: 0; height: 40px; border-bottom: 1px solid rgb(255 255 255 / 0.06); }
+.pm-lb .table .tbody .tr { border-bottom: 0; }
+.pm-lb .table .empty-row { border-bottom: 0; }
+.pm-lb .lb-table .tbody .tr.you { background: var(--quantum-bg); }
+.pm-facts { display: flex; flex-direction: column; gap: 12px; padding: 20px; }
+.pm-prize-line { display: flex; align-items: center; gap: 12px; }
+
+@media (max-width: 1100px) {
+  .pm-cols { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 720px) {
+  .pm-grid { grid-template-columns: minmax(0, 1fr); }
+  .pm-mcard-main { flex-direction: column; align-items: stretch; gap: 8px; }
+  .pm-mcard.featured .pm-chance-row { flex-direction: row; align-items: baseline; gap: 6px; }
+  .pm-head { flex-wrap: wrap; }
+  /* The podium turns into three compact rows, first place on top. */
+  .pm-podium { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .pm-podium-card {
+    display: grid; grid-template-columns: 36px minmax(0, 1fr) auto;
+    grid-template-areas: 'medal who xp' 'medal cap prize';
+    align-items: center; column-gap: 12px; row-gap: 2px;
+    padding: 14px 16px; text-align: left;
+  }
+  .pm-podium-card.first { order: -1; padding-top: 14px; }
+  .pm-podium-card > svg { grid-area: medal; width: 36px; height: 36px; }
+  .pm-podium-card > .token-icon { display: none; }
+  .pm-podium-card > .row { grid-area: who; min-width: 0; }
+  .pm-podium-card > .xp, .pm-podium-card > .xp.first { grid-area: xp; justify-self: end; font: 600 16px/22px var(--font); }
+  .pm-podium-card > .t-caption { grid-area: cap; }
+  .pm-podium-card > .pm-prize-chip { grid-area: prize; justify-self: end; }
+  .pm-lb-bar { flex-wrap: wrap; }
+  .pm-lb-bar .search-field { width: 100%; }
+  /* Rank, trader and XP only; win rate, predictions and prize stay on the
+     wider layouts and in the podium. */
+  .pm-lb .table { overflow-x: visible; }
+  .pm-lb .table .tr { min-width: 0; padding: 0 16px; }
+  .pm-lb .table .td.r:not(.sort):not(.xp) { display: none; }
+}
+
 /* Get started (Quests tab): first steps for a new wallet. */
 .pm-start { gap: 14px; padding: 16px 20px; }
 
