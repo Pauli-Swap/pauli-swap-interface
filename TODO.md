@@ -1,6 +1,6 @@
 # PauliSwap: TODO
 
-Cập nhật 2026-10-29. File này gom việc của cả 5 repo, cộng repo hạ tầng:
+Cập nhật 2026-10-30. File này gom việc của cả 5 repo, cộng repo hạ tầng:
 
 - `pauli-swap`: hợp đồng swap
 - `pauli-swap-interface`: giao diện
@@ -15,9 +15,12 @@ Việc của từng repo khác được viết chi tiết thành proposal ngay t
 
 | Repo | Proposal | Batch |
 | --- | --- | --- |
-| `pauli-swap-prediction-market` | `docs/PROPOSAL-SEASON-1-OPS.md` | 1.1 (CLI), 1.2 (health, cảnh báo), 2.1, 2.3 (cancel e2e), 2.4, 4.1 (attester), 6.1 |
+| `pauli-swap-prediction-market` | `docs/PROPOSAL-SEASON-1-OPS.md` | 1.1 (CLI), 1.2 (health, cảnh báo), 1.5 (§9), 2.1, 2.3 (cancel e2e), 2.4, 4.1 (attester), 6.1 |
 | `pauli-swap-indexer` | `docs/PROPOSAL-SEASON-1.md` (dựa trên `PROPOSAL-PREDICT.md`) | 1.4 (docs), 2.2, 2.3, 3.1, 4.1 (indexer), backlog |
-| `pauli-swap` | `docs/PROPOSAL-AUDIT-PHASE-5.md` | 5.1, 5.2 |
+| `pauli-swap` | `docs/PROPOSAL-AUDIT-PHASE-5.md` | 5.1, 5.2, CI (§5) |
+| `pauli-swap-interface` (repo này) | [`docs/PROPOSAL-SEASON-1.md`](docs/PROPOSAL-SEASON-1.md) | 1.1 / 1.3 / 5.0 (thử bằng ví thật), 1.5 (phần giao diện), 3.2, 3.3, 4.1, 4.2 |
+
+Phần giao diện cần từ các repo khác: xem §7 trong proposal của giao diện. Những mục đó đã được ghi vào proposal của repo tương ứng: indexer §7, prediction-market §9, pauli-swap §5.
 
 Mốc cứng: **season 1 kết thúc 2026-11-25 17:27 UTC** (`endsAt` 1795627668, đặt lại khi deploy lại Predict sau đợt reset devnet 2026-10-28).
 
@@ -86,6 +89,16 @@ Mục tiêu: người dùng thật làm được **mọi** nhiệm vụ, và fau
 - [x] Restart policy `unless-stopped`.
 - [x] Backup Postgres mỗi ngày: `pauliswap-backup.timer` lúc 03:30 UTC, `pg_dump` ra `/srv/pauli-swap/backups`, giữ 7 ngày (`push_chain_host.sh --backup`).
 
+### Batch 1.5: Tự trả XP khi market chốt, redeploy Predict (quyết định 2026-10-30)
+
+Người dùng không phải tự claim nữa. Làm càng sớm càng tốt, khi season 1 mới có khoảng 3 ví thử. Batch 1.1 (kiểm bằng ví thật) và 1.3 (connect) làm lại sau batch này.
+
+- [ ] `PredictMarket.settle(id, users[])`: ai gọi cũng được, XP về đúng ví, phát `Claimed` như cũ; giữ `claim` để tự nhận khi cần. `PauliPredictXP` nhận nhiều market (`setMarket(market, allowed)`). Có e2e (prediction-market §9.1).
+- [ ] Redeploy cả Predict, `startSeason(1795627668)` để giữ nguyên ngày kết thúc, tạo lại market thử (§9.2).
+- [ ] Attester tự gọi `settle` khi market chốt; `market:settle` làm phương án dự phòng (§9.3).
+- [ ] `sync:predict` ở giao diện và indexer; indexer dựng lại các bảng `predict_*`; đẩy lại attester và web.
+- [ ] Giao diện: trang market báo "XP đã được trả tự động", vẫn giữ nút Claim dự phòng (proposal của giao diện §1.1).
+
 ---
 
 ## Giai đoạn 2: Kết thúc season 1 (phải xong trước 2026-11-23)
@@ -117,7 +130,7 @@ Làm sau Batch 2.1.
 
 - [x] `xp_balance` so với `xpOfSeason` cho từng ví.
 - [x] Vị thế so với `positionOf`.
-- [ ] `claimable` so với `qrl_call claim(id)` trên từng market đã chốt. Đã viết (`npm run audit -- --predict`), chạy lại sau khi market #0 chốt (30/10 12:00 UTC).
+- [ ] `claimable` so với `qrl_call claim(id)` trên từng market đã chốt. Đã viết (`npm run audit -- --predict`), chạy lại sau khi market đầu tiên trên bản redeploy chốt (Batch 1.5). Sau khi attester trả xong thì `claimable` về 0, nên phải chạy lúc market vừa chốt mà bot chưa trả, hoặc tắt bot trong lúc kiểm.
 - [x] Chạy lại kịch bản hủy market trong `e2e.js`: buy, sell có lời, rồi cancel. Claim phải ra `(yes+no)/2`.
 - [x] Đổi `predict-devnet.json` giả lập redeploy. Chỉ các bảng `predict_*` được dựng lại.
 
@@ -125,7 +138,7 @@ Làm sau Batch 2.1.
 
 - [x] `docs/SEASON-END.md` ghi rõ từng bước:
   1. resolve hoặc cancel mọi market;
-  2. chờ 48 giờ cho người dùng claim;
+  2. ~~chờ 48 giờ cho người dùng claim~~ → kiểm mọi market đã chốt và attester đã trả hết (Batch 1.5);
   3. chọn `snapshotBlock`;
   4. chạy snapshot;
   5. admin duyệt sybil và sửa `denylist.json`;
@@ -134,7 +147,8 @@ Làm sau Batch 2.1.
   8. gửi danh sách WL cho QuantumArk;
   9. `startSeason` cho season 2.
 - [x] Thêm lệnh `season:close` (mặc định chạy thử) vào script quản trị.
-- [ ] Thông báo trên giao diện: banner "Season kết thúc sau X ngày, hãy claim XP".
+- ~~Banner "hãy claim XP" trên giao diện~~: bỏ, vì XP đã tự trả (Batch 1.5).
+- [ ] Sửa `SEASON-END.md` bước 2 theo cách trả mới (prediction-market §9.4).
 
 ---
 
@@ -149,13 +163,15 @@ Mục tiêu: không đọc log thô trong trình duyệt nữa, và bảng xếp
 - [x] `predictTrades(market, user, first, skip)`
 - [x] `predictPositions(user, market)`: số share và `claimable`.
 - [x] `predictLeaderboard(season, block, first, skip)`
+- [ ] `predictPriceHistory(market, from, first)` cho biểu đồ market và `price24h` (proposal của indexer §7).
+- [ ] Deploy bản có API Predict lên VPS.
 
 ### Batch 3.2: Chuyển giao diện sang API mới (`pauli-swap-interface`)
 
 Làm sau Batch 3.1.
 
 - [ ] Leaderboard: hiện `score`, `claimable`, có đủ điều kiện hay không, số ngày hoạt động.
-- [ ] Rewards và biểu đồ market lấy dữ liệu từ indexer. Khi indexer không chạy thì quay về đọc log.
+- [ ] Rewards và biểu đồ market lấy dữ liệu từ indexer. Khi indexer không chạy thì quay về đọc log. Biểu đồ phải chờ indexer có `predictPriceHistory` (3.1).
 - [ ] Vị thế của tôi: tổng XP chờ claim trên mọi market.
 
 ### Batch 3.3: Hiển thị `$` (tùy chọn)
