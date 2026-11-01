@@ -116,6 +116,7 @@ export function V2Deposit({ tokenA, tokenB, onEdit, onPick }: { tokenA: Token; t
       verb: 'supply',
       prior: approved,
       activity: 'Added liquidity',
+      quest: 'pool',
       successTitle: 'Liquidity added',
       summary: { from: { token: tokenA, amount: amountA, label: sym(tokenA) }, to: { token: tokenB, amount: amountB, label: sym(tokenB) }, joiner: 'plus' },
       value: nativeA ? amountA : nativeB ? amountB : undefined,

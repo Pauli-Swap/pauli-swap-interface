@@ -22,7 +22,7 @@ import { FaucetButton } from '../components/QrlFaucet';
 import { useBalances } from '../hooks/chain';
 import { NewMarketButton, OwnerQueue } from '../components/PredictAdmin';
 import { MarketView, Player, QuestProgress, questsOn, Season, useIsMarketOwner, useLeaderboard, useMarkets, usePredictLogs, useQuests, useSeason, useXp } from '../hooks/predict';
-import { predictXP, shortAddress } from '../lib/chain';
+import { predictXP, sameAddress, shortAddress } from '../lib/chain';
 import { DecodedEvent } from '../lib/logs';
 import { NATIVE } from '../lib/tokens';
 import { CANCELLED, fmtChance, fmtPrice, fmtXp, OPEN, PRIZES, QURRL_URL, RESOLVED, xpFloat, YES } from '../lib/predict';
@@ -360,6 +360,7 @@ function PrizeDistance({ me, players }: { me: Player | null; players: Player[] |
 /// by hand, every other quest is credited by the quest bot.
 function QuestsCard({ account, season, checkedIn, live, logs, today, quests, questsDenied }: Ctx) {
   const reset = useReset();
+  const crediting = useCrediting(account, today);
   const checkInXp = season?.checkInXp ?? 0n;
   const checkIn = useCheckIn(checkInXp);
   const daily = quests?.filter((q) => q.kind === 'daily' && q.id !== 0) ?? [];
@@ -412,7 +413,7 @@ function QuestsCard({ account, season, checkedIn, live, logs, today, quests, que
       {daily.length > 0 && (
         <div className="pm-quest-list">
           {daily.map((q) => (
-            <QuestLine key={q.id} state={q.credited ? 'done' : q.met ? 'met' : 'todo'} title={q.title ?? '???'} reward={q.xp ? `+${q.xp} XP` : undefined} denied={questsDenied} />
+            <QuestLine key={q.id} state={q.credited ? 'done' : q.met || crediting(q) ? 'met' : 'todo'} title={q.title ?? '???'} reward={q.xp ? `+${q.xp} XP` : undefined} denied={questsDenied} />
           ))}
         </div>
       )}
@@ -436,9 +437,9 @@ function QuestsCard({ account, season, checkedIn, live, logs, today, quests, que
 function QuestLine({ state, title, reward, denied }: { state: 'todo' | 'met' | 'done'; title: string; reward?: string; denied?: boolean }) {
   return (
     <div className={`pm-quest-line ${state}`}>
-      <Icon name={state === 'todo' ? 'chevron-right' : 'circle-check'} size={18} className={state === 'done' ? 'c-success' : state === 'met' ? 'c-quantum' : 'c-3'} />
+      <Icon name={state === 'todo' || (denied && state === 'met') ? 'chevron-right' : 'circle-check'} size={18} className={state === 'done' ? 'c-success' : state === 'met' && !denied ? 'c-quantum' : 'c-3'} />
       <span className="grow ellipsis">{title}</span>
-      {state === 'done' ? <Badge tone="success">Done</Badge> : state === 'met' ? denied ? <Badge>Not eligible</Badge> : <Badge tone="quantum">Crediting…</Badge> : reward && <span className="t-num c-2">{reward}</span>}
+      {state === 'done' ? <Badge tone="success">Done</Badge> : denied ? <Badge>Not eligible</Badge> : state === 'met' ? <Badge tone="quantum">Crediting…</Badge> : reward && <span className="t-num c-2">{reward}</span>}
     </div>
   );
 }
@@ -493,6 +494,22 @@ function MiniRow({ p, you }: { p: Player; you?: boolean }) {
   );
 }
 
+/// How long a confirmed quest transaction keeps its quest at "Crediting…"
+/// while the indexer catches up and the bot sends creditQuest. Past this the
+/// row falls back to the indexer, e.g. a swap under 1 QRL that never counts.
+const CREDITING_MS = 10 * 60_000;
+
+/// Whether a daily quest was just done from this browser today: a confirmed
+/// transaction tagged with its action that the indexer may not show yet.
+function useCrediting(account: string | null, today: number) {
+  const { activity } = useTx();
+  return (q: QuestProgress) =>
+    q.kind === 'daily' &&
+    !q.credited &&
+    !!account &&
+    activity.some((a) => a.quest === q.action && a.status === 'success' && sameAddress(a.account, account) && a.time >= today * 86_400_000 && Date.now() - a.time < CREDITING_MS);
+}
+
 /// Sends the daily check-in, the only quest a player claims by hand.
 function useCheckIn(checkInXp: bigint) {
   const { send } = useTx();
@@ -521,6 +538,7 @@ function Quests(ctx: Ctx) {
   const openMarket = markets?.find((m) => m.status === OPEN && m.closeTime > chainClock.latestTime);
 
   const checkIn = useCheckIn(checkInXp);
+  const crediting = useCrediting(account, today);
 
   /// The button that takes the player to where the quest is done.
   const goTo = (q: QuestProgress) => {
@@ -549,8 +567,8 @@ function Quests(ctx: Ctx) {
         detail={masked ? 'Hidden quest. Keep exploring PauliSwap to reveal it.' : q.detail!}
         progress={masked ? '?' : `${q.progress} / ${q.target}`}
         reward={masked ? '???' : `+${q.xp} XP`}
-        state={q.credited ? 'done' : q.met ? 'claimable' : 'todo'}
-        action={!account ? undefined : q.met ? (questsDenied ? <Badge>Not eligible</Badge> : <Badge tone="quantum">Crediting…</Badge>) : masked ? <Badge>Hidden</Badge> : goTo(q)}
+        state={q.credited ? 'done' : (q.met || crediting(q)) && !questsDenied ? 'claimable' : 'todo'}
+        action={!account ? undefined : questsDenied ? <Badge>Not eligible</Badge> : q.met || crediting(q) ? <Badge tone="quantum">Crediting…</Badge> : masked ? <Badge>Hidden</Badge> : goTo(q)}
       />
     );
   };

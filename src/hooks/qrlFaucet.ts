@@ -48,7 +48,7 @@ export function useQrlFaucet(account: string | null) {
       const res = await fetch(`${FAUCET.serviceUrl}/claim`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ address: account }) });
       const body = (await res.json().catch(() => ({}))) as { hash?: string; error?: string; nextClaimAt?: number };
       if (res.ok && body.hash) {
-        notify({ kind: 'success', title: `Received ${amount}`, sub: 'Test QRL from the PauliSwap faucet', hash: body.hash });
+        notify({ kind: 'success', title: `Received ${amount}`, sub: 'Test QRL from the PauliSwap faucet', hash: body.hash, quest: 'faucet' });
         return true;
       }
       if (body.nextClaimAt) setNextAt(body.nextClaimAt);

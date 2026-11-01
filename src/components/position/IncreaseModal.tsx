@@ -59,6 +59,7 @@ export function IncreaseModal({ position: p, account, onClose }: { position: V3P
       title: 'Add liquidity',
       verb: 'deposit',
       activity: 'Added liquidity',
+      quest: 'pool',
       successTitle: 'Liquidity added',
       value: native || undefined,
       prior: [!wq0 && inc0 > 0n ? `Approve ${s0}` : '', !wq1 && inc1 > 0n ? `Approve ${s1}` : ''].filter(Boolean),

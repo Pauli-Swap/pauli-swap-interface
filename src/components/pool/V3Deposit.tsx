@@ -200,6 +200,7 @@ export function V3Deposit({
       verb: 'deposit',
       prior: approved,
       activity: 'Added liquidity',
+      quest: 'pool',
       successTitle: 'Position created',
       summary: { from: { token: tokenA, amount: amountA, label: sym(tokenA) }, to: { token: tokenB, amount: amountB, label: sym(tokenB) }, joiner: 'plus' },
       value: nativeValue || undefined,

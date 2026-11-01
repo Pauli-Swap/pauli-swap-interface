@@ -11,6 +11,10 @@ import { useWallet } from './wallet';
 type Method = ReturnType<AnyContract['methods'][string]> & { encodeABI: () => string };
 type Leg = { token: Token; amount: bigint; label: string };
 
+/// Bot-credited quest a confirmed transaction may complete; the Quests tab
+/// shows it as crediting until the indexer and the quest bot catch up.
+export type QuestAction = 'swap' | 'predict' | 'pool' | 'faucet';
+
 export type TxRequest = {
   title: string;
   activity: string;
@@ -25,13 +29,14 @@ export type TxRequest = {
   /// only the encoded calldata goes to the wallet.
   build: () => { to: string; method: ReturnType<AnyContract['methods'][string]> };
   value?: bigint;
+  quest?: QuestAction;
 };
 
 const summaryText = (s: NonNullable<TxRequest['summary']>) => (s.to ? `${legText(s.from)} ${s.joiner === 'plus' ? '+' : 'for'} ${legText(s.to)}` : legText(s.from));
 const hex = (n: bigint) => `0x${n.toString(16)}`;
 
-export type Activity = { hash: string; title: string; sub?: string; status: 'pending' | 'success' | 'failed'; time: number; account: string };
-type Toast = { id: number; kind: 'success' | 'pending' | 'failed' | 'neutral'; title: string; sub?: string; hash?: string };
+export type Activity = { hash: string; title: string; sub?: string; status: 'pending' | 'success' | 'failed'; time: number; account: string; quest?: QuestAction };
+type Toast = { id: number; kind: 'success' | 'pending' | 'failed' | 'neutral'; title: string; sub?: string; hash?: string; quest?: QuestAction };
 type ModalState = { req: TxRequest; status: 'confirm' | 'submitted' | 'success' | 'failed'; hash?: string; error?: TxError };
 type TxError = { reason?: string; message: string; rejected?: boolean };
 
@@ -154,7 +159,7 @@ export function TxProvider({ children }: { children: ReactNode }) {
         const receipt = await waitForReceipt(h);
         if (BigInt(receipt.status ?? 1) === 0n) throw new Error('The transaction reverted on chain.');
         setModal((m) => (m ? { ...m, status: 'success' } : m));
-        if (hash) record({ hash, title: req.activity, sub, status: 'success', time: Date.now(), account });
+        if (hash) record({ hash, title: req.activity, sub, status: 'success', time: Date.now(), account, quest: req.quest });
         toast({ kind: 'success', title: req.successTitle, sub: sub ?? 'Confirmed', hash }, hash);
         return true;
       } catch (e) {
@@ -175,7 +180,7 @@ export function TxProvider({ children }: { children: ReactNode }) {
 
   const notify = useCallback(
     (t: Omit<Toast, 'id'>) => {
-      if (t.hash && account && t.kind !== 'neutral') record({ hash: t.hash, title: t.title, sub: t.sub, status: t.kind, time: Date.now(), account });
+      if (t.hash && account && t.kind !== 'neutral') record({ hash: t.hash, title: t.title, sub: t.sub, status: t.kind, time: Date.now(), account, quest: t.quest });
       toast(t, t.hash);
     },
     [account, toast],

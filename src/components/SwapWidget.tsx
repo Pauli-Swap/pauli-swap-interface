@@ -243,6 +243,7 @@ export function SwapWidget({ defaultInput, defaultOutput, syncUrl }: { defaultIn
       title: 'Confirm swap',
       verb: 'swap',
       activity: 'Swapped',
+      quest: 'swap',
       successTitle: 'Swap confirmed',
       prior: !nativeIn && approved.includes(input.address.toLowerCase()) ? [`Approve ${sym(input)}`] : undefined,
       summary: { from: { token: input, amount: trade.amountIn, label: sym(input) }, to: { token: output, amount: outNet ?? trade.amountOut, label: sym(output) } },

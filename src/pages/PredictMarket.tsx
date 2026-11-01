@@ -179,6 +179,7 @@ function TradePanel({ m, log }: { m: MarketView; log: DecodedEvent[] | null }) {
       title: isBuy ? `Buy ${name}` : `Sell ${name}`,
       verb: isBuy ? 'trade' : 'sale',
       activity: isBuy ? `Bought ${name} on #${m.id}` : `Sold ${name} on #${m.id}`,
+      quest: isBuy ? 'predict' : undefined,
       successTitle: isBuy ? 'Prediction placed' : 'Shares sold',
       successText: isBuy ? `${fmtXp(value)} for ${fmtXp(shares, { unit: false })} ${name} shares.` : `${fmtXp(shares, { unit: false })} ${name} shares for ${fmtXp(value)}.`,
       build: () => ({ to: PREDICT.market, method: isBuy ? predictMarket().methods.buy(m.id, outcome, value, bound) : predictMarket().methods.sell(m.id, outcome, value, bound) }),
