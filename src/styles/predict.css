@@ -292,3 +292,22 @@
   .table.quests-table .td.grow > * { flex: 1 1 auto; min-width: 0; }
   .table.quests-table .td .sub { white-space: normal; }
 }
+
+/* Owner resolve flow (Figma: Proposal · Resolve, 2026-11-01) */
+.pm-queue { display: flex; flex-direction: column; gap: 12px; padding: 16px; }
+.pm-queue-row { display: flex; align-items: center; gap: 16px; padding: 12px 16px; border-radius: var(--radius-control); background: var(--bg-elevated); color: inherit; text-decoration: none; }
+.pm-queue-row:hover { background: var(--bg-muted); }
+.pm-rule { display: flex; flex-direction: column; gap: 8px; padding: 12px 16px; border-radius: var(--radius-control); background: var(--bg-elevated); }
+.pm-pick { flex-direction: column; align-items: flex-start; gap: 2px; height: auto; padding-top: 12px; padding-bottom: 12px; }
+.pm-pick .sub { font: 400 12px/16px var(--font); color: var(--text-muted); }
+.pm-pick.on .sub { color: inherit; }
+.pm-warn { display: flex; flex-direction: column; gap: 4px; padding: 12px; border-radius: var(--radius-control); background: var(--warning-bg); }
+.pm-warn .t-body-strong { color: var(--warning); }
+.pm-warn .t-caption { color: var(--text-secondary); }
+.pm-check { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.pm-check input { width: 18px; height: 18px; accent-color: var(--quantum); }
+.pm-steps { display: flex; flex-direction: column; gap: 12px; }
+.pm-step { display: flex; gap: 12px; align-items: flex-start; }
+.pm-step .dot { flex: none; width: 8px; height: 8px; margin-top: 6px; border-radius: 50%; background: var(--success); }
+.pm-step.now .dot { background: var(--warning); }
+.pm-step a { color: var(--quantum); }

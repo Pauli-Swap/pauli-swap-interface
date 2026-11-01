@@ -2,13 +2,13 @@ import { PREDICT } from '../config';
 import { ABI } from './chain';
 import { formatUnits } from './format';
 import { DecodedEvent, getEvents } from './logs';
+import { type Outcome, YES } from './payout';
 
 export const XP_DECIMALS = 18;
 export const ONE_XP = 10n ** 18n;
 
-export const YES = 0;
-export const NO = 1;
-export type Outcome = typeof YES | typeof NO;
+export { batches, holdings, NO, payees, payout, SETTLE_BATCH, YES } from './payout';
+export type { Holding, Outcome } from './payout';
 
 export const OPEN = 0;
 export const RESOLVED = 1;
@@ -77,6 +77,28 @@ export function applyTrade(m: Pools, e: DecodedEvent): Pools {
   }
   return m;
 }
+
+/// How each market is resolved, keyed by question: the contract stores only
+/// the question. From the Markets table in pauli-swap-prediction-market's
+/// README; a market created later without an entry shows only its question.
+export const MARKET_RULES: Record<string, { how: string; source: string }> = {
+  'Will the PauliSwap faucet have sent out at least 500 QRL by Oct 31, 2026 12:00 UTC?': {
+    how: 'QrlFaucet total dripped (totalDrippedPlanck) at the close block',
+    source: 'QrlFaucet · /faucet/status',
+  },
+  'Will the QRL devnet pass block 26,000 by Nov 1, 2026 00:00 UTC?': {
+    how: 'Block number of the last block before the close time',
+    source: 'QRL devnet · block number',
+  },
+  'Will PauliSwap have at least 10 pools (V2 + V3) by Nov 5, 2026 00:00 UTC?': {
+    how: 'PairCreated + PoolCreated count up to the close block',
+    source: 'PauliSwap V2 and V3 factories',
+  },
+  'Will at least 10 wallets hold Predict XP by Nov 12, 2026 00:00 UTC?': {
+    how: 'Wallets with xpOf > 0 at the close block',
+    source: 'PauliPredictXP · indexer leaderboard',
+  },
+};
 
 export const xpFloat = (v: bigint) => Number(formatUnits(v, XP_DECIMALS));
 

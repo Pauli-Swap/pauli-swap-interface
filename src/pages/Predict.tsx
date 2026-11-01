@@ -20,7 +20,7 @@ import { Badge, DetailRow, Icon, Seg, Skeleton, Stat } from '../components/ui';
 import { PREDICT } from '../config';
 import { FaucetButton } from '../components/QrlFaucet';
 import { useBalances } from '../hooks/chain';
-import { NewMarketButton } from '../components/PredictAdmin';
+import { NewMarketButton, OwnerQueue } from '../components/PredictAdmin';
 import { MarketView, Player, QuestProgress, questsOn, Season, useIsMarketOwner, useLeaderboard, useMarkets, usePredictLogs, useQuests, useSeason, useXp } from '../hooks/predict';
 import { predictXP, shortAddress } from '../lib/chain';
 import { DecodedEvent } from '../lib/logs';
@@ -157,6 +157,7 @@ function Markets(ctx: Ctx) {
             </span>
           )}
         </div>
+        {isOwner && <OwnerQueue markets={markets} now={now} />}
         <div className="pm-bar">
           <Seg boxed options={['trending', 'new', 'ending', 'resolved'] as const} labels={{ trending: 'Trending', new: 'New', ending: 'Ending soon', resolved: 'Resolved' }} value={filter} onChange={setFilter} />
           <span className="grow" />
