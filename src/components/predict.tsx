@@ -119,36 +119,22 @@ export function StatCard({ children }: { children: ReactNode }) {
   return <div className="card pm-stat">{children}</div>;
 }
 
-/// Disc light → mid, dark only on the rim, numeral in a deep tone of the
-/// same metal (Icon/rank-medal-1/2/3 on the Gamified page).
-const METALS = {
-  1: { hi: '#FFF0B8', mid: '#F7C94F', lo: '#A8740F', ink: '#7A4E00' },
-  2: { hi: '#FAFBFD', mid: '#CDD2DC', lo: '#6E7584', ink: '#434A5A' },
-  3: { hi: '#FCDDC2', mid: '#E2AA78', lo: '#7A421C', ink: '#6B3415' },
-} as const;
-const NUMERALS = {
-  1: 'M10.6 10 12.6 8.6v7',
-  2: 'M9.8 10.3a2.2 2.2 0 0 1 4.4.2c0 1.8-4.4 2.8-4.4 5h4.4',
-  3: 'M9.9 8.7h4.1l-2.2 2.6a2.2 2.2 0 1 1-2 3.3',
-} as const;
-
-/// Gold, silver and bronze medal for ranks 1 to 3, with the brand ribbon.
+/// Gold, silver and bronze medal for ranks 1 to 3 (public/medals); `size` is
+/// the height, the ribbon makes them a little taller than wide.
+/// The gold ribbon is longer, so at list sizes rank 1 is drawn 26/24 taller
+/// to keep its disc level with 2 and 3; the negative margin keeps the layout
+/// box at `size`. The podium sizes rank 1 itself.
 export function RankMedal({ rank, size = 24 }: { rank: 1 | 2 | 3; size?: number }) {
-  const c = METALS[rank];
-  const id = `pm-medal-${rank}`;
+  const h = rank === 1 && size <= 24 ? Math.round((size * 26) / 24) : size;
+  const bleed = (size - h) / 2;
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" style={{ flex: 'none' }} role="img" aria-label={`Rank ${rank}`}>
-      <defs>
-        <linearGradient id={id} gradientUnits="userSpaceOnUse" x1="7" y1="8.5" x2="17" y2="22">
-          <stop offset="0" stopColor={c.hi} />
-          <stop offset="1" stopColor={c.mid} />
-        </linearGradient>
-      </defs>
-      <path d="M6.4 1.4h4.4l2 6.2H8.6z" fill="#1F6FEB" />
-      <path d="M17.6 1.4h-4.4l-2 6.2h4.2z" fill="#4CC2FF" />
-      <circle cx="12" cy="15.3" r="7.6" fill={`url(#${id})`} stroke={c.lo} strokeWidth="1.1" />
-      <path d={NUMERALS[rank]} transform="translate(0 3.3)" stroke={c.ink} strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
+    <img
+      src={`/medals/rank-${rank}.png`}
+      height={h}
+      alt={`Rank ${rank}`}
+      draggable={false}
+      style={{ flex: 'none', width: 'auto', margin: bleed ? `${bleed}px` : undefined }}
+    />
   );
 }
 

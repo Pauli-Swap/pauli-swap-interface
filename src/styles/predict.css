@@ -259,7 +259,7 @@
     padding: 14px 16px; text-align: left;
   }
   .pm-podium-card.first { order: -1; padding-top: 14px; }
-  .pm-podium-card > svg { grid-area: medal; width: 36px; height: 36px; }
+  .pm-podium-card > img { grid-area: medal; justify-self: center; width: auto; height: 36px; }
   .pm-podium-card > .token-icon { display: none; }
   .pm-podium-card > .row { grid-area: who; min-width: 0; }
   .pm-podium-card > .xp, .pm-podium-card > .xp.first { grid-area: xp; justify-self: end; font: 600 16px/22px var(--font); }
