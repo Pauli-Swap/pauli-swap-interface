@@ -1,8 +1,8 @@
 {
   "network": "devnet",
   "chainId": 3151908,
-  "startBlock": 48,
-  "deployedAt": "2026-10-28T17:28:36.220Z",
+  "startBlock": 47,
+  "deployedAt": "2026-11-05T16:00:37.962Z",
   "dripPlanck": "50000000000000000000",
   "cooldownSeconds": 86400,
   "contracts": {
