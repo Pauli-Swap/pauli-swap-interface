@@ -118,6 +118,42 @@
 .pm-box { display: flex; flex-direction: column; gap: 12px; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-card); }
 .pm-box .t-body { color: var(--text-muted); }
 
+/* Quick amounts under the input: +1 / +10 / +100 / Max, or 25% / 50% / Max. */
+.pm-chips { display: flex; gap: 8px; margin-top: -4px; }
+.pm-chip {
+  flex: 1; height: 32px; border-radius: var(--radius-control);
+  background: var(--bg-elevated); color: var(--text-secondary);
+  font: 500 13px/18px var(--font); font-variant-numeric: tabular-nums;
+  transition: background 120ms, color 120ms;
+}
+.pm-chip:not(:disabled):hover { background: var(--bg-muted); color: var(--text-primary); }
+.pm-chip:disabled { color: var(--text-dim); }
+
+/* What the trade wins or returns, read before the button. */
+.pm-win { display: flex; flex-direction: column; gap: 2px; padding: 4px 4px 0; }
+.pm-win .big { font: 600 28px/36px var(--font); letter-spacing: -0.28px; }
+
+.pm-closing {
+  display: flex; align-items: center; gap: 6px; padding: 8px 12px;
+  border-radius: var(--radius-control); background: var(--warning-bg); color: var(--warning);
+  font: 500 13px/18px var(--font);
+}
+
+/* Your position: one row per side held, on a surface one step up. */
+.pm-pos { display: flex; flex-direction: column; border-radius: var(--radius-card); background: var(--bg-surface); overflow: hidden; }
+.pm-pos-row {
+  display: grid; grid-template-columns: 72px minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 0.9fr) minmax(0, 1.1fr) 64px;
+  align-items: center; gap: 12px; padding: 14px 16px;
+  font: 400 14px/20px var(--font);
+}
+.pm-pos-row + .pm-pos-row { box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05); }
+.pm-pos-row.head { padding-block: 10px; background: var(--bg-elevated); color: var(--text-muted); font: 500 12px/16px var(--font); }
+.pm-pos-row .num { font-variant-numeric: tabular-nums; }
+.pm-pos-side { display: inline-flex; padding: 2px 10px; border-radius: var(--radius-full); font: 600 13px/20px var(--font); }
+.pm-pos-side.yes { background: var(--success-bg); color: var(--success); }
+.pm-pos-side.no { background: var(--alert-bg); color: var(--alert); }
+.pm-pos-act { display: flex; justify-content: flex-end; }
+
 @media (max-width: 1100px) {
   .pm-detail { grid-template-columns: minmax(0, 1fr); }
   .pm-trade { position: static; }
@@ -129,6 +165,14 @@
   .pm-subnav { gap: 20px; overflow-x: auto; }
   .pm-prizes, .pm-rules { grid-template-columns: minmax(0, 1fr); }
   .pm-detail-stats { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 820px) {
+  /* Each position becomes a small card of label / value pairs. */
+  .pm-pos-row.head { display: none; }
+  .pm-pos-row { grid-template-columns: 1fr 1fr; row-gap: 10px; }
+  .pm-pos-row > [data-label]::before { content: attr(data-label); display: block; margin-bottom: 2px; color: var(--text-muted); font: 500 12px/16px var(--font); }
+  .pm-pos-row > [data-label='Outcome']::before { display: none; }
+  .pm-pos-act { grid-column: 2; grid-row: 1; }
 }
 @media (max-width: 560px) {
   .pm-stats { grid-template-columns: 1fr; }

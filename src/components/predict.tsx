@@ -11,7 +11,7 @@ import '../styles/predict.css';
 /// balance in PauliPredictXP, not an SQRC-TF1 token.
 export const XP_TOKEN: Token = { address: 'xp', symbol: 'XP', name: 'Predict XP', decimals: 18 };
 
-export const PREDICT_RULE = 'Stake XP on real-world outcomes. A winning share pays 1 XP; a losing share pays 0.';
+export const PREDICT_RULE = 'Trade Yes and No shares on real-world outcomes with XP. Buy and sell until a market closes; a winning share then pays 1 XP and a losing share 0.';
 
 const TABS: { key: PredictTab; label: string }[] = [
   { key: 'markets', label: 'Markets' },

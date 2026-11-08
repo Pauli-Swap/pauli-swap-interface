@@ -53,6 +53,45 @@ export function maxSellXp(m: Pools, outcome: Outcome, shares: bigint): bigint {
   return lo;
 }
 
+/// Shares below this are rounding left behind by a sell-all (quoteSell rounds
+/// up), not a position anyone holds.
+export const DUST_SHARES = 10n ** 12n;
+
+/// Shares a seller of `shares` actually parts with and the XP they get back:
+/// sell() takes an exact xpOut, so the shares follow from it.
+export function sellQuote(m: Pools, outcome: Outcome, shares: bigint): { xpOut: bigint; shares: bigint } {
+  const xpOut = maxSellXp(m, outcome, shares);
+  return { xpOut, shares: xpOut > 0n ? quoteSell(m, outcome, xpOut) ?? 0n : 0n };
+}
+
+export type Basis = { shares: bigint; cost: bigint };
+
+/// XP still invested in each side of market `id` by `user`, replayed from
+/// their Bought / Sold events at average cost: a sale lowers the cost by the
+/// fraction of the side's shares it sold.
+export function costBasis(log: DecodedEvent[], id: number, user: string): [Basis, Basis] {
+  const sides: [Basis, Basis] = [
+    { shares: 0n, cost: 0n },
+    { shares: 0n, cost: 0n },
+  ];
+  const who = user.toLowerCase();
+  for (const e of log) {
+    const v = e.returnValues;
+    if ((e.event !== 'Bought' && e.event !== 'Sold') || Number(v.id) !== id || String(v.user).toLowerCase() !== who) continue;
+    const side = sides[Number(v.outcome) === YES ? 0 : 1];
+    const shares = BigInt(v.shares);
+    if (e.event === 'Bought') {
+      side.shares += shares;
+      side.cost += BigInt(v.xpIn);
+    } else if (side.shares > 0n) {
+      const sold = shares > side.shares ? side.shares : shares;
+      side.cost -= (side.cost * sold) / side.shares;
+      side.shares -= sold;
+    }
+  }
+  return sides;
+}
+
 /// Probability of Yes, which is also the XP price of a Yes share since a
 /// winning share redeems for 1 XP.
 export const priceYes = (m: Pools) => (m.poolYes + m.poolNo > 0n ? Number((m.poolNo * 1_000_000n) / (m.poolYes + m.poolNo)) / 1_000_000 : 0.5);

@@ -997,7 +997,8 @@ function Rewards(ctx: Ctx) {
           <DetailRow label="Daily check-in" value={season?.checkInXp ? `${fmtXp(season.checkInXp)} a day` : '—'} />
           <DetailRow label="Daily quests" value={season ? `Up to ${fmtXp(season.dailyCap)} a day` : '—'} />
           <DetailRow label="Winning predictions" value="1 XP per winning share" />
-          <DetailRow label="Losing predictions" value="Stake is lost" />
+          <DetailRow label="Losing shares" info="A losing share pays 0 at resolution. Selling it before the market closes gets back what it is worth at that moment." value="Pay 0 XP" />
+          <DetailRow label="Trading" value="Until the market closes" />
           <DetailRow label="Quest reset" value="Every day at 00:00 UTC" />
         </div>
       </div>

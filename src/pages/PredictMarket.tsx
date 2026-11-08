@@ -1,7 +1,7 @@
-import { ReactNode, useMemo, useState } from 'react';
+import { Dispatch, ReactNode, SetStateAction, useMemo, useState } from 'react';
 import { AreaChart, stampLabel } from '../components/Chart';
-import { dateLabel, longSpan, NotDeployed, utcTime, XP_TOKEN } from '../components/predict';
-import { AmountPanel, Badge, Crumbs, DetailRow, Empty, explorerHref, IconButton, Seg, Stat } from '../components/ui';
+import { dateLabel, longSpan, NotDeployed, span, utcTime, XP_TOKEN } from '../components/predict';
+import { AmountPanel, Badge, Crumbs, DetailRow, Empty, explorerHref, Icon, IconButton, InfoTip, Seg, Stat } from '../components/ui';
 import { PREDICT } from '../config';
 import { MarketAdmin, ResolvePanel, useSettle } from '../components/PredictAdmin';
 import { MarketView, Position, useIsMarketOwner, useMarkets, usePosition, usePredictLogs, useXp } from '../hooks/predict';
@@ -9,7 +9,8 @@ import { predictMarket, shortAddress } from '../lib/chain';
 import { DecodedEvent } from '../lib/logs';
 import { applySlippage, parseUnits, toInputString } from '../lib/format';
 import { load, save } from '../lib/storage';
-import { CANCELLED, fmtChance, fmtPrice, fmtXp, holdings, MARKET_RULES, maxSellXp, NO, OPEN, Outcome, payees, quoteBuy, quoteSell, RESOLVED, XP_DECIMALS, xpFloat, YES } from '../lib/predict';
+import { CANCELLED, costBasis, DUST_SHARES, fmtChance, fmtPrice, fmtXp, holdings, MARKET_RULES, NO, ONE_XP, OPEN, Outcome, payees, quoteBuy, RESOLVED, sellQuote, XP_DECIMALS, xpFloat, YES } from '../lib/predict';
+import { Token } from '../lib/tokens';
 import { href, query } from '../lib/router';
 import { useApp } from '../state/app';
 import { useTx } from '../state/tx';
@@ -63,8 +64,15 @@ export function PredictMarket({ id }: { id: string }) {
   );
 }
 
+/// The trade panel's inputs, held here so "Sell" on a position row can fill it.
+/// `exact` is the precise amount behind a chip (Max, 50%…); typing clears it.
+type TradeForm = { mode: 'buy' | 'sell'; outcome: Outcome; amount: string; exact: bigint | null };
+
 function MarketDetail({ m, log }: { m: MarketView; log: DecodedEvent[] | null }) {
   const { clock, blockTime } = useApp();
+  const { account } = useWallet();
+  const position = usePosition(m.id, account);
+  const [form, setForm] = useState<TradeForm>(() => ({ mode: 'buy', outcome: query().get('outcome') === 'no' ? NO : YES, amount: '', exact: null }));
   const [range, setRange] = useState<Range>('All');
   const [watched, setWatched] = useState(() => load<number[]>(WATCH_KEY, []).includes(m.id));
   const now = clock.latestTime;
@@ -119,6 +127,18 @@ function MarketDetail({ m, log }: { m: MarketView; log: DecodedEvent[] | null })
         <div>
           <Seg boxed options={Object.keys(RANGES) as Range[]} value={range} onChange={setRange} />
         </div>
+        {m.status === OPEN && m.closeTime > now && (
+          <YourPosition
+            m={m}
+            log={log}
+            position={position}
+            account={account}
+            onSell={(outcome, shares) => {
+              setForm({ mode: 'sell', outcome, amount: toInputString(shares, XP_DECIMALS, 4), exact: shares });
+              document.querySelector('.pm-trade')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }}
+          />
+        )}
         <h2>Stats</h2>
         <div className="pm-detail-stats">
           <Stat label="Volume" value={fmtXp(m.volume, { compact: true })} />
@@ -140,107 +160,276 @@ function MarketDetail({ m, log }: { m: MarketView; log: DecodedEvent[] | null })
           <DetailRow label="Status" value={status} />
         </div>
       </div>
-      <TradePanel m={m} log={log} />
+      <TradePanel m={m} log={log} position={position} form={form} setForm={setForm} />
     </div>
   );
 }
 
-function TradePanel({ m, log }: { m: MarketView; log: DecodedEvent[] | null }) {
+/// Your position (Polymarket-style): every side you hold, what it cost at
+/// average price, what selling it all returns now, and a Sell shortcut.
+function YourPosition({ m, log, position, account, onSell }: { m: MarketView; log: DecodedEvent[] | null; position: Position | undefined; account: string | null; onSell: (outcome: Outcome, shares: bigint) => void }) {
+  const basis = useMemo(() => (log && account ? costBasis(log, m.id, account) : null), [log, m.id, account]);
+  if (!account || !position) return null;
+  const rows = ([YES, NO] as Outcome[])
+    .map((o) => ({ o, shares: o === YES ? position.yesShares : position.noShares }))
+    .filter((r) => r.shares > DUST_SHARES);
+  if (!rows.length) return null;
+
+  return (
+    <div className="col" style={{ gap: 12 }}>
+      <h2>Your position</h2>
+      <div className="pm-pos">
+        <div className="pm-pos-row head">
+          <span>Outcome</span>
+          <span>Shares</span>
+          <span className="row" style={{ gap: 4 }}>
+            Avg → now
+            <InfoTip info={{ title: 'Average price', text: 'XP you paid per share, at average cost. Selling part of a side keeps its average price; the second number is the price now.' }} />
+          </span>
+          <span className="row" style={{ gap: 4 }}>
+            Value
+            <InfoTip info={{ title: 'Value now', text: 'XP you would get by selling all of these shares now. It is a little below shares × price, because a sale moves the pool price.' }} />
+          </span>
+          <span className="row" style={{ gap: 4 }}>
+            Return
+            <InfoTip info={{ title: 'Return', text: 'Value now minus the XP still invested in these shares.', formula: 'Value − shares × avg price' }} />
+          </span>
+          <span />
+        </div>
+        {rows.map(({ o, shares }) => {
+          const name = o === YES ? 'Yes' : 'No';
+          const now = o === YES ? m.price : 1 - m.price;
+          const value = sellQuote(m, o, shares).xpOut;
+          const side = basis?.[o === YES ? 0 : 1];
+          // The log can trail positionOf by a block; scale its cost to the shares held.
+          const cost = side && side.shares > 0n ? (side.cost * shares) / side.shares : null;
+          const avg = cost !== null ? xpFloat(cost) / xpFloat(shares) : null;
+          const pnl = cost !== null ? value - cost : null;
+          const pct = cost && pnl !== null ? (xpFloat(pnl) / xpFloat(cost)) * 100 : null;
+          return (
+            <div key={o} className="pm-pos-row">
+              <span data-label="Outcome">
+                <span className={`pm-pos-side ${o === YES ? 'yes' : 'no'}`}>{name}</span>
+              </span>
+              <span data-label="Shares" className="col" style={{ gap: 2 }}>
+                <span className="num">{fmtXp(shares, { unit: false })}</span>
+                <span className="t-caption c-3">Pays {fmtXp(shares)} if {name}</span>
+              </span>
+              <span data-label="Avg → now" className="num">
+                {avg === null ? '—' : avg.toFixed(2)} → {now.toFixed(2)} XP
+              </span>
+              <span data-label="Value" className="num">
+                {fmtXp(value)}
+              </span>
+              <span data-label="Return" className={`num ${pnl === null ? '' : pnl >= 0n ? 'c-success' : 'c-alert'}`}>
+                {pnl === null ? '—' : `${pnl >= 0n ? '+' : '−'}${fmtXp(pnl < 0n ? -pnl : pnl)}${pct === null ? '' : ` (${pct >= 0 ? '+' : '−'}${Math.abs(pct).toFixed(1)}%)`}`}
+              </span>
+              <span className="pm-pos-act">
+                <button className="btn btn-sm btn-tertiary" onClick={() => onSell(o, shares)}>
+                  Sell
+                </button>
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/// Share "tokens" for the Sell input: the monogram disc shows Y or N.
+const SHARE_TOKEN: Record<Outcome, Token> = {
+  [YES]: { address: 'Yes shares', symbol: 'Y', name: 'Yes shares', decimals: XP_DECIMALS },
+  [NO]: { address: 'No shares', symbol: 'N', name: 'No shares', decimals: XP_DECIMALS },
+};
+const BUY_STEPS = [1n, 10n, 100n];
+const SELL_STEPS = [25n, 50n];
+
+/// Trade panel: Buy spends XP for shares and shows what they win; Sell takes
+/// a number of shares and shows the XP it returns. Trading runs until closeTime.
+function TradePanel({ m, log, position, form, setForm }: { m: MarketView; log: DecodedEvent[] | null; position: Position | undefined; form: TradeForm; setForm: Dispatch<SetStateAction<TradeForm>> }) {
   const { account } = useWallet();
   const { openModal, settings, clock } = useApp();
   const { send } = useTx();
   const { xp } = useXp(account);
-  const position = usePosition(m.id, account);
-  const [mode, setMode] = useState<'buy' | 'sell'>('buy');
-  const [outcome, setOutcome] = useState<Outcome>(() => (query().get('outcome') === 'no' ? NO : YES));
-  const [amount, setAmount] = useState('');
   const isOwner = useIsMarketOwner(account);
   const tradable = m.status === OPEN && m.closeTime > clock.latestTime;
 
   if (!tradable) return isOwner && m.status === OPEN ? <ResolvePanel m={m} log={log} /> : <SettledPanel m={m} log={log} position={position} account={account} />;
 
-  const value = parseUnits(amount, XP_DECIMALS) ?? 0n;
-  const held = position ? (outcome === YES ? position.yesShares : position.noShares) : 0n;
+  const { mode, outcome, amount, exact } = form;
+  const isBuy = mode === 'buy';
+  const set = (patch: Partial<TradeForm>) => setForm((f) => ({ ...f, ...patch }));
+  const heldOf = (o: Outcome) => (position ? (o === YES ? position.yesShares : position.noShares) : 0n);
+  const held = heldOf(outcome);
   const name = outcome === YES ? 'Yes' : 'No';
   const price = outcome === YES ? m.price : 1 - m.price;
-  const shares = mode === 'buy' ? quoteBuy(m, outcome, value) : quoteSell(m, outcome, value);
-  const maxSell = mode === 'sell' ? maxSellXp(m, outcome, held) : 0n;
+  const left = m.closeTime - clock.latestTime;
+
+  // Buy: `typed` is XP in. Sell: `typed` is shares, and the sale is quoted
+  // as the most XP those shares return (sell() takes an exact xpOut).
+  const typed = exact ?? parseUnits(amount, XP_DECIMALS) ?? 0n;
+  const bought = isBuy ? quoteBuy(m, outcome, typed) : 0n;
+  const sale = isBuy ? { xpOut: 0n, shares: 0n } : sellQuote(m, outcome, typed);
+  const shares = isBuy ? bought : sale.shares;
+  const xpAmount = isBuy ? typed : sale.xpOut;
+  const avg = shares > 0n && xpAmount > 0n ? xpFloat(xpAmount) / xpFloat(shares) : null;
+  const impact = avg === null ? null : Math.max(0, isBuy ? avg / price - 1 : 1 - avg / price) * 100;
 
   let error: string | null = null;
-  if (mode === 'buy' && xp !== undefined && value > xp) error = 'Not enough XP';
-  if (mode === 'sell' && shares === null) error = 'More than the pool can pay';
-  else if (mode === 'sell' && shares !== null && shares > held) error = `Not enough ${name} shares`;
+  if (isBuy && xp !== undefined && typed > xp) error = 'Not enough XP';
+  if (!isBuy && typed > held) error = held > DUST_SHARES ? `Not enough ${name} shares` : `No ${name} shares to sell`;
+  else if (!isBuy && typed > 0n && sale.xpOut === 0n) error = 'Amount too small';
+
+  const switchMode = (v: 'buy' | 'sell') => {
+    const other: Outcome = outcome === YES ? NO : YES;
+    // Selling preselects the side you hold when you hold only the other one.
+    const side = v === 'sell' && heldOf(outcome) <= DUST_SHARES && heldOf(other) > DUST_SHARES ? other : outcome;
+    set({ mode: v, outcome: side, amount: '', exact: null });
+  };
+  const pick = (v: bigint) => set({ amount: toInputString(v, XP_DECIMALS, 4), exact: v });
 
   const submit = () => {
-    if (!shares) return;
-    const isBuy = mode === 'buy';
-    const bound = applySlippage(shares, settings.slippageBps, isBuy ? 'down' : 'up');
-    send({
-      title: isBuy ? `Buy ${name}` : `Sell ${name}`,
-      verb: isBuy ? 'trade' : 'sale',
-      activity: isBuy ? `Bought ${name} on #${m.id}` : `Sold ${name} on #${m.id}`,
-      quest: isBuy ? 'predict' : undefined,
-      successTitle: isBuy ? 'Prediction placed' : 'Shares sold',
-      successText: isBuy ? `${fmtXp(value)} for ${fmtXp(shares, { unit: false })} ${name} shares.` : `${fmtXp(shares, { unit: false })} ${name} shares for ${fmtXp(value)}.`,
-      build: () => ({ to: PREDICT.market, method: isBuy ? predictMarket().methods.buy(m.id, outcome, value, bound) : predictMarket().methods.sell(m.id, outcome, value, bound) }),
-    }).then((ok) => ok && setAmount(''));
+    const bps = settings.slippageBps;
+    let sent: Promise<boolean>;
+    if (isBuy) {
+      if (!bought) return;
+      sent = send({
+        title: `Buy ${name}`,
+        verb: 'trade',
+        activity: `Bought ${name} on #${m.id}`,
+        quest: 'predict',
+        successTitle: `Bought ${name}`,
+        successText: `${fmtXp(bought, { unit: false })} ${name} shares for ${fmtXp(typed)}.`,
+        build: () => ({ to: PREDICT.market, method: predictMarket().methods.buy(m.id, outcome, typed, applySlippage(bought, bps, 'down')) }),
+      });
+    } else {
+      if (!sale.xpOut) return;
+      // Slippage is room to give up more shares for the same XP, never more than you hold.
+      const slack = applySlippage(sale.shares, bps, 'up');
+      const maxShares = slack > held ? held : slack;
+      sent = send({
+        title: `Sell ${name}`,
+        verb: 'sale',
+        activity: `Sold ${name} on #${m.id}`,
+        successTitle: `Sold ${name}`,
+        successText: `${fmtXp(sale.shares, { unit: false })} ${name} shares for ${fmtXp(sale.xpOut)}.`,
+        build: () => ({ to: PREDICT.market, method: predictMarket().methods.sell(m.id, outcome, sale.xpOut, maxShares) }),
+      });
+    }
+    sent.then((ok) => ok && set({ amount: '', exact: null }));
   };
 
-  const sharesF = shares ? xpFloat(shares) : 0;
-  const valueF = xpFloat(value);
+  const ready = typed > 0n && shares > 0n && !error;
   return (
     <div className="pm-trade">
       <div>
-        <Seg boxed options={['buy', 'sell'] as const} labels={{ buy: 'Buy', sell: 'Sell' }} value={mode} onChange={(v) => (setMode(v), setAmount(''))} />
+        <Seg boxed options={['buy', 'sell'] as const} labels={{ buy: 'Buy', sell: 'Sell' }} value={mode} onChange={switchMode} />
       </div>
       <div className="pm-sides">
         {([YES, NO] as Outcome[]).map((o) => (
-          <button key={o} className={`pm-side ${o === YES ? 'yes' : 'no'}${outcome === o ? ' on' : ''}`} onClick={() => setOutcome(o)}>
+          <button key={o} className={`pm-side ${o === YES ? 'yes' : 'no'}${outcome === o ? ' on' : ''}`} onClick={() => set({ outcome: o, ...(isBuy ? {} : { amount: '', exact: null }) })}>
             <span className="name">{o === YES ? 'Yes' : 'No'}</span>
             <span className="price">{fmtPrice(o === YES ? m.price : 1 - m.price)}</span>
           </button>
         ))}
       </div>
+      {left < 86400 && (
+        <div className="pm-closing">
+          <Icon name="clock" size={14} />
+          Trading closes in {span(left)}
+        </div>
+      )}
       <AmountPanel
-        label={mode === 'buy' ? 'Stake' : 'Receive'}
-        token={XP_TOKEN}
+        label={isBuy ? 'Amount' : 'Shares to sell'}
+        token={isBuy ? XP_TOKEN : SHARE_TOKEN[outcome]}
+        symbol={isBuy ? undefined : name}
         amount={amount}
-        onAmount={setAmount}
+        onAmount={(v) => set({ amount: v, exact: null })}
         error={!!error}
-        sub={value > 0n && shares ? (mode === 'buy' ? `≈ ${fmtXp(shares, { unit: false })} ${name} shares` : `Sells ${fmtXp(shares, { unit: false })} ${name} shares`) : mode === 'sell' ? `You hold ${fmtXp(held, { unit: false })} ${name} shares` : ' '}
-        balance={account ? (mode === 'buy' ? fmtXp(xp, { unit: false }) : fmtXp(held, { unit: false }) + ' sh') : '—'}
-        onMax={account ? () => setAmount(toInputString(mode === 'buy' ? xp ?? 0n : maxSell, XP_DECIMALS, 4)) : undefined}
+        sub={`1 ${name} share ≈ ${fmtPrice(price)}`}
+        balance={account ? (isBuy ? fmtXp(xp, { unit: false }) : fmtXp(held, { unit: false })) : '—'}
       />
+      {account && (
+        <div className="pm-chips">
+          {isBuy
+            ? BUY_STEPS.map((n) => (
+                <button key={String(n)} className="pm-chip" onClick={() => set({ amount: toInputString(typed + n * ONE_XP, XP_DECIMALS, 4), exact: null })}>
+                  +{String(n)}
+                </button>
+              ))
+            : SELL_STEPS.map((p) => (
+                <button key={String(p)} className="pm-chip" disabled={held <= DUST_SHARES} onClick={() => pick((held * p) / 100n)}>
+                  {String(p)}%
+                </button>
+              ))}
+          <button className="pm-chip" disabled={isBuy ? !xp : held <= DUST_SHARES} onClick={() => pick(isBuy ? xp ?? 0n : held)}>
+            Max
+          </button>
+        </div>
+      )}
+      {account && ready && (
+        <div className="pm-win">
+          <span className="row" style={{ gap: 4 }}>
+            <span className="t-body c-2">{isBuy ? 'To win' : "You'll receive"}</span>
+            <InfoTip
+              info={
+                isBuy
+                  ? { title: 'To win', text: `What these shares pay if ${name} wins: 1 XP each. They pay 0 if ${name} loses. You can also sell them before the market closes.` }
+                  : { title: "You'll receive", text: 'XP credited to your balance by this sale, at the pool price after the sale moves it.' }
+              }
+            />
+          </span>
+          <span className={`big num${isBuy ? ' c-success' : ''}`}>{fmtXp(isBuy ? bought : sale.xpOut)}</span>
+          <span className="t-caption c-3">
+            {isBuy ? `+${Math.max(0, (xpFloat(bought) / xpFloat(typed) - 1) * 100).toFixed(0)}% if ${name} wins` : `For ${fmtXp(sale.shares, { unit: false })} ${name} shares`}
+          </span>
+        </div>
+      )}
       {!account ? (
         <button className="btn btn-lg btn-primary btn-block" onClick={() => openModal('connect')}>
           Connect wallet
         </button>
       ) : (
-        <button className="btn btn-lg btn-primary btn-block" disabled={!value || !shares || !!error} onClick={submit}>
-          {error ?? (!value ? 'Enter an amount' : `${mode === 'buy' ? 'Buy' : 'Sell'} ${name}`)}
+        <button className="btn btn-lg btn-primary btn-block" disabled={!ready} onClick={submit}>
+          {error ?? (!typed ? (isBuy ? 'Enter an amount' : 'Enter shares to sell') : `${isBuy ? 'Buy' : 'Sell'} ${name}`)}
         </button>
       )}
       {account ? (
         <div className="pm-box">
-          <DetailRow label="Avg price" value={value && sharesF ? `${(valueF / sharesF).toFixed(2)} XP / share` : `${fmtPrice(price)} / share`} />
-          <DetailRow label={mode === 'buy' ? 'Shares' : 'Shares sold'} value={shares ? fmtXp(shares, { unit: false }) : '—'} />
-          {mode === 'buy' && (
-            <DetailRow label={`Payout if ${name}`} value={shares ? `${fmtXp(shares)} (+${Math.max(0, (sharesF / valueF - 1) * 100).toFixed(0)}%)` : '—'} tone={shares ? 'success' : undefined} />
-          )}
-          <DetailRow label="XP after trade" value={xp === undefined ? '—' : fmtXp(mode === 'buy' ? xp - value : xp + value)} />
-          {position && (position.yesShares > 0n || position.noShares > 0n) && (
+          <DetailRow
+            label="Avg price"
+            info={{
+              title: 'Average price',
+              text: `XP per share for this trade. A trade moves the pool, so it fills at a worse price than the ${fmtPrice(price)} on the button.`,
+              formula: avg !== null ? `${fmtXp(xpAmount)} ÷ ${fmtXp(shares, { unit: false })} shares` : undefined,
+            }}
+            value={avg !== null ? `${avg.toFixed(3)} XP / share` : `${fmtPrice(price)} / share`}
+          />
+          <DetailRow
+            label="Price impact"
+            info="How much worse the average price is than the current price, because this trade moves the pool."
+            value={impact === null ? '—' : `${impact.toFixed(2)}%`}
+            tone={impact !== null && impact >= 10 ? 'alert' : impact !== null && impact >= 2 ? 'warning' : undefined}
+          />
+          <DetailRow label={isBuy ? 'Shares' : 'Shares sold'} value={shares ? fmtXp(shares, { unit: false }) : '—'} />
+          <DetailRow
+            label="Max slippage"
+            info={isBuy ? 'The buy reverts if the price moves so far that you would get fewer shares than this allows.' : 'The sale may give up this much more in shares for the same XP if the price moves; past that it reverts. Selling all your shares has no room and reverts on any move against you.'}
+            value={`${settings.slippageBps / 100}%`}
+          />
+          <DetailRow label="XP after trade" value={xp === undefined ? '—' : fmtXp(isBuy ? xp - typed : xp + sale.xpOut)} />
+          {position && (position.yesShares > DUST_SHARES || position.noShares > DUST_SHARES) && (
             <DetailRow label="Your shares" value={`${fmtXp(position.yesShares, { unit: false })} Yes · ${fmtXp(position.noShares, { unit: false })} No`} />
           )}
         </div>
       ) : (
         <div className="pm-box" style={{ gap: 4 }}>
           <span className="t-body-strong">Viewing is open to everyone</span>
-          <span className="t-body">To stake XP on this market you need a connected wallet. Earn XP from daily quests on PauliSwap.</span>
+          <span className="t-body">To trade on this market you need a connected wallet. Earn XP from daily quests on PauliSwap.</span>
         </div>
       )}
-      <p className="pm-foot">
-        Each share pays 1 XP if {name} wins and 0 if it loses. You can sell any time before the market closes. Max slippage {settings.slippageBps / 100}%.
-      </p>
+      <p className="pm-foot">Each share pays 1 XP if its side wins and 0 if it loses. Buy and sell any time until the market closes on {dateLabel(m.closeTime)} at {utcTime(m.closeTime)}.</p>
       {isOwner && <MarketAdmin m={m} log={log} />}
     </div>
   );
