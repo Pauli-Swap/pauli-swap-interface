@@ -306,7 +306,39 @@ button.token-select:hover { border-color: var(--border-strong); }
 /* ---------- Detail row (89:182) & Stat (89:194) ---------- */
 .detail-row { display: flex; align-items: center; gap: var(--space-8); min-height: 20px; }
 .detail-row .label { color: var(--text-muted); font: 400 14px/20px var(--font); letter-spacing: -0.14px; white-space: nowrap; }
-.detail-row .info { color: var(--text-muted); display: inline-flex; cursor: help; }
+.info { color: var(--text-dim); display: inline-flex; flex: none; border-radius: var(--radius-full); transition: color 120ms; }
+.info:hover, .info:focus-visible, .info.on { color: var(--text-secondary); }
+.info:focus-visible { outline: 2px solid var(--border-accent); outline-offset: 2px; }
+
+/* Info box: one elevation step above the surface it explains, no bright edge. */
+.info-tip {
+  position: fixed; z-index: 90; pointer-events: none;
+  display: flex; flex-direction: column; gap: 6px;
+  max-width: min(280px, calc(100vw - 24px));
+  padding: var(--space-12) 14px;
+  background: var(--bg-muted);
+  border: 1px solid rgb(255 255 255 / 0.06);
+  border-radius: var(--radius-control);
+  box-shadow: var(--shadow-tip);
+  animation: info-tip-in 120ms var(--ease-out);
+}
+.info-tip.pinned { pointer-events: auto; }
+.info-tip-title { color: var(--text-primary); font: 600 13px/18px var(--font); letter-spacing: -0.13px; }
+.info-tip-text { color: var(--text-secondary); font: 400 13px/19px var(--font); letter-spacing: -0.13px; }
+.info-tip-formula {
+  margin-top: 2px; padding: 6px 10px; border-radius: var(--radius-sm);
+  background: var(--bg-elevated); color: var(--text-primary);
+  font: 500 12px/18px var(--font); font-variant-numeric: tabular-nums;
+}
+.info-tip-arrow {
+  position: absolute; bottom: -5px; width: 10px; height: 10px; margin-left: -5px;
+  background: var(--bg-muted); transform: rotate(45deg);
+  border-right: 1px solid rgb(255 255 255 / 0.06); border-bottom: 1px solid rgb(255 255 255 / 0.06);
+}
+.info-tip.below .info-tip-arrow { bottom: auto; top: -5px; border: 0; border-left: 1px solid rgb(255 255 255 / 0.06); border-top: 1px solid rgb(255 255 255 / 0.06); }
+@keyframes info-tip-in { from { opacity: 0; transform: translateY(2px); } }
+.info-tip.below { animation-name: info-tip-in-below; }
+@keyframes info-tip-in-below { from { opacity: 0; transform: translateY(-2px); } }
 .detail-row .value { margin-left: auto; text-align: right; color: var(--text-primary); font: 400 13px/18px var(--font); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .stat { display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
 .stat .label { color: var(--text-muted); font: 500 13px/18px var(--font); letter-spacing: -0.13px; white-space: nowrap; }

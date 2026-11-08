@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { CSSProperties, ReactNode, useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { CHAIN } from '../config';
 import { shortAddress } from '../lib/chain';
@@ -94,17 +94,125 @@ export function Banner({ tone, title, children }: { tone: 'alert' | 'warning' | 
   );
 }
 
-export function DetailRow({ label, value, info, tone }: { label: ReactNode; value: ReactNode; info?: string; tone?: 'success' | 'warning' | 'alert' }) {
+export function DetailRow({ label, value, info, tone }: { label: ReactNode; value: ReactNode; info?: InfoContent; tone?: 'success' | 'warning' | 'alert' }) {
   return (
     <div className="detail-row">
       <span className="label">{label}</span>
-      {info && (
-        <span className="info" title={info}>
-          <Icon name="info" size={14} />
-        </span>
-      )}
+      {info && <InfoTip info={info} />}
       <span className={`value ${tone ? `c-${tone}` : ''}`}>{value}</span>
     </div>
+  );
+}
+
+/// A short explanation, or a titled one with a worked formula line.
+export type InfoContent = string | { title?: string; text: ReactNode; formula?: ReactNode };
+
+const TIP_GAP = 8;
+const TIP_EDGE = 12;
+
+/// Info icon with its explanation. Hover or keyboard focus peeks at it after
+/// a short delay; a click or tap pins it open until Esc or a click outside.
+/// It follows the icon on scroll and is rendered in a portal, so sticky panels
+/// and clipped rows cannot cut it.
+export function InfoTip({ info, size = 14, label = 'More info' }: { info: InfoContent; size?: number; label?: string }) {
+  const anchor = useRef<HTMLButtonElement>(null);
+  const tip = useRef<HTMLDivElement>(null);
+  const timer = useRef<number | undefined>(undefined);
+  const [open, setOpen] = useState<false | 'peek' | 'pin'>(false);
+  const [place, setPlace] = useState<{ left: number; top: number; arrow: number; below: boolean } | null>(null);
+  const id = useId();
+  const rich = typeof info === 'string' ? { text: info } : info;
+
+  const peek = () => {
+    window.clearTimeout(timer.current);
+    timer.current = window.setTimeout(() => setOpen((o) => o || 'peek'), 150);
+  };
+  const unpeek = () => {
+    window.clearTimeout(timer.current);
+    setOpen((o) => (o === 'peek' ? false : o));
+  };
+  useEffect(() => () => window.clearTimeout(timer.current), []);
+
+  // Above the icon, or below it when there is no room; clamped to the viewport.
+  // Returns false once the icon has left the screen.
+  const measure = () => {
+    const a = anchor.current?.getBoundingClientRect();
+    const t = tip.current;
+    if (!a || !t) return true;
+    if (a.bottom < 0 || a.top > window.innerHeight) return false;
+    const w = t.offsetWidth;
+    const h = t.offsetHeight;
+    const center = a.left + a.width / 2;
+    const left = Math.min(Math.max(center - w / 2, TIP_EDGE), window.innerWidth - w - TIP_EDGE);
+    const below = a.top - h - TIP_GAP < TIP_EDGE;
+    setPlace({ left, top: below ? a.bottom + TIP_GAP : a.top - h - TIP_GAP, arrow: Math.min(Math.max(center - left, 14), w - 14), below });
+    return true;
+  };
+
+  useLayoutEffect(() => {
+    if (!open) return setPlace(null);
+    measure();
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const close = () => setOpen(false);
+    const follow = () => measure() || close();
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && close();
+    const onDown = (e: MouseEvent) => {
+      const target = e.target as Node;
+      if (!anchor.current?.contains(target) && !tip.current?.contains(target)) close();
+    };
+    window.addEventListener('keydown', onKey);
+    window.addEventListener('mousedown', onDown);
+    window.addEventListener('scroll', follow, true);
+    window.addEventListener('resize', follow);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      window.removeEventListener('mousedown', onDown);
+      window.removeEventListener('scroll', follow, true);
+      window.removeEventListener('resize', follow);
+    };
+  }, [open]);
+
+  return (
+    <>
+      <button
+        ref={anchor}
+        type="button"
+        className={`info${open ? ' on' : ''}`}
+        aria-label={label}
+        aria-describedby={open ? id : undefined}
+        aria-expanded={open === 'pin'}
+        onMouseEnter={peek}
+        onMouseLeave={unpeek}
+        onFocus={peek}
+        onBlur={unpeek}
+        onClick={(e) => {
+          e.stopPropagation();
+          window.clearTimeout(timer.current);
+          setOpen((o) => (o === 'pin' ? false : 'pin'));
+        }}
+      >
+        <Icon name="info" size={size} />
+      </button>
+      {open &&
+        createPortal(
+          <div
+            ref={tip}
+            id={id}
+            role="tooltip"
+            className={`info-tip${open === 'pin' ? ' pinned' : ''}${place?.below ? ' below' : ''}`}
+            style={place ? { left: place.left, top: place.top } : { left: 0, top: 0, visibility: 'hidden' }}
+          >
+            {rich.title && <span className="info-tip-title">{rich.title}</span>}
+            <span className="info-tip-text">{rich.text}</span>
+            {rich.formula && <span className="info-tip-formula">{rich.formula}</span>}
+            {place && <span className="info-tip-arrow" style={{ left: place.arrow }} />}
+          </div>,
+          document.body,
+        )}
+    </>
   );
 }
 

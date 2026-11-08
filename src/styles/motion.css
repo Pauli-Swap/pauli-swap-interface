@@ -112,7 +112,7 @@ a.position-card:hover { transform: translateY(-2px); box-shadow: 0 10px 28px -12
    so loading is still legible. */
 @media (prefers-reduced-motion: reduce) {
   .page > *, .stat, .table .tbody .tr, .scrim, .modal, .drawer, .popover, .search-results, .toast,
-  .chart-line, .chart-area, .chart-bar, .busy-text, .empty-state.loading .t-heading, .amount-panel.loading input, .chart-loading .wave {
+  .chart-line, .chart-area, .chart-bar, .info-tip, .busy-text,.empty-state.loading .t-heading, .amount-panel.loading input, .chart-loading .wave {
     animation: none;
   }
   *, *::before, *::after { transition-duration: 0.01ms !important; }
